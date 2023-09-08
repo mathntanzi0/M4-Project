@@ -1,0 +1,1 @@
+﻿<%@ Page Title="Login" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="M4_Project.Admin.Default" %>

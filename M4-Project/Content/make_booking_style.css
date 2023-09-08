@@ -1,0 +1,44 @@
+.input_field{
+	width: 90%;
+	display: block;
+	margin: 2rem auto;
+}
+.input_field label{
+	display: block;
+	font-size: 1.175rem;
+}
+.input_field .field{
+	width: 100%;
+	padding: 12px 20px;
+	border: 1px solid #aaa;
+	border-radius: 4px;
+	box-sizing: border-box;
+	font-size: 1rem;
+	box-shadow: var(--card-box-shadow);
+	background-color: var(--background-color);
+	transition: background-color 0.5s ease;
+}
+.input_field textarea{
+	max-width: 100%;
+	max-height: 6rem;
+	height: 6rem;
+}
+.next_btn {
+	display: block;
+	margin: 1.175rem auto;
+	background-color: var(--primary-color);
+	color: var(--special-text-color);
+	padding: 0.5rem 4rem;
+}
+
+@media (min-width:895px){
+	.input_field{
+		width: 600px;
+		margin: 2rem 1.5rem;
+	}
+	.next_btn {
+		margin: 1.175rem;
+		margin-left:auto;
+	}
+
+}

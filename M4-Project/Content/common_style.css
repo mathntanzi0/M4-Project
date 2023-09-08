@@ -1,0 +1,111 @@
+:root {
+    --background-color: #fff;
+    --text-color: #303030;
+    --special-text-color: white;
+    --icon-color: #404040;
+    --primary-color: #283217;
+    --secondary-primary: #9EF30D25;
+    --select-color: #dde7df;
+    --screen-dim-color: #00000000;
+    --faint-red: #b0002025;
+    --red: #b00020;
+    --font-gsans: "Google Sans",sans-serif;
+    --card-box-shadow: 0 4px 8px 0 rgba(128, 128, 128, 0.2), 0 6px 20px 0 rgba(128, 128, 128, 0.19);
+    --special-btn-color: #162020;
+}
+
+.dark-mode {
+    --background-color: #162020;
+    --text-color: #dfdfdf;
+    --special-text-color: #404040;
+    --icon-color: #dfdfdf;
+    --primary-color: #dde7df;
+    --select-color: #283217;
+    --screen-dim-color: #00000030;
+    --card-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transition: 0.5s ease;
+    --special-btn-color: #dde7df;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    border: 0;
+    color: var(--text-color);
+    font-family: var(--font-gsans);
+    transition: color 0.5s ease;
+}
+
+body {
+    background-color: var(--background-color);
+}
+
+.common_icon {
+    width: 35px;
+    fill: var(--icon-color);
+}
+
+.inner_body {
+    width: 98%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 96px;
+}
+
+button {
+    padding: 0.5rem 2.5rem;
+    border-radius: 0.5rem;
+    box-shadow: var(--card-box-shadow);
+}
+
+.secondary_header h1 {
+    font-size: 1.350rem;
+    padding: 1rem 0;
+    padding-left: 24px;
+    margin-right: auto;
+    font-weight: 500;
+}
+
+.primary_button {
+    position: fixed;
+    bottom: 1.175rem;
+    right: 1.175rem;
+    background-color: var(--primary-color);
+    color: var(--special-text-color);
+}
+
+.delete_button {
+    padding: 0.5rem 3.5rem;
+    background-color: var(--faint-red);
+    color: red;
+    font-weight: 500;
+}
+
+@media (max-width: 896px) {
+    .items_container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .secondary_header {
+        text-align: center;
+        display: block;
+    }
+
+        .secondary_header input[type=text], .secondary_header select, .header_input div {
+            width: 90%;
+        }
+}
+
+@media (max-width: 400px) {
+    .nav_icon_container {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .secondary_header h1 {
+        padding: 1rem 0;
+    }
+}

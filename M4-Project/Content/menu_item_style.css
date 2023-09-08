@@ -1,0 +1,127 @@
+.item_details_wrapper{
+  display: flex;
+  padding-top: 1rem;
+}
+.item_image_wrapper{
+  width: 26vw;
+  min-width: 16rem;
+}
+.item_image_wrapper img{
+  width: 100%;
+}
+.item_details{
+  position: relative;
+  margin: 0 1.175rem;
+  min-height: 22rem;
+}
+.middle_details_wrapper{
+  margin-top: 1rem;
+}
+.item_details h1{
+  font-size: clamp(1.618rem, 5vw, 3.236rem);
+}
+.item_description{
+  font-size: clamp(1rem, 3vw, 1.618rem)
+}
+.item_price{
+  padding-top: clamp(1rem, 5%, 4rem);
+  font-size: clamp(1rem, 3vw, 1.618rem);
+}
+.item_discounted_price{
+  font-size: 1rem;
+  color: red;
+  text-decoration: line-through;
+}
+.item_details h2{
+  font-size: clamp(1rem, 3vw, 1.618rem);
+  padding: 1rem 0;
+}
+.bottom_details_wrapper{
+
+}
+.bottom_details_wrapper button{
+  background-color: var(--secondary-primary);
+}
+.analytic_data_wrapper{
+  margin-top: 2.5rem;
+}
+.time_frame_wrapper{
+  margin: 1.5rem 0;
+  font-size: 1.175rem;
+}
+.inline_label_input{
+  display: inline-block;
+  margin-right: 3rem;
+}
+.inline_label_input input{
+  padding: 4px 24px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  font-size: 1rem;
+  background-color: var(--background-color);
+  transition: background-color 0.5s ease;
+}
+.text_details_wrapper p{
+  font-size: 1.175rem;
+  padding: 0.1rem 0;
+}
+.inline_buttons{
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+}
+.bottom_details_wrapper select{
+  width: 30%;
+  max-width: 7rem;
+  min-width: 4rem;
+  padding: 4px 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  box-shadow: 0 4px 8px 0 rgba(128, 128, 128, 0.10), 0 6px 20px 0 rgba(128, 128, 128, 0.10);
+  background-color: var(--background-color);
+  margin-top: 0.2rem;
+  margin-bottom: 1.175rem;
+}
+@media (max-width: 600px) {
+  .item_details_wrapper{
+    display: block;
+  }
+  .item_image_wrapper{
+    margin: 1rem auto;
+    width: 90%;
+  }
+  .bottom_details_wrapper{
+    position: static;
+  }
+}
+.instructions_wrapper{
+  margin: 0 1.175rem;
+}
+.instructions_wrapper textarea{
+  width: 80%;
+  min-height: 6rem;
+  padding: 6px 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  box-shadow: 0 4px 8px 0 rgba(128, 128, 128, 0.10), 0 6px 20px 0 rgba(128, 128, 128, 0.10);
+  background-color: var(--background-color);
+  margin-top: 0.2rem;
+  margin-bottom: 1.175rem;
+}
+@media (min-width: 600px) {
+  .instructions_wrapper{
+    margin-top: 2rem;
+  }
+  .instructions_wrapper textarea{
+    width: 24rem;
+  }
+}
+.remove_button {
+    background-color: var(--faint-red) !important;
+    color: red;
+    margin-left: 1.175rem;
+}

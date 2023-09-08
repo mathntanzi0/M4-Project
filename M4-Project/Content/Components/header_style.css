@@ -1,0 +1,179 @@
+    .nav_header{
+      position: fixed;
+      z-index: 5;
+      top: 0;
+      width: 100%;
+      height: 80px;
+      background-color: var(--background-color);
+      box-shadow: var(--card-box-shadow);
+      transition: background-color 0.5s ease;
+    }
+    .inner_header{
+      width: 96%;
+      height: 100%;
+      display: block;
+      margin: 0 auto;
+      background-color: var(--background-color);
+      transition: background-color 0.5s ease;
+    }
+    .logo_container{
+      height: 100%;
+      display: table;
+      float: left;
+    }
+    .logo_container h1, .logo_container h2{
+      height: 100%;
+      display: table-cell;
+      vertical-align: middle;
+    }
+    .logo_container img{
+      width: 40px;
+      vertical-align: middle;
+
+    }
+    .logo_container h1{
+      padding-left: 8px;
+      font-size: 1rem;
+    }
+    .navigation{
+      width: 580px;
+      display: block;
+      margin: 0 auto;
+      height: 100%;
+    }
+    .navigation a{
+      height: 100%;
+      display: table;
+      float: left;
+      padding: 0 4.2%;
+    }
+    .navigation a li{
+      display: table-cell;
+      vertical-align: middle;
+      font-weight: 800;
+    }
+    .nav_icon_container{
+      height: 100%;
+      display: table;
+      float: right;
+    }
+    .nav_icon_container svg{
+      width: 35px;
+      height: 100%;
+      float: right;
+      display: table-cell;
+      vertical-align: bottom;
+      margin: 0 16px;
+      fill: var(--icon-color);
+      transition: 0.5s ease;
+    }
+    .cart_holder {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+    }
+    .cart_holder div {
+        position: relative;
+        width: 35px;
+        margin: 0 16px;
+        fill: var(--icon-color);
+        transition: 0.5s ease;
+    }
+    .cart_holder div span {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background-color: red;
+        width: 1rem;
+        height: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 0.75rem;
+        border-radius: 1rem;
+    }
+    .cart_count {
+        background-color: red;
+        width: 1rem;
+        height: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 0.75rem;
+        border-radius: 1rem;
+    }
+    .cart_holder div svg {
+        all: unset;
+        width: 35px;
+    }
+    .list_icon{
+        display: none;
+        height: 100%;
+    }
+    .slide_navigation {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: var(--background-color);
+        bottom:0;
+        left: -100%;
+        overflow: hidden;
+        z-index: 1000;
+        transition: left 0.3s ease-in-out;
+    }
+    .slide_navigation_logo{
+      position: absolute;
+      margin: 1.175rem calc(4% / 2);
+    }
+    .close_icon_wrapper{
+      position: absolute;
+      right: 1.175rem;
+      top: 1.175rem;
+    }
+    .close_icon_wrapper svg{
+      width: 28px;
+      height: 100%;
+      fill: var(--icon-color);
+
+    }
+    .nav_options{
+      margin-top: 6rem;
+    }
+    .nav_options a{
+      display: flex;
+      align-items: center;
+      margin: 1rem 0;
+      font-weight: 700;
+    }
+    .nav_icon_options{
+      position: absolute;
+      bottom: 1rem;
+    }
+    .nav_icon_options a{
+      display: flex;
+      align-items: center;
+      margin: 1rem 0;
+      font-weight: 700;
+    }
+    .nav_icon_options svg, .nav_options svg{
+      width: 35px;
+      height: 100%;
+      margin: 0 16px;
+      fill: var(--icon-color);
+    }
+    .nav_option_wrapper h3{
+      font-size: 1rem;
+    }
+    @media (max-width: 896px) {
+      .navigation{
+        display: none;
+      }
+      .nav_icon_container a{
+        display: none;
+      }
+      .list_icon{
+        display: block;
+      }
+    }

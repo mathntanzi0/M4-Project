@@ -1,0 +1,58 @@
+.staff_detail_wrpper{
+  display: flex;
+  padding-top: 1rem;
+}
+.staff_image_wrapper{
+  width: 26vw;
+  min-width: 16rem;
+}
+.staff_image_wrapper img{
+  width: 100%;
+  border-radius: 2rem;
+  object-fit: cover;
+}
+.staff_detail{
+  display: flex;
+  flex-direction: column;
+  margin-left: 2rem;
+  min-height: 22rem;
+}
+.staff_detail .lower_details{
+  margin-top: auto;
+}
+.staff_detail{
+  font-size: 1.175rem;
+}
+.staff_detail h1{
+  font-size: clamp(1.618rem, 5vw, 3.236rem);
+}
+.right_button_wrapper{
+  margin-left: auto;
+  margin-right: 1.175rem;
+}
+.delete_button{
+  padding: 0.5rem 2rem;
+}
+.activities_detail_wrapper{
+  box-shadow: var(--card-box-shadow);
+  border-radius: 0.75rem;
+  max-width: 64rem;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+.activities_detail_wrapper .action_control_wrapper{
+  margin-top: 1rem;
+}
+.activities_detail_wrapper .action_control_wrapper p{
+  font-weight: 700;
+}
+.action_controls{
+  margin: 1.175rem 0;
+}
+.activities_detail_wrapper .action_control_wrapper a{
+  background-color: var(--primary-color);
+  padding: 0.5rem 2rem;
+  color: var(--special-text-color);
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+}

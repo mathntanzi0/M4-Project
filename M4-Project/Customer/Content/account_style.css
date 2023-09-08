@@ -1,0 +1,106 @@
+.data_holder div{
+	margin-bottom: 3rem;
+}
+.circular_data_component .border {
+    border: 2rem solid #5AD7C8;
+    --component-radius: clamp(15rem, 30vw, 18rem);
+    width: var(--component-radius);
+    height: var(--component-radius);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: auto;
+}
+.box_data_component{
+	width: 85%;
+	max-width: 35rem;
+	min-height: 18rem;
+	box-shadow: var(--card-box-shadow);
+	border-radius: 1rem;
+	margin: auto;
+}
+.box_data_component h2{
+	padding: 0.2rem;
+	text-align: center;
+	font-size: 1.350rem;
+}
+.box_data_component div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-top: 4rem;
+    padding-left: 1.5rem;
+}
+
+.box_data_component div svg{
+	fill: #5AD7C8;
+	width: 5rem;
+	height: 5rem;
+}
+.box_data_component div h4{
+	padding-left: 2rem;
+	font-size: 1.350rem;
+}
+.account_details_holder{
+	width: clamp(3rem, 95%, 80rem);
+	box-shadow: var(--card-box-shadow);
+	margin: 0 auto;
+	margin-bottom: 4rem;
+	padding: 1rem;
+}
+.account_details_holder h3{
+	text-align: center;
+	padding: 0.5rem;
+}
+.account_details_holder .details_holder{
+	padding: 2.5rem 0.75rem;
+}
+.account_details_holder .details_holder h3{
+	text-align: left;
+	padding: 0;
+	font-size: clamp(1rem, 20vw, 1.175rem);
+	font-weight: 500;
+}
+.account_details_holder .details_holder h3 span svg{
+	fill: gray;
+	width: 1.175rem;
+	height: 1.175rem;
+}
+.delete_btn{
+	width: 10rem;
+	background-color: #b00020;
+	text-align: center;
+	display: block;
+	margin: auto;
+	font-weight: 700;
+	color: white;
+	padding: 0.5rem;
+	border-radius: 1rem;
+}
+
+@media (min-width: 870px){
+	.data_holder{
+		display: flex;
+		gap: 2rem;
+		align-items: center;
+		justify-content: center;
+		margin: 2rem 0;
+	}
+	.data_holder div {
+		margin-bottom: 0;
+	}
+	.box_data_component {
+		padding: 0;
+		margin:0;
+		width:100%;
+	}
+	.data_holder a {
+		width: 85%;
+		max-width: 35rem;
+		min-height: 20rem;
+		padding:0;
+	}
+}

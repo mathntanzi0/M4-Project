@@ -1,0 +1,177 @@
+﻿body {
+    width:100%;
+    height:100%;
+    margin: 0;
+    padding: 0;
+    background-image: url('/Assets/login_cover.png');
+    font-family: sans-serif;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.password-container {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: black;
+}
+
+.toggle-password:before {
+    content: "\f070"; /* FontAwesome eye icon */
+    font-family: FontAwesome;
+}
+
+.password-visible .toggle-password:before {
+    content: "\f06e"; /* FontAwesome eye-slash icon */
+}
+
+
+.loginbox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 350px;
+    height: 500px;
+    padding: 100px 40px;
+    box-sizing: border-box;
+    background: rgba(0,0,0,0.5);
+    border-radius: 25px;
+}
+
+.user{
+    width:35%;
+    height:25%;
+    overflow:hidden;
+    top: -10px;
+    left: calc(50% - 50px);
+    position: absolute;
+    margin-bottom:10px;
+}
+
+.user:hover {
+    cursor: pointer;
+    -webkit-animation: spin 5s infinite;
+    animation: spin 5s infinite;
+}
+
+
+@-webkit-keyframes spin {
+    from {
+        -webkit-transform: rotateY(0deg);
+    }
+
+    to {
+        -webkit-transform: rotateY(-360deg);
+    }
+}
+
+
+
+.lblusername, .lblpass {
+    font-weight:bold;
+    color: #fff;
+}
+.txtusername{
+    margin-bottom:15px;
+    margin-top:10px;
+}
+.lblpass {
+    margin-top: 0px;
+}
+.txtusername, .txtpass{
+    width: 100%;
+}
+
+.txtpass {
+    margin-top: 5px;
+}
+.btnsubmit, .btnsignup {
+    width: 80%;
+    margin-bottom: 10px;
+    margin-left: 25px;
+}
+.txtusername, .txtpass {
+    border: none;
+    border-bottom: 3px solid #fff;
+    outline: none;
+    height: 40px;
+    color: #fff;
+    font-size: 16px;
+    background-color: transparent;
+}
+
+::placeholder {
+    color: rgba(225,225,225,0.5);
+}
+.btnsubmit{
+    border:none;
+    outline:none;
+    height:40px;
+    font-size:16px;
+    color:#fff;
+    background-color:rgb(225,9,9);
+    cursor:pointer;
+    border-radius:20px;
+    transition: .3s ease-in-out;
+    margin-top:50px;
+}
+
+.btnsignup {
+    border: none;
+    outline: none;
+    height: 40px;
+    font-size: 16px;
+    color: #fff;
+    background-color: rgb(225,9,9);
+    cursor: pointer;
+    border-radius: 20px;
+    transition: .3s ease-in-out;
+    margin-bottom:10px;
+
+}
+
+.btnsubmit:hover{
+    background-color:rgb(225,217,9);
+}
+
+.btnsignup:hover {
+    background-color: rgb(225,217,9);
+}
+
+.btnforget{
+    font-size:16px;
+    font-weight:700;
+    text-decoration:none;
+    color:#fff;
+    margin-left:65px;
+}
+
+.btnforget:hover{
+    text-decoration: underline;
+}
+
+@media only screen and (max-width: 600px) {
+    /* Adjust the styles for screens up to 600px wide */
+    .loginbox {
+        width: 80%;
+        padding: 80px 20px;
+    }
+
+    .btnsubmit,
+    .btnsignup {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .user {
+        left: calc(50% - 40px);
+    }
+}

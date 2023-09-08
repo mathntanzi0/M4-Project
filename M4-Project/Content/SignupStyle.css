@@ -1,0 +1,121 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    background-image: url('../Assets/Login Cover.png');
+    background-size: cover;
+    font-family: sans-serif;
+}
+
+.signupbox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 400px;
+    height: 600px;
+    padding: 100px 40px;
+    box-sizing: border-box;
+    background: rgba(0,0,0,0.5);
+    border-radius: 25px;
+}
+
+.user {
+    width: 35%;
+    height: 25%;
+    overflow: hidden;
+    top: -10px;
+    left: calc(50% - 50px);
+    position: absolute;
+    margin-bottom: 10px;
+}
+
+.user:hover {
+    cursor: pointer;
+    -webkit-animation: spin 5s infinite;
+    animation: spin 5s infinite;
+}
+
+@-webkit-keyframes spin {
+    from {
+        -webkit-transform: rotateY(0deg);
+    }
+
+    to {
+        -webkit-transform: rotateY(-360deg);
+    }
+}
+
+.password-container {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    color: black;
+}
+
+.toggle-password:before {
+    content: "\f070"; /* FontAwesome eye icon */
+    font-family: FontAwesome;
+}
+
+.password-visible .toggle-password:before {
+    content: "\f06e"; /* FontAwesome eye-slash icon */
+}
+
+.txtfirstname, .txtlastname, .txtemail, .txtpass, .txtphonenum {
+    border: none;
+    border-bottom: 3px solid #fff;
+    outline: none;
+    height: 40px;
+    color: #fff;
+    font-size: 16px;
+    background-color: transparent;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+::placeholder {
+    color: rgba(225,225,225,0.5);
+}
+
+.lblfirstname, .lblpass, .lbllastname, .lblemail, .lblphonenum {
+    font-weight: bold;
+    color: #fff;
+}
+
+.btncreate {
+    width: 80%;
+    margin-bottom: 10px;
+    margin-left: 25px;
+}
+
+.btncreate {
+    border: none;
+    outline: none;
+    height: 40px;
+    font-size: 16px;
+    color: #fff;
+    background-color: rgb(225,9,9);
+    cursor: pointer;
+    border-radius: 20px;
+    transition: .3s ease-in-out;
+    margin-top: 50px;
+}
+
+.btncreate:hover {
+    background-color: rgb(225,217,9);
+}
+
+.txtpass {
+    margin-top: 5px;
+}
+
+.lblemail {
+    margin-top: 5px;
+}

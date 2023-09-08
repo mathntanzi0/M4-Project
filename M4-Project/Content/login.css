@@ -1,0 +1,46 @@
+﻿.form-control {
+    width: 32rem;
+    padding: 12px 8px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    box-shadow: var(--card-box-shadow);
+    background-color: var(--background-color);
+    transition: background-color 0.5s ease;
+}
+.form-group{
+    margin: 1.75rem 0;
+}
+.btn-default {
+    padding: 0.5rem 4rem;
+    background-color: var(--primary-color);
+    font-size: 1rem;
+    color: white;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+.checkbox{
+    margin: 1rem 0;
+}
+.inner_body{
+    margin-bottom:1rem;
+}
+.form-horizontal {
+    box-shadow: var(--card-box-shadow);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 2rem 1rem;
+    max-width: 1000px;
+}
+@media (max-width: 700px) {
+    .form-horizontal {
+        margin: 1rem auto;
+    }
+    .form-control {
+        width: 95%;
+    }
+}
+.text-danger {
+    color: var(--red);
+}

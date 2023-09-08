@@ -1,0 +1,51 @@
+.page_message{
+	text-align: center;
+	font-size: clamp(1rem, 2vw, 1.618rem);
+	padding: 1rem 0;
+}
+.sell_card{
+	width:90%;
+	margin: 2rem auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-shadow: var(--card-box-shadow);
+  	font-size: clamp(0.6rem, 1vw, 2rem);
+  	padding: 1rem 0;
+}
+.date_container{
+	width: 200px;
+}
+.date_container h2{
+	text-align: center;
+	font-weight: 500;
+
+}
+.sell_details{
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+.sell_details h2{
+	padding: 1rem 0;
+	font-weight: 300;
+}
+.header_detail{
+	margin-top: auto;
+}
+.right_sell_details{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	margin: 1rem;
+	width: 200px;
+}
+.right_sell_details h2{
+	text-align: center;
+	font-weight: 500;
+
+}
+.right_sell_details svg{
+	float: right;
+}

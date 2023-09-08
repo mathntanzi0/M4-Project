@@ -1,0 +1,222 @@
+.nav_header, .inner_header, .slide_navigation {
+    background-color: var(--background-color);
+}
+
+.secondary_header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 24px 0;
+    margin-top: 104px;
+}
+
+    .secondary_header div {
+        margin-right: 16px;
+        margin-left: auto;
+    }
+
+.header_input div {
+    display: inline-block;
+    margin: 8px 32px;
+}
+
+.secondary_header select {
+    min-width: 256px;
+    padding: 12px 20px;
+    margin: 8px 32px;
+    display: inline-block;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    box-shadow: var(--card-box-shadow);
+    background-color: var(--background-color);
+    transition: background-color 0.5s ease;
+}
+
+.secondary_header input[type=text] {
+    width: 24vw;
+    min-width: 256px;
+    padding: 12px 20px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    box-shadow: var(--card-box-shadow);
+    background-color: var(--background-color);
+    transition: background-color 0.5s ease;
+}
+.secondary_header .apply_button {
+    padding: 0.75rem 3rem;
+    border-radius: 1rem;
+    background-color: var(--secondary-primary);
+}
+
+.secondary_header input:focus {
+    outline: none; /* Remove the default focus outline */
+}
+
+.search_icon {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    position: relative;
+    margin-left: -36px;
+    margin-bottom: -10px;
+    fill: var(--icon-color);
+}
+
+.items_container {
+    display: grid;
+    row-gap: 2rem;
+    column-gap: clamp(2rem, 10%, 16rem);
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 90%;
+    margin-inline: auto;
+    text-align: center
+}
+
+.item_wrapper {
+    position: relative;
+    text-align: center;
+    display: block;
+    min-width: 16rem;
+    transition: transform 0.5s;
+    box-shadow: var(--card-box-shadow);
+}
+
+    .item_wrapper::before {
+        content: '';
+        width: 100%;
+        height: 100%;
+        background-color: var(--screen-dim-color);
+        position: absolute;
+        top: 0;
+    }
+
+    .item_wrapper h2 {
+        font-size: 1.318rem;
+        padding: 16px 0;
+    }
+
+    .item_wrapper h3 {
+        font-size: 1rem;
+        padding-bottom: 16px;
+    }
+
+    .item_wrapper img {
+        width: 100%;
+        height: 22rem;
+        object-fit: cover;
+    }
+
+.add_button {
+    width: 4rem;
+    height: 4rem;
+    fill: var(--primary-color);
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+}
+
+.page_nav_container {
+    margin: 4rem 0;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.page_box {
+    display: inline-block;
+    border: 1px #283217 solid;
+    border-radius: 1rem;
+    padding: 1rem 0;
+    width: 3rem;
+    text-align: center;
+    margin: 0 0.5rem;
+    background-color: #00000000;
+    cursor: pointer;
+}
+
+    .page_box:active {
+        color: teal;
+    }
+
+.page_index_box {
+    color: white;
+    background-color: #283217;
+}
+
+
+@media (max-width: 890px) {
+    .items_container {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .navigation {
+        display: none;
+    }
+
+    .secondary_header {
+        text-align: center;
+        display: block;
+    }
+
+        .secondary_header input[type=text], .secondary_header select, .header_input div {
+            width: 90%;
+        }
+}
+
+@media (max-width: 600px) {
+    .items_container {
+        grid-template-columns: 1fr;
+    }
+}
+#empty_box {
+    text-align: left;
+}
+
+#empty_box {
+    margin: 4rem;
+    margin-top: 3rem;
+}
+
+#empty_box h3 {
+    font-size: 38px;
+    font-weight: 700;
+    font-family: "RobotoC";
+    text-transform: uppercase;
+    font-family: "AdihausDIN",sans-serif;
+}
+
+#empty_box p {
+    font-size: 18px;
+    line-height: 1.4;
+    margin-top: 60px;
+    margin-bottom: 82px;
+}
+
+#empty_box div {
+    border-radius: 0;
+    line-height: 50px;
+    min-height: 50px;
+    padding: 0 21px;
+    margin: 10px 0;
+    text-align: left;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: transform 0.2s;
+    white-space: nowrap;
+    min-width: 168px;
+    max-width: 500px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-family: "AdihausDIN",sans-serif;
+    color: var(--special-text-color);
+    background-color: var(--special-btn-color);
+}
+
+#empty_box div:hover {
+    color: var(--text-color);
+    background-color: var(--secondary-primary);
+}
