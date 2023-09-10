@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Event Booking" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Booking.aspx.cs" Inherits="M4_System.Booking" %>
+﻿<%@ Page Title="Event Booking" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Booking.aspx.cs" Inherits="M4_Project.Booking" %>
 
 <asp:Content ID ="HeadContent" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" type="text/css" href="Content/Components/promo_items_wrapper.css">

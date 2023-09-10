@@ -81,7 +81,7 @@
 		</div>
 
 		<div class="inline_buttons">
-			<button class="primary_button">Edit</button>
+			<button style="background-color:var(--primary-color); color:white">Edit</button>
 			<button class="delete_button">Delete</button>
 		</div>
 </asp:Content>

@@ -21,12 +21,12 @@
 
 	<div class="section">
 		<div class="image_holder">
-			<img src="assets/temp/oreo.jpg">
+			<img src="assets/temp/chicken_pie.jpg">
 		</div>
 
 		<div class="section_content">
-			<h2 class="section_header">Oreo Shake</h2>
-			<p class="section_description">Indulge in the creamy delight of our Oreo Shake – a rich blend of velvety ice cream and the irresistible crunch of Oreo cookies.</p>
+			<h2 class="section_header">Chicken Pie</h2>
+			<p class="section_description">Indulge in the savory delight of our mouthwatering Chicken Pie! Made with tender, succulent chicken, and a rich, flavorful gravy, our Chicken Pie is the ultimate comfort food. Baked to golden perfection with a flaky, buttery crust, every bite is a warm and satisfying experience.</p>
 			<button class="section_action">Order Now</button>
 		</div>
 	</div>

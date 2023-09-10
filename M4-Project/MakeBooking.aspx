@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Make Booking" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="MakeBooking.aspx.cs" Inherits="M4_System.MakeBooking" %>
+﻿<%@ Page Title="Make Booking" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="MakeBooking.aspx.cs" Inherits="M4_Project.MakeBooking" %>
 
 <asp:Content ID ="HeadContent" ContentPlaceHolderID="head" runat="server">
 	<link rel="stylesheet" type="text/css" href="Content/make_booking_style.css">
@@ -19,7 +19,7 @@
             </div>
             <div class="input_field">
                 <label>Date</label>
-                <input class="field" type="date" min="2023-08-01" max="2023-08-31" runat="server" ID="datePicker" />
+                <input class="field" type="date" min="2023-08-01" max="2023-12-31" runat="server" ID="datePicker" />
             </div>
             <div class="input_field">
                 <label>Duration</label>
