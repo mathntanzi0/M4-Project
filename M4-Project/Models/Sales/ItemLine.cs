@@ -54,4 +54,24 @@ namespace M4_Project.Models.Sales
         public byte[] Image { get => image; set => image = value; }
         public string ItemCategory { get => itemCategory; set => itemCategory = value; }
     }
+    public class CartItem
+    {
+        private int itemID;
+        private int itemQuantity;
+        private string instructions;
+        public readonly static string OrderCart = "OrderCart";
+        public readonly static string BookingCart = "BookingCart";
+        public readonly static string BookingInfo = "BookingInfo";
+
+        public CartItem(int itemID, int itemQuantity, string instructions)
+        {
+            this.itemID = itemID;
+            this.itemQuantity = itemQuantity;
+            this.instructions = instructions;
+        }
+
+        public int ItemID { get => itemID; set => itemID = value; }
+        public int ItemQuantity { get => itemQuantity; set => itemQuantity = value; }
+        public string Instructions { get => instructions; set => instructions = value; }
+    }
 }

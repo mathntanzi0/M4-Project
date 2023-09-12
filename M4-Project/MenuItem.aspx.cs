@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -58,25 +59,57 @@ namespace M4_Project
         [WebMethod]
         public static void AddItem(int itemID, int qty, string instructions)
         {
-            Models.Sales.Sale order;
+            Models.Sales.Sale sale;
             if (HttpContext.Current.Session["sale"] != null)
-                order = HttpContext.Current.Session["sale"] as Models.Sales.Sale;
+                sale = HttpContext.Current.Session["sale"] as Models.Sales.Sale;
             else
-                order = new Models.Sales.Order();
+                sale = new Models.Sales.Order();
 
             Models.MenuItem item = Models.MenuItem.GetMenuItem(itemID);
             Models.Sales.ItemLine itemLine = new Models.Sales.ItemLine(itemID, qty, item.ItemPrice, instructions, item.ItemName, item.ItemImage, item.ItemCategory);
+            sale.AddItemLine(itemLine);
 
-            order.AddItemLine(itemLine);
+            HttpContext.Current.Session["sale"] = sale;
 
-            HttpContext.Current.Session["sale"] = order;
+            string cartCookieKey;
+            if (sale.SaleType == Models.Sales.SaleType.Order)
+                cartCookieKey = Models.Sales.CartItem.OrderCart;
+            else
+                cartCookieKey = Models.Sales.CartItem.BookingCart;
+
+            if (HttpContext.Current.Request.Cookies[cartCookieKey] != null)
+            {
+                var cartJSON = HttpContext.Current.Request.Cookies[cartCookieKey].Value;
+                var cart = JsonConvert.DeserializeObject<List<Models.Sales.CartItem>>(cartJSON);
+                cart.Add(new Models.Sales.CartItem(itemID, qty, instructions));
+                string updatedCartJSON = JsonConvert.SerializeObject(cart);
+                HttpCookie cartCookie = new HttpCookie(cartCookieKey)
+                {
+                    Value = updatedCartJSON,
+                    Expires = DateTime.Now.AddDays(30)
+                };
+
+                HttpContext.Current.Response.Cookies.Add(cartCookie);
+            }
+            else
+            {
+                var cart = new List<Models.Sales.CartItem>{new Models.Sales.CartItem(itemID, qty, instructions)};
+                string cartJSON = JsonConvert.SerializeObject(cart);
+                HttpCookie cartCookie = new HttpCookie(cartCookieKey)
+                {
+                    Value = cartJSON,
+                    Expires = DateTime.Now.AddDays(30)
+                };
+                HttpContext.Current.Response.Cookies.Add(cartCookie);
+            }
         }
+
         [WebMethod]
         public static void EditItem(int itemID, int qty, string instructions)
         {
             if (HttpContext.Current.Session["sale"] is null)
                 return;
-            
+
             Models.Sales.Sale order = HttpContext.Current.Session["sale"] as Models.Sales.Sale;
             if (order.Cart.TryGetValue(itemID, out int index) && index < order.ItemLines.Count)
             {
@@ -84,8 +117,33 @@ namespace M4_Project
                 itemLine.Instructions = instructions;
                 itemLine.ItemQuantity = qty;
                 HttpContext.Current.Session["sale"] = order;
+
+                
+                string cartCookieKey = (order.SaleType == Models.Sales.SaleType.Order) ? Models.Sales.CartItem.OrderCart : Models.Sales.CartItem.BookingCart;
+                if (HttpContext.Current.Request.Cookies[cartCookieKey] != null)
+                {
+                    var cartJSON = HttpContext.Current.Request.Cookies[cartCookieKey].Value;
+                    var cart = JsonConvert.DeserializeObject<List<Models.Sales.CartItem>>(cartJSON);
+
+                    var cookieCartItem = cart.FirstOrDefault(item => item.ItemID == itemID);
+                    if (cookieCartItem != null)
+                    {
+                        cookieCartItem.Instructions = instructions;
+                        cookieCartItem.ItemQuantity = qty;
+
+                        string updatedCartJSON = JsonConvert.SerializeObject(cart);
+                        HttpCookie cartCookie = new HttpCookie(cartCookieKey)
+                        {
+                            Value = updatedCartJSON,
+                            Expires = DateTime.Now.AddDays(30)
+                        };
+
+                        HttpContext.Current.Response.Cookies.Add(cartCookie);
+                    }
+                }
             }
         }
+
         [WebMethod]
         public static void RemoveItem(int itemID)
         {
@@ -106,7 +164,29 @@ namespace M4_Project
                     HttpContext.Current.Session["sale"] = null;
                 else
                     HttpContext.Current.Session["sale"] = order;
+
+
+                string cartCookieKey = (order.SaleType == Models.Sales.SaleType.Order) ? Models.Sales.CartItem.OrderCart : Models.Sales.CartItem.BookingCart;
+
+                if (HttpContext.Current.Request.Cookies[cartCookieKey] != null)
+                {
+                    var cartJSON = HttpContext.Current.Request.Cookies[cartCookieKey].Value;
+                    var cart = JsonConvert.DeserializeObject<List<Models.Sales.CartItem>>(cartJSON);
+                    var itemToRemove = cart.FirstOrDefault(item => item.ItemID == itemID);
+                    if (itemToRemove != null)
+                    {
+                        cart.Remove(itemToRemove);
+                        string updatedCartJSON = JsonConvert.SerializeObject(cart);
+                        HttpCookie cartCookie = new HttpCookie(cartCookieKey)
+                        {
+                            Value = updatedCartJSON,
+                            Expires = DateTime.Now.AddDays(30)
+                        };
+                        HttpContext.Current.Response.Cookies.Add(cartCookie);
+                    }
+                }
             }
         }
+
     }
 }

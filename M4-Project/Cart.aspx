@@ -6,8 +6,20 @@
 </asp:Content>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-   <div class="secondary_header">
-			<h1>Cart</h1>
+<div class="secondary_header">
+			<% if (sale != null)
+			{ %>
+				<h1><%= (sale.SaleType == M4_Project.Models.Sales.SaleType.Order) ? "Order" : "Event" %> Cart</h1>
+			<% }
+			else
+			{ %>
+				<h1>Cart</h1>
+			<% } %>
+		</div>
+
+		<div class="sale_type_btns">
+			<button ID="btnOrderCart" runat="server" OnServerClick="btnOrderCart_Click">Switch to Order</button>
+			<button ID="btnBookingCart" runat="server" OnServerClick="btnBookingCart_Click">Switch to Booking</button>
 		</div>
 		<% if (TotalCost == 0) { %>
 		<div id="empty_box">

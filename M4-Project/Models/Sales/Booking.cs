@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web;
+
 namespace M4_Project.Models.Sales
 {
     ///
@@ -250,6 +253,57 @@ namespace M4_Project.Models.Sales
                 return bookings;
             }
         }
+        public static void SyncSessionWithCookies()
+        {
+            if (HttpContext.Current.Request.Cookies[Models.Sales.CartItem.BookingInfo] != null)
+            {
+                var bookingInfoCookie = HttpContext.Current.Request.Cookies[Models.Sales.CartItem.BookingInfo];
+                string address = bookingInfoCookie.Values["Address"];
+                string decorDescription = bookingInfoCookie.Values["DecorDescription"];
+                DateTime date;
+                TimeSpan duration;
+
+                if (DateTime.TryParse(bookingInfoCookie.Values["Date"], out date)) { }
+                else
+                    date = DateTime.Now.AddDays(1);
+                if (TimeSpan.TryParse(bookingInfoCookie.Values["Duration"], out duration)) { }
+                else
+                    duration = TimeSpan.Zero;
+
+                Models.Sales.Sale sale = new Models.Sales.Booking(address, decorDescription, date, duration);
+                HttpContext.Current.Session["sale"] = sale;
+            }
+            else
+                return;
+
+            if (HttpContext.Current.Request.Cookies[Models.Sales.CartItem.BookingCart] != null)
+            {
+                var bookingCartCookie = HttpContext.Current.Request.Cookies[Models.Sales.CartItem.BookingCart];
+                var cartJSON = bookingCartCookie.Value;
+                var cookieCart = JsonConvert.DeserializeObject<List<Models.Sales.CartItem>>(cartJSON);
+
+                Models.Sales.Sale sale;
+                if (HttpContext.Current.Session["sale"] != null)
+                    sale = HttpContext.Current.Session["sale"] as Models.Sales.Sale;
+                else
+                    return;
+
+                foreach (var cookieCartItem in cookieCart)
+                {
+                    Models.MenuItem item = Models.MenuItem.GetMenuItem(cookieCartItem.ItemID);
+                    sale.AddItemLine(new Models.Sales.ItemLine(
+                        cookieCartItem.ItemID,
+                        cookieCartItem.ItemQuantity,
+                        item.ItemPrice,
+                        cookieCartItem.Instructions,
+                        item.ItemName,
+                        item.ItemImage,
+                        item.ItemCategory));
+                }
+                HttpContext.Current.Session["sale"] = sale;
+            }
+        }
+
         ///
         /// <summary>
         ///     Returns a list of event bookings using staff member's identification number.

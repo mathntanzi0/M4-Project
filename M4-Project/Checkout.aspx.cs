@@ -14,7 +14,7 @@ namespace M4_Project
         protected void Page_Load(object sender, EventArgs e)
         {
             sale = HttpContext.Current.Session["sale"] as Models.Sales.Sale;
-            if (sale != null)
+            if (sale != null && sale.ItemLines.Count > 0)
             {
                 var reversedItemLines = sale.ItemLines.ToList();
                 reversedItemLines.Reverse();

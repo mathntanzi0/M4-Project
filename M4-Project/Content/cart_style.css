@@ -1,4 +1,13 @@
-.item_wrapper{
+.sale_type_btns{
+	text-align:center;
+	padding: 1.5rem 0;
+}
+.sale_type_btns button {
+	width: calc(50% - 1rem);
+	padding: 0.75rem 0;
+	background-color: var(--secondary-primary)
+}
+.item_wrapper {
 	margin-bottom: 2rem;
 	background-color: #00000002;
 }
@@ -30,7 +39,10 @@
 	padding-left: 2rem;
 }
 @media (min-width: 800px) {
-	.item_wrapper{
+	.sale_type_btns{
+		width: 60%;
+	}
+	.item_wrapper {
 		width: 60%;
 		border-bottom: 2px solid #f1f1f1;
 		margin-top: 1rem;
@@ -138,7 +150,7 @@
 		background-color: var(--special-btn-color);
 	}
 
-		#empty_box div:hover {
-			color: var(--text-color);
-			background-color: var(--secondary-primary);
-		}
+	#empty_box div:hover {
+		color: var(--text-color);
+		background-color: var(--secondary-primary);
+	}

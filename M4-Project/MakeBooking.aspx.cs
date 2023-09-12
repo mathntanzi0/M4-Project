@@ -11,7 +11,30 @@ namespace M4_Project
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                if (HttpContext.Current.Request.Cookies["BookingInfo"] != null)
+                {
+                    var bookingInfoCookie = HttpContext.Current.Request.Cookies["BookingInfo"];
+                    string address = bookingInfoCookie.Values["Address"];
+                    string decorDescription = bookingInfoCookie.Values["DecorDescription"];
+                    DateTime date;
+                    TimeSpan duration;
 
+                    if (DateTime.TryParse(bookingInfoCookie.Values["Date"], out date)) { }
+                    else
+                        date = DateTime.Now.AddDays(1);
+                    if (TimeSpan.TryParse(bookingInfoCookie.Values["Duration"], out duration)) { }
+                    else
+                        duration = TimeSpan.Zero;
+
+                    
+                    txtAddress.Value = address;
+                    txtDecorDescription.Value = decorDescription;
+                    datePicker.Value = date.ToString("yyyy-MM-dd");
+                    ddlDuration.Value = duration.ToString(@"hh\:mm");
+                }
+            }
         }
 
         protected void btnNext_Click(object sender, EventArgs e)
@@ -24,12 +47,35 @@ namespace M4_Project
             if (DateTime.TryParse(datePicker.Value, out date)) { }
             else
                 date = DateTime.Now.AddDays(1);
-            if (TimeSpan.TryParse(ddlDuration.Value, out duration)){}
+            if (TimeSpan.TryParse(ddlDuration.Value, out duration)) { }
             else
                 duration = TimeSpan.Zero;
 
-            Models.Sales.Booking booking = new Models.Sales.Booking(address, decorDescription, date, duration);
+            Models.Sales.Booking booking;
+
+            if (Session["sale"] != null && Session["sale"] is Models.Sales.Booking)
+            {
+                booking = (Models.Sales.Booking)Session["sale"];
+                booking.EventAddress = address;
+                booking.EventDecorDescription = decorDescription;
+                booking.EventDate = date;
+                booking.EventDuration = duration;
+            }
+            else
+                booking = new Models.Sales.Booking(address, decorDescription, date, duration);
+
             Session["sale"] = booking;
+
+
+            HttpCookie bookingCookie = new HttpCookie("BookingInfo");
+            bookingCookie.Values["Address"] = address;
+            bookingCookie.Values["DecorDescription"] = decorDescription;
+            bookingCookie.Values["Date"] = date.ToString("yyyy-MM-dd");
+            bookingCookie.Values["Duration"] = duration.ToString();
+            bookingCookie.Expires = DateTime.Now.AddDays(1);
+
+            HttpContext.Current.Response.Cookies.Add(bookingCookie);
+
             Response.Redirect("/Menu");
         }
 

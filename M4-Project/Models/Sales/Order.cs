@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -319,6 +320,43 @@ namespace M4_Project.Models.Sales
                 }
             }
             return orders;
+        }
+
+        /// <summary>
+        ///     Synchronizes the order cart in the session with the cart stored in a browser cookie.
+        /// </summary>
+        public static void SyncOrderCartWithCookieCart()
+        {
+            string cartCookieKey = Models.Sales.CartItem.OrderCart;
+            Models.Sales.Sale order = new Order();
+            if (HttpContext.Current.Request.Cookies[cartCookieKey] != null)
+            {
+                var cartJSON = HttpContext.Current.Request.Cookies[cartCookieKey].Value;
+                var cookieCart = JsonConvert.DeserializeObject<List<Models.Sales.CartItem>>(cartJSON);
+
+                foreach (var cookieCartItem in cookieCart)
+                {
+                    Models.MenuItem item = Models.MenuItem.GetMenuItem(cookieCartItem.ItemID);
+                    order.AddItemLine(new Models.Sales.ItemLine(
+                            cookieCartItem.ItemID,
+                            cookieCartItem.ItemQuantity,
+                            item.ItemPrice,
+                            cookieCartItem.Instructions,
+                            item.ItemName,
+                            item.ItemImage,
+                            item.ItemCategory));
+                }
+                if (cookieCart.Count > 0)
+                    HttpContext.Current.Session["sale"] = order;
+                else
+                {
+                    HttpCookie cartCookie = new HttpCookie(cartCookieKey)
+                    {
+                        Expires = DateTime.Now.AddDays(-1)
+                    };
+                    HttpContext.Current.Response.Cookies.Add(cartCookie);
+                }
+            }
         }
 
         public int OrderID { get => orderID; set => orderID = value; }

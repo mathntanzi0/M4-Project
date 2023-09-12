@@ -36,7 +36,24 @@ namespace M4_Project
 
             return totalCost;
         }
+        protected void btnOrderCart_Click(object sender, EventArgs e)
+        {
+            HttpContext.Current.Session["sale"] = null;
+            Models.Sales.Order.SyncOrderCartWithCookieCart();
+            if (HttpContext.Current.Session["sale"] == null)
+                HttpContext.Current.Session["sale"] = new Models.Sales.Order();
+            Response.Redirect("/Cart");
+        }
+        protected void btnBookingCart_Click(object sender, EventArgs e)
+        {
+            HttpContext.Current.Session["sale"] = null;
+            Models.Sales.Booking.SyncSessionWithCookies();
 
+            if (HttpContext.Current.Session["sale"] == null)
+                Response.Redirect("/MakeBooking");
+            else
+                Response.Redirect("/Cart");
+        }
         protected void btnCheckout_Click(object sender, EventArgs e)
         {
 

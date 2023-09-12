@@ -69,6 +69,15 @@ namespace M4_Project
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (HttpContext.Current.Session["sale"] == null)
+            {
+                if (HttpContext.Current.Request.Cookies[Models.Sales.CartItem.OrderCart] != null)
+                    Models.Sales.Order.SyncOrderCartWithCookieCart();
+                
+                else if (HttpContext.Current.Request.Cookies[Models.Sales.CartItem.BookingCart] != null)
+                    Models.Sales.Booking.SyncSessionWithCookies();
+            }
+
 
         }
 
