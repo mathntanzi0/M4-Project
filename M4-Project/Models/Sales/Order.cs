@@ -358,14 +358,13 @@ namespace M4_Project.Models.Sales
                 }
             }
         }
-
         public int OrderID { get => orderID; set => orderID = value; }
         public Customer Customer { get => customer; set => customer = value; }
         public string OrderType { get => orderType; set => orderType = value; }
         public string OrderStatus { get => orderStatus; set => orderStatus = value; }
         public int StaffID { get => staffID; set => staffID = value; }
-
         public override int SaleType => Sales.SaleType.Order;
+        public Delivery Delivery { get => delivery; set => delivery = value; }
     }
     /// <summary>
     ///     Enumerates Potential Order Types.

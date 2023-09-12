@@ -16,6 +16,12 @@ namespace M4_Project
             sale = HttpContext.Current.Session["sale"] as Models.Sales.Sale;
             if (sale != null && sale.ItemLines.Count > 0)
             {
+                if (sale.SaleType == Models.Sales.SaleType.Order && ((Models.Sales.Order) sale).OrderType == Models.Sales.OrderType.Delivery)
+                {
+                    Models.Sales.Order order = (Models.Sales.Order) sale;
+                    if (order.OrderType == Models.Sales.OrderType.Delivery && order.Delivery == null)
+                        Response.Redirect("/SelectAddress");
+                }
                 var reversedItemLines = sale.ItemLines.ToList();
                 reversedItemLines.Reverse();
 

@@ -39,21 +39,47 @@
 		</div>
 
 		<div class="order_summary_wrapper">
+			<% if (sale.SaleType == M4_Project.Models.Sales.SaleType.Order)
+                {%>
 			<div class="summary_line_wrapper">
 				<label>TIP: (R) </label>
 				<input onchange="tip_changed()" id="tip_input" type="number" name="" placeholder="0.00">
 			</div>
+			<% } %>
+
 			<br>
 			<div class="summary_line_wrapper">
 				<label>Number of Items: <%= sale.Cart.Count %></label>
 			</div>
+			<% if (sale.SaleType == M4_Project.Models.Sales.SaleType.Order && (sale as M4_Project.Models.Sales.Order).OrderType == M4_Project.Models.Sales.OrderType.Delivery)
+                {%>
 			<div class="summary_line_wrapper">
-				<label>Subtotal (VAT 15%): R <%= (TotalCost * 0.15M).ToString("N2") %></label>
+				<label>Sub Total: R <%= (TotalCost - M4_Project.Models.BusinessRules.Delivery.DeliveryFee).ToString("N2")%></label>
 			</div>
-			<% if (sale.SaleType == M4_Project.Models.Sales.SaleType.Order && (sale as M4_Project.Models.Sales.Order).OrderType == M4_Project.Models.Sales.OrderType.Delivery) {%>
 			<div class="summary_line_wrapper">
 				<label>Delivery Fee: R <%= M4_Project.Models.BusinessRules.Delivery.DeliveryFee.ToString("N2")%></label>
 			</div>
+			<div class="summary_line_wrapper">
+				<label><a href="/SelectAddress">Update address</a></label>
+			</div>
+			<% }
+                else if (sale.SaleType == M4_Project.Models.Sales.SaleType.EventBooking)
+                { %>
+				<div class="summary_line_wrapper">
+					<label>Address: <%= ((M4_Project.Models.Sales.Booking)sale).EventAddress %></label>
+				</div>
+				<div class="summary_line_wrapper">
+					<label>Decor: <%= ((M4_Project.Models.Sales.Booking)sale).EventDecorDescription%></label>
+				</div>
+				<div class="summary_line_wrapper">
+					<label>Date: <%= ((M4_Project.Models.Sales.Booking)sale).EventDate.ToString("dd MMMM yyyy")%></label>
+				</div>
+				<div class="summary_line_wrapper">
+					<label>Decor: <%= ((M4_Project.Models.Sales.Booking)sale).EventDuration.ToString(@"hh\:mm")%></label>
+				</div>
+				<div class="summary_line_wrapper">
+					<label><a href="/MakeBooking">Update booking details</a></label>
+				</div>
 			<% } %>
 			<br>
 			<div class="summary_footer_wrapper">

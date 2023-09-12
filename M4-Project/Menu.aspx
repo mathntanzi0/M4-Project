@@ -30,7 +30,7 @@
 		</div>
 		<% } %>
 		<div class="items_container">
-			<asp:Repeater ID="RepeaterMenuItem" runat="server">
+			<asp:Repeater ID="RepeaterMenuItem" runat="server" EnableViewState="false">
 				<ItemTemplate>
 					<a href="MenuItem?Item=<%# Eval("ItemID") %>">
 						<div class="item_wrapper">

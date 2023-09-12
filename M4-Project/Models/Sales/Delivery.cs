@@ -38,6 +38,15 @@ namespace M4_Project.Models.Sales
         /// <summary>
         ///     Constructor for a delivery with specific details.
         /// </summary>
+        public Delivery(decimal deliveryFee, Address deliveryAddress)
+        {
+            this.deliveryID = -1;
+            this.deliveryFee = deliveryFee;
+            this.deliveryAddress = deliveryAddress;
+        }
+        /// <summary>
+        ///     Constructor for a delivery with specific details.
+        /// </summary>
         public Delivery(int deliveryID, int orderID, decimal deliveryFee, Address deliveryAddress)
         {
             this.deliveryID = deliveryID;
