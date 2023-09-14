@@ -47,7 +47,7 @@ namespace M4_Project.Models.Sales
         private string SellTypeTitle { get; set; }
         private string SubTitle { get; set; }
         public int SellID { get => sellID; set => sellID = value; }
-        public decimal TotalAmountDue { get => totalAmountDue; set => totalAmountDue = value; }
+        public decimal PaymentAmount { get => totalAmountDue; set => totalAmountDue = value; }
         public string TotalAmountDueN2 { get => totalAmountDue.ToString("N2");}
         public string PaymentMethod { get => paymentMethod; set => paymentMethod = value; }
         public decimal Tip { get => tip; set => tip = value; }

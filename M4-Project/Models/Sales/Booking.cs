@@ -21,9 +21,6 @@ namespace M4_Project.Models.Sales
         private TimeSpan eventDuration;
         private string bookingStatus;
 
-
-
-
         /// <summary>
         ///     Initializes a new instance of the M4_System.Models.Sales.Booking class.
         /// </summary>
@@ -32,7 +29,7 @@ namespace M4_Project.Models.Sales
             this.BookingID = bookingID;
             this.customer = customer;
             this.eventDate = eventDate;
-            this.TotalAmountDue = paymentAmount;
+            this.PaymentAmount = paymentAmount;
             this.bookingStatus = bookingStatus;
         }
         /// <summary>
@@ -48,7 +45,9 @@ namespace M4_Project.Models.Sales
             this.eventDuration = eventDuration;
             this.bookingStatus = bookingStatus;
         }
-
+        /// <summary>
+        ///     Initializes a new instance of the M4_System.Models.Sales.Booking class.
+        /// </summary>
         public Booking(string eventAddress, string eventDecorDescription, DateTime eventDate, TimeSpan eventDuration)
         {
             ItemLines = new List<ItemLine>();
@@ -57,6 +56,16 @@ namespace M4_Project.Models.Sales
             this.eventDecorDescription = eventDecorDescription;
             this.eventDate = eventDate;
             this.eventDuration = eventDuration;
+        }
+        /// <summary>
+        ///     Initializes a new instance of the M4_System.Models.Sales.Booking class.
+        /// </summary>
+        public Booking(string eventAddress, DateTime eventDate, decimal paymentAmount, string bookingStatus)
+        {
+            this.eventAddress = eventAddress;
+            this.eventDate = eventDate;
+            this.PaymentAmount = paymentAmount;
+            this.bookingStatus = bookingStatus;
         }
 
         ///
@@ -179,6 +188,43 @@ namespace M4_Project.Models.Sales
                 return booking;
             }
         }
+        /// <summary>
+        ///     Retrieves a list of bookings made by a customer.
+        /// </summary>
+        /// <param name="customerID">The ID of the customer whose bookings are to be retrieved.</param>
+        /// <returns>A list of Booking objects representing the customer's bookings.</returns>
+        public static List<Booking> GetCustomerBookings(int customerID)
+        {
+            List<Booking> bookings = new List<Booking>();
+            string query = "SELECT [booking_id], [event_date], [event_address], [payment_amount], [status] " +
+                            "FROM [Event Booking] " +
+                            "WHERE [customer_id] = @customerID " +
+                            "ORDER BY [event_date] DESC";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@customerID", customerID);
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int bookingID = (int)reader["booking_id"];
+                        string eventAddress = reader["event_address"].ToString();
+                        DateTime eventDate = (DateTime)reader["event_date"];
+                        decimal paymentAmount = (decimal)reader["payment_amount"];
+                        string bookingStatus = reader["status"].ToString();
+
+                        Booking booking = new Booking(eventAddress, eventDate, paymentAmount, bookingStatus);
+                        booking.BookingID = bookingID;
+                        bookings.Add(booking);
+                    }
+                }
+            }
+            return bookings;
+        }
         ///
         /// <summary>
         ///     Returns a event line for a specific booking identification.
@@ -204,14 +250,6 @@ namespace M4_Project.Models.Sales
                 return itemLines;
             }
         }
-        ///
-        /// <summary>
-        ///     Returns a list of event bookings.
-        /// </summary>
-        /*public static List<Booking> GetBookings(int page, int maxListSize)
-        {
-            return null;
-        }*/
         ///
         /// <summary>
         ///     Returns a list of event bookings with similar customer name or same customer name.
@@ -253,6 +291,9 @@ namespace M4_Project.Models.Sales
                 return bookings;
             }
         }
+        /// <summary>
+        ///     Synchronizes the session with cookies for booking information and cart items.
+        /// </summary>
         public static void SyncSessionWithCookies()
         {
             if (HttpContext.Current.Request.Cookies[Models.Sales.CartItem.BookingInfo] != null)
@@ -303,7 +344,6 @@ namespace M4_Project.Models.Sales
                 HttpContext.Current.Session["sale"] = sale;
             }
         }
-
         ///
         /// <summary>
         ///     Returns a list of event bookings using staff member's identification number.
@@ -338,9 +378,9 @@ namespace M4_Project.Models.Sales
         public TimeSpan EventDuration { get => eventDuration; set => eventDuration = value; }
         public string BookingStatus { get => bookingStatus; set => bookingStatus = value; }
         public Customer Customer { get => customer; set => customer = value; }
-
         public override int SaleType => Sales.SaleType.EventBooking;
     }
+
     /// <summary>
     ///     Enumerates Potential Booking States.
     /// </summary>
@@ -349,26 +389,26 @@ namespace M4_Project.Models.Sales
         /// <summary>
         ///     When an event booking is submitted but remains pending acceptance by the business.
         /// </summary>
-        private readonly static string Pending = "Pending";
+        public readonly static string Pending = "Pending";
         /// <summary>
         ///     When an event booking has been confirmed and accepted by the business.
         /// </summary>
-        private readonly static string UpComing = "Up coming";
+        public readonly static string UpComing = "Up coming";
         /// <summary>
         ///     When an event is currently underway.
         /// </summary>
-        private readonly static string InProgress = "In progress";
+        public readonly static string InProgress = "In progress";
 
 
         //Final States
         /// <summary>
         ///     When an event has concluded.
         /// </summary>
-        private readonly static string Completed = "Completed";
+        public readonly static string Completed = "Completed";
         /// <summary>
         ///     When an event booking is canceled.
         /// </summary>
-        private readonly static string Canceled = "Canceled";
+        public readonly static string Canceled = "Canceled";
         /// <summary>
         ///     When the booking is rejected or declined by the business.
         /// </summary>

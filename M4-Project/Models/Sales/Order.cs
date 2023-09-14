@@ -49,9 +49,10 @@ namespace M4_Project.Models.Sales
             this.customer = customer;
             this.orderType = orderType;
             this.orderStatus = orderStatus;
-            this.TotalAmountDue = paymentAmount;
+            this.PaymentAmount = paymentAmount;
             this.PaymentDate = paymentDate;
         }
+
 
 
         ///
@@ -82,7 +83,7 @@ namespace M4_Project.Models.Sales
                 command.Parameters.AddWithValue("@staff_id", StaffID);
                 command.Parameters.AddWithValue("@order_type", OrderType);
                 command.Parameters.AddWithValue("@order_state", "Preparing");
-                command.Parameters.AddWithValue("@payment_amount", TotalAmountDue);
+                command.Parameters.AddWithValue("@payment_amount", PaymentAmount);
                 command.Parameters.AddWithValue("@payment_method", PaymentMethod);
                 command.Parameters.AddWithValue("@payment_date", PaymentDate);
                 command.Parameters.AddWithValue("@tip_amount", Tip);
@@ -112,7 +113,7 @@ namespace M4_Project.Models.Sales
                 command.Parameters.AddWithValue("@customer_id", customer.CustomerID);
                 command.Parameters.AddWithValue("@order_type", OrderType);
                 command.Parameters.AddWithValue("@order_state", "Preparing");
-                command.Parameters.AddWithValue("@payment_amount", TotalAmountDue);
+                command.Parameters.AddWithValue("@payment_amount", PaymentAmount);
                 command.Parameters.AddWithValue("@payment_method", PaymentMethod);
                 command.Parameters.AddWithValue("@payment_date", PaymentDate);
                 command.Parameters.AddWithValue("@tip_amount", Tip);
@@ -212,12 +213,52 @@ namespace M4_Project.Models.Sales
                             reader["order_state"].ToString(),
                             (int)reader["staff_id"]
                         );
+                        order.PaymentDate = (DateTime) reader["payment_date"];
+                        order.PaymentAmount = (decimal) reader["payment_amount"];
+                        order.PaymentMethod = reader["payment_amount"].ToString();
+                        order.Tip = (decimal) reader["tip_amount"];
                         order.ItemLines = GetOrderLines(orderID);
                         return order;
                     }
                 }
             }
             return null;
+        }
+        /// <summary>
+        ///     Retrieves a list of orders associated with a specific customer.
+        /// </summary>
+        /// <param name="customerID">The unique identifier of the customer.</param>
+        /// <returns>A list of Order objects representing the customer's orders, or an empty list if no orders are found.</returns>
+        public static List<Order> GetCustomerOrders(int customerID)
+        {
+            List<Order> orders = new List<Order>();
+
+            string query = "SELECT customer_id, order_id, order_state, order_type, payment_amount, payment_date, payment_method, staff_id, tip_amount  FROM [Order] WHERE customer_id = @customerID;";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@customerID", customerID);
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Order order = new Order(
+                            (int)reader["order_id"],
+                            Customer.GetCustomer((int)reader["customer_id"]),
+                            reader["order_type"].ToString(),
+                            reader["order_state"].ToString(),
+                            (DateTime) reader["payment_date"],
+                            (decimal) reader["payment_amount"]);
+
+                        orders.Add(order);
+                    }
+                }
+            }
+
+            return orders;
         }
         ///
         /// <summary>

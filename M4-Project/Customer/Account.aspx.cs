@@ -13,11 +13,10 @@ namespace M4_Project.Customer
         public Models.Customer currentCustomer;
         protected void Page_Load(object sender, EventArgs e)
         {
-            currentCustomer = Models.Customer.GetCustomer(base.Context.User.Identity.Name);
-            if (currentCustomer == null) 
-            {
-                Response.Redirect("Profile");
-            }
+            currentCustomer = Session["Customer"] as Models.Customer;
+            if (currentCustomer == null)
+                currentCustomer = Models.Customer.SetSession();
+            
         }
     }
 }

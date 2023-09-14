@@ -38,6 +38,7 @@ namespace M4_Project.Customer
                 switch (result)
                 {
                     case SignInStatus.Success:
+                        HttpContext.Current.Session["Customer"] = null;
                         IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
                         break;
                     case SignInStatus.LockedOut:

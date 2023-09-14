@@ -30,7 +30,7 @@ namespace M4_Project.Customer
             string physicalAddress = PhysicalAddress.Text;
             Models.Customer customer = new Models.Customer(firstName, lastName, Context.User.Identity.Name, phoneNumber, physicalAddress);
             customer.AddCustomer();
-            Response.Redirect("Account");
+            IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
         }
     }
 }

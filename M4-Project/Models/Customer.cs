@@ -409,6 +409,16 @@ namespace M4_Project.Models
             }
             return numberOfOrders;
         }
+        public static Customer SetSession()
+        {
+            Customer currentCustomer = Models.Customer.GetCustomer(HttpContext.Current.User.Identity.Name);
+            if (currentCustomer != null)
+                HttpContext.Current.Session["Customer"] = currentCustomer;
+            else
+                HttpContext.Current.Response.Redirect("Profile");
+
+            return currentCustomer;
+        }
 
 
         /// <summary>
