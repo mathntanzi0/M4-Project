@@ -43,7 +43,7 @@
                 {%>
 			<div class="summary_line_wrapper">
 				<label>TIP: (R) </label>
-				<input onchange="tip_changed()" id="tip_input" type="number" name="" placeholder="0.00">
+				<asp:TextBox ID="tip_input" runat="server" AutoPostBack="true"></asp:TextBox>
 			</div>
 			<% } %>
 
@@ -86,7 +86,7 @@
 				<h1>Total Cost: R <span id="cost_holder"><%= TotalCost %></span></h1>
 			</div>
 		</div>
-		<button class="primary_button_unfixed">Pay</button>
+		<button runat="server" class="primary_button_unfixed" OnServerClick="btnPay_Click">Pay</button>
 </asp:Content>
 
 <asp:Content ID="ScriptHolder" ContentPlaceHolderID="ContentScripts" runat="server">

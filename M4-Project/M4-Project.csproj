@@ -218,6 +218,7 @@
     <Content Include="Content\make_booking_style.css" />
     <Content Include="Content\menu_item_style.css" />
     <Content Include="Content\menu_style.css" />
+    <Content Include="Content\order_track_style.css" />
     <Content Include="Content\SignupStyle.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Customer\Account.aspx" />
@@ -279,6 +280,7 @@
     <Content Include="SelectAddress.aspx" />
     <Content Include="Site.Master" />
     <Content Include="TrackDriver.aspx" />
+    <Content Include="TrackOrder.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -588,6 +590,13 @@
     </Compile>
     <Compile Include="TrackDriver.aspx.designer.cs">
       <DependentUpon>TrackDriver.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TrackOrder.aspx.cs">
+      <DependentUpon>TrackOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TrackOrder.aspx.designer.cs">
+      <DependentUpon>TrackOrder.aspx</DependentUpon>
     </Compile>
     <Compile Include="Utilities\DateManager.cs" />
     <Compile Include="Utilities\TextManager.cs" />

@@ -1,0 +1,55 @@
+.order_progress_line{
+	display: flex;
+	align-items: center;
+	box-shadow: var(--card-box-shadow);
+	margin: 0.5rem;
+	margin-bottom: 2.5rem;
+	padding: 2.5rem 1rem;
+}
+.order_progress_line .image_wrapper svg{
+	width: 16vw;
+	max-width: 7rem;
+}
+.order_progress_line .status_details{
+	display: flex;
+	flex-direction: column;
+	margin:1rem;
+}
+.order_progress_line .status_details p{
+	margin-top: auto;
+}
+.order_progress_line_button{
+	
+}
+.order_progress_line_button button{
+	margin-left: auto;
+	margin-top: auto;
+	background-color: var(--secondary-primary);
+	box-shadow: unset;
+}
+@media (max-width: 380px){
+	.order_progress_line{
+		display: block;
+		padding: 1.175rem 0;
+	}
+	.order_progress_line .image_wrapper img{
+		margin: 0 1rem;
+	}
+}
+.order_progress_wrapper {
+    position: relative; /* Add relative positioning to the parent container */
+}
+
+.order_progress_wrapper .status_bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Apply a background blur */
+    border-radius: 10px;
+}
+.in_progress{
+	position: relative;
+}

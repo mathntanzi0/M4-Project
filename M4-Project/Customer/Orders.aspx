@@ -29,7 +29,7 @@
 							</h2>
 						</div>
 						<div class="sell_details">
-							<h2 class="header_detail"><%# Eval("OrderType") %></h2>
+							<h2 class="header_detail">#<%# Eval("OrderID") %> <%# Eval("OrderType") %></h2>
 							<h2 class="sell_status">Status: <span style='color:<%# GetStatusColor(Eval("OrderStatus")) %>'><%# Eval("OrderStatus") %></span></h2>
 						</div>
 						<div class="right_sell_details">

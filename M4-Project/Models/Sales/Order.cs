@@ -103,28 +103,30 @@ namespace M4_Project.Models.Sales
         /// </summary>
         private void RecordOrderOnline()
         {
-            string query = "INSERT INTO [Order] ([staff_id], [customer_id], [order_type], [order_state], [payment_date], [payment_amount], [payment_method], [tip_amount]) VALUES (@staff_id, @order_type, @order_state, @payment_date, @payment_amount, @payment_method, @tip_amount);" +
-                "SELECT SCOPE_IDENTITY() AS order_id;";
+            string query = "INSERT INTO [Order] " +
+                           "([customer_id], [order_type], [order_state], [payment_date], [payment_amount], [payment_method], [tip_amount]) " +
+                           "VALUES " +
+                           "(@customer_id, @order_type, @order_state, @payment_date, @payment_amount, @payment_method, @tip_amount);" +
+                           "SELECT SCOPE_IDENTITY() AS order_id;";
 
             using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@staff_id", StaffID);
-                command.Parameters.AddWithValue("@customer_id", customer.CustomerID);
-                command.Parameters.AddWithValue("@order_type", OrderType);
-                command.Parameters.AddWithValue("@order_state", "Preparing");
-                command.Parameters.AddWithValue("@payment_amount", PaymentAmount);
-                command.Parameters.AddWithValue("@payment_method", PaymentMethod);
-                command.Parameters.AddWithValue("@payment_date", PaymentDate);
-                command.Parameters.AddWithValue("@tip_amount", Tip);
-                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@customer_id", customer.CustomerID);
+                    command.Parameters.AddWithValue("@order_type", OrderType);
+                    command.Parameters.AddWithValue("@order_state", OrderState.Preparing);
+                    command.Parameters.AddWithValue("@payment_amount", PaymentAmount);
+                    command.Parameters.AddWithValue("@payment_method", PaymentMethod);
+                    command.Parameters.AddWithValue("@payment_date", PaymentDate);
+                    command.Parameters.AddWithValue("@tip_amount", Tip);
 
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                DataRow row = dt.Rows[0];
-                this.OrderID = (int)row["order_id"];
+                    connection.Open();
+
+                    this.OrderID = Convert.ToInt32(command.ExecuteScalar());
+                }
             }
+
             RecordOrderLine();
         }
         ///
@@ -133,23 +135,24 @@ namespace M4_Project.Models.Sales
         /// </summary>
         private void RecordOrderLine()
         {
-            foreach (ItemLine itemLine in ItemLines)
+            string query = "INSERT INTO [Order Line] ([item_id], [order_id], [item_quantity], [sub_cost], [instruction]) " +
+                           "VALUES (@item_id, @order_id, @item_quantity, @sub_cost, @instruction);";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
             {
-                string query = "INSERT INTO [Order Line] ([item_id], [order_id], [item_quantity], [sub_cost], [instruction]) VALUES (@item_id, @order_id, @item_quantity, @sub_cost, @instruction);";
+                connection.Open();
 
-                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+                foreach (ItemLine itemLine in ItemLines)
                 {
-                    SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@item_id", itemLine.ItemID);
-                    command.Parameters.AddWithValue("@order_id", this.OrderID);
-                    command.Parameters.AddWithValue("@item_quantity", itemLine.ItemQuantity);
-                    command.Parameters.AddWithValue("@sub_cost", itemLine.TotalSubCost);
-                    command.Parameters.AddWithValue("@instructions", itemLine.Instructions);
-                    connection.Open();
-
-                    SqlDataAdapter adapter = new SqlDataAdapter(command);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@item_id", itemLine.ItemID);
+                        command.Parameters.AddWithValue("@order_id", this.OrderID);
+                        command.Parameters.AddWithValue("@item_quantity", itemLine.ItemQuantity);
+                        command.Parameters.AddWithValue("@sub_cost", itemLine.TotalSubCost);
+                        command.Parameters.AddWithValue("@instruction", itemLine.Instructions);
+                        command.ExecuteNonQuery();
+                    }
                 }
             }
         }
@@ -233,7 +236,9 @@ namespace M4_Project.Models.Sales
         {
             List<Order> orders = new List<Order>();
 
-            string query = "SELECT customer_id, order_id, order_state, order_type, payment_amount, payment_date, payment_method, staff_id, tip_amount  FROM [Order] WHERE customer_id = @customerID;";
+            string query = "SELECT customer_id, order_id, order_state, order_type, payment_amount, payment_date, payment_method, staff_id, tip_amount " +
+                "FROM [Order] WHERE customer_id = @customerID " +
+                "ORDER BY payment_date DESC;";
 
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
             {

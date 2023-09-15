@@ -71,6 +71,6 @@ namespace M4_Project.Models.BusinessRules
     }
     public static class Delivery
     {
-        public static readonly decimal DeliveryFee = 70;
+        public static readonly decimal DeliveryFee = 50;
     }
 }

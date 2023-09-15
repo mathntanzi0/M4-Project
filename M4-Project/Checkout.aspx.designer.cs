@@ -22,5 +22,14 @@ namespace M4_Project
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater RepeaterItemLine;
+
+        /// <summary>
+        /// tip_input control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tip_input;
     }
 }
