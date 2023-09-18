@@ -21,6 +21,10 @@ namespace M4_Project.Models.Sales
         private int staffID;
         private Delivery delivery;
 
+        ///
+        /// <summary>
+        ///     Initializes a new instance of the M4_System.Models.Sales.Order class.
+        /// </summary>
         public Order()
         {
             ItemLines = new List<ItemLine>();
@@ -52,9 +56,6 @@ namespace M4_Project.Models.Sales
             this.PaymentAmount = paymentAmount;
             this.PaymentDate = paymentDate;
         }
-
-
-
         ///
         /// <summary>
         ///     Records the attributes' values of an instance of M4_System.Models.Sells.Order class to the database.
@@ -227,6 +228,7 @@ namespace M4_Project.Models.Sales
             }
             return null;
         }
+        ///
         /// <summary>
         ///     Retrieves a list of orders associated with a specific customer.
         /// </summary>
@@ -367,7 +369,7 @@ namespace M4_Project.Models.Sales
             }
             return orders;
         }
-
+        ///
         /// <summary>
         ///     Synchronizes the order cart in the session with the cart stored in a browser cookie.
         /// </summary>
@@ -470,8 +472,6 @@ namespace M4_Project.Models.Sales
         ///     When the order is rejected or declined by the business.
         /// </summary>
         public readonly static string Rejected = "Rejected";
-
-
         /// <summary>
         ///     Checks if the given state is a final state in the sales process.
         /// </summary>

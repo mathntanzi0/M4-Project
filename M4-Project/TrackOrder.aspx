@@ -25,7 +25,7 @@
 			</div>
 		</div>
 		<div>
-			<div class="order_progress_line">
+			<div id="prepard" class="order_progress_line">
 				<div class="image_wrapper">
 					<svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M57.5 59.6C56.3 56.2 53.8333 53.4667 50.1 51.4C46.3667 49.3333 41.1333 48.3 34.4 48.3C27.6667 48.3 22.4333 49.3333 18.7 51.4C14.9667 53.4667 12.4667 56.2 11.2 59.6H57.5ZM4 65.6C4 62.4 4.58333 59.3833 5.75 56.55C6.91667 53.7167 8.75 51.25 11.25 49.15C13.75 47.05 16.9167 45.3833 20.75 44.15C24.5833 42.9167 29.15 42.3 34.45 42.3C39.75 42.3 44.3 42.9167 48.1 44.15C51.9 45.3833 55.05 47.05 57.55 49.15C60.05 51.25 61.8833 53.7167 63.05 56.55C64.2167 59.3833 64.8 62.4 64.8 65.6H4ZM4 78.4V72.4H64.8V78.4H4ZM70.8 92V86H79.4L85.1 28H45.3L44.6 22H65.1V4H71.1V22H92L85.3 86C85.1 87.7333 84.3833 89.1667 83.15 90.3C81.9167 91.4333 80.3667 92 78.5 92H70.8ZM7 92C6.2 92 5.5 91.7 4.9 91.1C4.3 90.5 4 89.8 4 89V86H64.8V89C64.8 89.8 64.5 90.5 63.9 91.1C63.3 91.7 62.6 92 61.8 92H7Z" fill="#404040"/>
@@ -39,7 +39,7 @@
 			</div>
 		</div>
 		<div>
-			<div class="order_progress_line order_progress_line_button">
+			<div id="" class="order_progress_line order_progress_line_button">
 				<div class="image_wrapper">
 					<svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<g clip-path="url(#clip0_1313_1591)">
@@ -87,4 +87,8 @@
 </asp:Content>
 
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentScripts" runat="server">
+	<script>
+		var activation = [true, false, false, false];
+
+	</script>
 </asp:Content>
