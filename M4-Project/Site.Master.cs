@@ -16,6 +16,8 @@ namespace M4_Project
         private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
         private string _antiXsrfTokenValue;
 
+        protected bool liveOrder = false;
+
         protected void Page_Init(object sender, EventArgs e)
         {
             // The code below helps to protect against XSRF attacks
@@ -76,6 +78,24 @@ namespace M4_Project
                 
                 else if (HttpContext.Current.Request.Cookies[Models.Sales.CartItem.BookingCart] != null)
                     Models.Sales.Booking.SyncSessionWithCookies();
+            }
+
+            Models.Customer currentCustomer = Session["Customer"] as Models.Customer;
+            if (currentCustomer == null && Context.User.Identity.IsAuthenticated)
+            {
+                Session["Customer"] = Models.Customer.SetSession();
+                currentCustomer = Session["Customer"] as Models.Customer;
+            }
+
+            if (currentCustomer != null)
+            {
+                if (Session["liveOrder"] == null)
+                {
+                    int orderID = Models.Sales.Order.GetLiveOrder(currentCustomer.CustomerID);
+                    Session["liveOrder"] = orderID;
+                    liveOrder = true;
+                } else
+                    liveOrder = true;
             }
 
 

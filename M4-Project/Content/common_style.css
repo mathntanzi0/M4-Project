@@ -109,3 +109,31 @@ button {
         padding: 1rem 0;
     }
 }
+
+.notification_bar {
+    position: fixed;
+    bottom: 1.5rem;
+    width: 90%;
+    background-color: #0B382E;
+    border-radius: 0.75rem;
+    display: block;
+    margin: auto;
+    left: 0;
+    right: 0;
+    padding: 0.75rem;
+    box-shadow: var(--card-box-shadow);
+}
+.notification_bar div {
+    display: flex;
+    justify-content:center;
+    align-content:center;
+}
+.notification_bar div p {
+    color: white;
+}
+.notification_bar div a {
+    background-color: var(--select-color);
+    margin-left: auto;
+    border-radius:0.5rem;
+    padding: 0.1rem 1.175rem;
+}

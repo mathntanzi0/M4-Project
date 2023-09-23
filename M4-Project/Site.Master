@@ -137,6 +137,17 @@
         </div>
     </form>
 
+	<% if (liveOrder && Page.Title != "Track Order")
+        { %>
+	<div class="notification_bar">
+		<div>
+			<p>Track your order here</p>
+			<a href="/TrackOrder">Open</a>
+		</div>
+	</div>
+	<% } %>
+
+
 	<footer class="footer">
   	    <div class="footer-container">
   	    <div class="row">
@@ -162,10 +173,10 @@
   	 		    <h4>Menu</h4>
   	 		    <ul>
   	 			    <li><a href="/Menu?Category=Meal">Meals</a></li>
-  	 			    <li><a href="/Menu?Category=Beverages">Beverages</a></li>
+  	 			    <li><a href="/Menu?Category=Beverage">Beverages</a></li>
   	 			    <li><a href="/Menu?Category=Desserts">Desserts</a></li>
-            <li><a href="#">Snacks</a></li>
-  	 			    <li><a href="#">Vegan</a></li>
+            <li><a href="/Menu?Category=Snacks">Snacks</a></li>
+  	 			    <li><a href="/Menu?Category=Vegan">Vegan</a></li>
   	 		    </ul>
   	 	    </div>
   	 	    <div class="footer-col">

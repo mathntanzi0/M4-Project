@@ -228,6 +228,34 @@ namespace M4_Project.Models.Sales
             }
             return null;
         }
+        /// <summary>
+        ///     Retrieves the ID of a live order for a customer, if one exists.
+        /// </summary>
+        /// <param name="customerID">The ID of the customer for whom to find the live order.</param>
+        /// <returns>The ID of the live order if found; otherwise, returns -1.</returns>
+        public static int GetLiveOrder(int customerID)
+        {
+            string query = "SELECT [order_id], order_state " +
+                           "FROM [Order] " +
+                           "WHERE customer_id = @customerID AND order_state IN (@Pending, @Preparing, @Prepared, @Ontheway);";
+
+            int orderID = -1;
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@customerID", customerID);
+                command.Parameters.AddWithValue("@Pending", OrderState.Pending);
+                command.Parameters.AddWithValue("@Preparing", OrderState.Preparing);
+                command.Parameters.AddWithValue("@Prepared", OrderState.Prepared);
+                command.Parameters.AddWithValue("@Ontheway", OrderState.OnTheWay);
+
+                connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                    if (reader.Read())
+                        orderID = (int)reader["order_id"];
+            }
+            return orderID;
+        }
         ///
         /// <summary>
         ///     Retrieves a list of orders associated with a specific customer.
@@ -479,7 +507,7 @@ namespace M4_Project.Models.Sales
         /// <returns>True if the state is a final state, otherwise false.</returns>
         public static bool IsFinalState(string state)
         {
-            return Collected == state || Delivered == state || Rejected == state;
+            return Collected == state || Delivered == state || Rejected == state || Unsuccessful == state;
         }
         /// <summary>
         ///     Checks if the given state is a valid state.
