@@ -414,7 +414,17 @@ namespace M4_Project.Models
             if (currentCustomer != null)
                 HttpContext.Current.Session["Customer"] = currentCustomer;
             else
-                HttpContext.Current.Response.Redirect("Profile");
+                HttpContext.Current.Response.Redirect("/Customer/Profile");
+
+            return currentCustomer;
+        }
+        public static Customer SetSession(string ReturnUrl)
+        {
+            Customer currentCustomer = Models.Customer.GetCustomer(HttpContext.Current.User.Identity.Name);
+            if (currentCustomer != null)
+                HttpContext.Current.Session["Customer"] = currentCustomer;
+            else
+                HttpContext.Current.Response.Redirect("/Customer/Profile?ReturnUrl="+ReturnUrl);
 
             return currentCustomer;
         }

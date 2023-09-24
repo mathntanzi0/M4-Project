@@ -53,17 +53,29 @@ namespace M4_Project.Models.BusinessRules
         /// <summary>
         ///     Set the minimum date a new event can take.
         /// </summary>
-        public static readonly DateTime MinEventDate = DateTime.Now.AddDays(3);
+        public static readonly DateTime MinEventDate = new DateTime(DateTime.Now.AddDays(5).Year, DateTime.Now.AddDays(5).Month, DateTime.Now.AddDays(5).Day);
+        ///
+        /// <summary>
+        ///     Set the maximum date a new event can take.
+        /// </summary>
+        public static readonly DateTime MaxEventDate = DateTime.Now.AddDays(365);
+        ///
+        /// <summary>
+        ///     Set the maximum number of events per day.
+        /// </summary>
+        public static readonly int MaxEvents = 2;
         ///
         /// <summary>
         ///     Set the maximum duration a event can have.
         /// </summary>
-        public static readonly TimeSpan MixEventDuration = new TimeSpan(4, 0, 0);
+        public static readonly TimeSpan MaxEventDuration = new TimeSpan(4, 0, 0);
         ///
         /// <summary>
         ///     Set the maximum quantity of each items that an event line can have.
         /// </summary>
         public static readonly int MixItemQuantity = 25;
+
+        public static readonly decimal BookingFee = 50;
     }
     public static class Address
     {

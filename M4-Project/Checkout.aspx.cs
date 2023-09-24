@@ -31,6 +31,9 @@ namespace M4_Project
                 TotalCost = CalculateTotalCost(reversedItemLines);
                 if (sale.SaleType == Models.Sales.SaleType.Order && (sale as Models.Sales.Order).OrderType == Models.Sales.OrderType.Delivery)
                     TotalCost += Models.BusinessRules.Delivery.DeliveryFee;
+                else
+                    TotalCost += Models.BusinessRules.Booking.BookingFee;
+                
             } 
             else
                 Response.Redirect("/Cart");
@@ -57,11 +60,11 @@ namespace M4_Project
         private void ProcessOrder(Models.Sales.Order order)
         {
             if (!Context.User.Identity.IsAuthenticated)
-                Response.Redirect("/Account/Login?ReturnUrl=%2FCheckout%2F");
+                Response.Redirect("/Account/Login?ReturnUrl=/Checkout");
             
             Models.Customer currentCustomer = Session["Customer"] as Models.Customer;
             if (currentCustomer == null)
-                currentCustomer = Models.Customer.SetSession();
+                currentCustomer = Models.Customer.SetSession("/Checkout");
 
             order.Customer = currentCustomer;
             order.PaymentDate = DateTime.Now;
@@ -91,7 +94,16 @@ namespace M4_Project
         }
         private void ProcessBooking(Models.Sales.Booking booking)
         {
+            if (!Context.User.Identity.IsAuthenticated)
+                Response.Redirect("/Account/Login?ReturnUrl=/Checkout");
 
+            Models.Customer currentCustomer = Session["Customer"] as Models.Customer;
+            if (currentCustomer == null)
+                currentCustomer = Models.Customer.SetSession("/Checkout");
+
+            booking.Customer = currentCustomer;
+            booking.PaymentDate = DateTime.Now;
+            booking.PaymentMethod = "Card";
         }
     }
 }

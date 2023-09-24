@@ -81,9 +81,12 @@ namespace M4_Project
             }
 
             Models.Customer currentCustomer = Session["Customer"] as Models.Customer;
-            if (currentCustomer == null && Context.User.Identity.IsAuthenticated)
+            if (currentCustomer == null && Page.Title != "Profile" && Page.Title != "Checkout" && Context.User.Identity.IsAuthenticated)
             {
-                Session["Customer"] = Models.Customer.SetSession();
+                if (Request.QueryString["ReturnUrl"] != null)
+                    Session["Customer"] = Models.Customer.SetSession(Request.QueryString["ReturnUrl"]);
+                else
+                    Session["Customer"] = Models.Customer.SetSession();
                 currentCustomer = Session["Customer"] as Models.Customer;
             }
 

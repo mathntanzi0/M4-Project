@@ -13,6 +13,9 @@ namespace M4_Project
         {
             if (!IsPostBack)
             {
+                
+                datePicker.Attributes["min"] = Models.BusinessRules.Booking.MinEventDate.ToString("yyyy-MM-dd");
+                datePicker.Attributes["max"] = Models.BusinessRules.Booking.MaxEventDate.ToString("yyyy-MM-dd");
                 if (HttpContext.Current.Request.Cookies["BookingInfo"] != null)
                 {
                     var bookingInfoCookie = HttpContext.Current.Request.Cookies["BookingInfo"];
@@ -49,7 +52,22 @@ namespace M4_Project
                 date = DateTime.Now.AddDays(1);
             if (TimeSpan.TryParse(ddlDuration.Value, out duration)) { }
             else
-                duration = TimeSpan.Zero;
+                duration = new TimeSpan(0, 30, 0);
+
+            if (string.IsNullOrEmpty(address))
+            {
+                string script = "alert('Please provide event address');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                return;
+            }
+
+
+            if (isDateUnavailable(date) || !Models.Sales.Booking.dateInRange(date))
+            {
+                string script = "alert('Selected date is unavailable.');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                return;
+            }
 
             Models.Sales.Booking booking;
 
@@ -77,6 +95,16 @@ namespace M4_Project
             HttpContext.Current.Response.Cookies.Add(bookingCookie);
 
             Response.Redirect("/Menu");
+        }
+        protected bool isDateUnavailable(DateTime selectedDate)
+        {
+            List<DateTime> unavailableDates = Models.Sales.Booking.UnavailableDates();
+            return (unavailableDates.Contains(selectedDate.Date));
+        }
+        protected string GetUnavailableDatesAsJavaScriptArray()
+        {
+            List<DateTime> unavailableDates = Models.Sales.Booking.UnavailableDates();
+            return "[" + string.Join(",", unavailableDates.Select(date => $"\"{date.ToString("yyyy-MM-dd")}\"")) + "]";
         }
 
     }

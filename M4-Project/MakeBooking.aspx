@@ -19,7 +19,7 @@
             </div>
             <div class="input_field">
                 <label>Date</label>
-                <input class="field" type="date" min="2023-08-01" max="2023-12-31" runat="server" ID="datePicker" />
+                <input class="field" type="date" runat="server" ID="datePicker"/>
             </div>
             <div class="input_field">
                 <label>Duration</label>
@@ -37,4 +37,16 @@
             </div>
 		</div>
 		<button class="next_btn" id="btnAddToCart" runat="server" type="submit" OnServerClick="btnNext_Click">Next</button>
+
+    <script type="text/javascript">
+        document.getElementById('<%= datePicker.ClientID %>').addEventListener('change', function () {
+            var selectedDate = new Date(this.value);
+            var unavailableDates = <%= GetUnavailableDatesAsJavaScriptArray() %>;
+
+                if (unavailableDates.includes(selectedDate.toISOString().split('T')[0])) {
+                    alert('Selected date is unavailable.');
+                this.value = '';
+            }
+        });
+    </script>
 </asp:Content>

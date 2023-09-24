@@ -42,7 +42,7 @@
 						</div>
 						<div class="item_action_wrapper">
 							<a href="/MenuItem?item=<%# Eval("ItemID") %>">EDIT</a>
-							<a class="right_text" onclick="removeItemInCart(<%# Eval("ItemID") %>)">REMOVE ITEM</a>
+							<a style="cursor:pointer" class="right_text" onclick="removeItemInCart(<%# Eval("ItemID") %>)">REMOVE ITEM</a>
 						</div>
 					</div>
 				</ItemTemplate>
@@ -66,11 +66,11 @@
 					<p class="right_text">R <%= TotalCost %></p>
 					<br>
 					<p>Booking Fee</p>
-					<p class="right_text">R <%= (TotalCost * 0.2M).ToString("N2") %></p>
+					<p class="right_text">R <%= M4_Project.Models.BusinessRules.Booking.BookingFee.ToString("N2") %></p>
 					<br>
 					<br>
 					<h2>Event Total Cost</h2>
-					<h2 id="totalCostHolder" class="right_text">R <%= (TotalCost * 1.2M).ToString("N2") %></h2>
+					<h2 id="totalCostHolder" class="right_text">R <%= (TotalCost + M4_Project.Models.BusinessRules.Booking.BookingFee).ToString("N2") %></h2>
 				</div>
 			<% }
             else

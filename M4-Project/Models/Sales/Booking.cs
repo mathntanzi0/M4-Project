@@ -344,6 +344,52 @@ namespace M4_Project.Models.Sales
                 HttpContext.Current.Session["sale"] = sale;
             }
         }
+        /// <summary>
+        ///     Retrieves a list of dates that are unavailable due to the maximum number of events booked per day being exceeded.
+        /// </summary>
+        /// <returns>A list of DateTime objects representing unavailable dates.</returns>
+        public static List<DateTime> UnavailableDates()
+        {
+            List<DateTime> unavailableDates = new List<DateTime>();
+            string query = "SELECT year, month, day " +
+                           "FROM ( " +
+                           "    SELECT COUNT(booking_id) as count, YEAR([Event Booking].event_date) as year, MONTH([Event Booking].event_date) as month, DAY([Event Booking].event_date) as day " +
+                           "    FROM [Event Booking] " +
+                           "    GROUP BY YEAR([Event Booking].event_date), MONTH([Event Booking].event_date), DAY([Event Booking].event_date) " +
+                           "    HAVING COUNT(booking_id) > @maxPerDay " +
+                           ") AS subquery ";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@maxPerDay", (BusinessRules.Booking.MaxEvents - 1));
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int year = reader.GetInt32(0);
+                            int month = reader.GetInt32(1);
+                            int day = reader.GetInt32(2);
+                            unavailableDates.Add(new DateTime(year, month, day));
+                        }
+                    }
+                }
+            }
+            return unavailableDates;
+        }
+        /// <summary>
+        ///     Checks if a given DateTime falls within a specified date range defined by minimum and maximum dates.
+        /// </summary>
+        /// <param name="date">The DateTime value to be checked.</param>
+        /// <returns>
+        ///   <c>true</c> if the provided date falls within the defined date range; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool dateInRange(DateTime date)
+        {
+            return (date >= BusinessRules.Booking.MinEventDate) && (date <= BusinessRules.Booking.MaxEventDate);
+        }
         ///
         /// <summary>
         ///     Returns a list of event bookings using staff member's identification number.

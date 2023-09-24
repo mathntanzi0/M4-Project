@@ -27,6 +27,10 @@ namespace M4_Project
                 Session["liveOrder"] = null;
                 Response.Redirect("/");
             }
+
+            if (Models.Sales.OrderState.IsFinalState(order.OrderStatus))
+                Session["liveOrder"] = null;
+            
         }
 
         [WebMethod]
@@ -38,8 +42,12 @@ namespace M4_Project
         }
         public static bool[] GetCardActivation()
         {
+            if (HttpContext.Current.Session["liveOrder"] == null)
+                return null;
             int orderID = (int)HttpContext.Current.Session["liveOrder"];
             Models.Sales.Order order = Models.Sales.Order.GetOrder(orderID);
+            if (Models.Sales.OrderState.IsFinalState(order.OrderStatus))
+                HttpContext.Current.Session["liveOrder"] = null;
             if (order == null)
                 return null;
 

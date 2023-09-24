@@ -43,7 +43,7 @@
                 {%>
 			<div class="summary_line_wrapper">
 				<label>TIP: (R) </label>
-				<asp:TextBox ID="tip_input" runat="server" AutoPostBack="true"></asp:TextBox>
+				<asp:TextBox ID="tip_input" runat="server"></asp:TextBox>
 			</div>
 			<% } %>
 
@@ -66,6 +66,9 @@
                 else if (sale.SaleType == M4_Project.Models.Sales.SaleType.EventBooking)
                 { %>
 				<div class="summary_line_wrapper">
+					<label>Booking Fee: R <%= M4_Project.Models.BusinessRules.Booking.BookingFee.ToString("N2") %></label>
+				</div>
+				<div class="summary_line_wrapper">
 					<label>Address: <%= ((M4_Project.Models.Sales.Booking)sale).EventAddress %></label>
 				</div>
 				<div class="summary_line_wrapper">
@@ -75,7 +78,7 @@
 					<label>Date: <%= ((M4_Project.Models.Sales.Booking)sale).EventDate.ToString("dd MMMM yyyy")%></label>
 				</div>
 				<div class="summary_line_wrapper">
-					<label>Decor: <%= ((M4_Project.Models.Sales.Booking)sale).EventDuration.ToString(@"hh\:mm")%></label>
+					<label>Duration: <%= ((M4_Project.Models.Sales.Booking)sale).EventDuration.ToString(@"hh\:mm")%></label>
 				</div>
 				<div class="summary_line_wrapper">
 					<label><a href="/MakeBooking">Update booking details</a></label>
