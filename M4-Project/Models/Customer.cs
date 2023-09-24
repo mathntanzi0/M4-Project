@@ -218,18 +218,17 @@ namespace M4_Project.Models
         /// <param name="newPoints"></param>
         public void UpdateLoyaltyPoints(int newPoints)
         {
-            string query = "UPDATE Customer SET loyalty_points = @NewPoints WHERE customer_id = @CustomerID";
+            string query = "UPDATE Customer SET loyalty_points += @NewPoints WHERE customer_id = @CustomerID";
 
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
 
-                command.Parameters.AddWithValue("@NewPoints", newPoints); // Bind the new last name as a parameter to prevent SQL injection
+                command.Parameters.AddWithValue("@NewPoints", newPoints);
                 command.Parameters.AddWithValue("@CustomerID", customerID);
 
                 connection.Open();
                 command.ExecuteNonQuery();
-
             }
         }
         /// <summary>

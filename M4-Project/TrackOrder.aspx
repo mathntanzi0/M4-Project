@@ -38,6 +38,9 @@
 				</div>
 			</div>
 		</div>
+
+		<% if (order.OrderType == M4_Project.Models.Sales.OrderType.Delivery)
+            { %>
 		<div>
 			<div id="" class="order_progress_line order_progress_line_button">
 				<div class="image_wrapper">
@@ -59,7 +62,7 @@
 					<br>
 					<p>Driver on their way.</p>
 				</div>
-				<a>Track</a>
+				<a  href="TrackDriver">Track</a>
 			</div>
 		</div>
 		<div>
@@ -83,6 +86,33 @@
 				</div>
 			</div>
 		</div>
+		<% }
+            else
+            { %>
+
+		<div>
+			<div class="order_progress_line">
+				<div class="image_wrapper">
+					<svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<g clip-path="url(#clip0_1313_1604)">
+					<path d="M8 76H88L80 84H16L8 76ZM20 24H24V28H20V24ZM20 16H24V20H20V16ZM36 16V20H28V16H36ZM36 28H28V24H36V28ZM24 60.92C22.56 61.36 21.24 62.04 20 62.8V32H24V60.92ZM16 66.08C14.48 67.84 13.28 69.8 12.64 72H79.92C79.96 71.36 80.04 70.68 80.04 70C80.04 57.84 70.2 48 58.04 48C48.88 48 41.04 53.6 37.72 61.6C35.36 60.6 32.76 60 30 60C29.32 60 28.68 60.08 28 60.16V32H36C40.12 32.24 43.6 28.16 44 24H84V20H44C43.6 15.8 40.12 12.12 36 12H12V16H16V20H12V24H16V28H12V32H16V66.08Z" fill="#404040"/>
+					</g>
+					<defs>
+					<clipPath id="clip0_1313_1604">
+					<rect width="96" height="96" fill="white"/>
+					</clipPath>
+					</defs>
+					</svg>
+				</div>
+				<div class="status_details">
+					<h2>Status: Collected</h2>
+					<br>
+					<p>Order collected, Enjoy.</p>
+				</div>
+			</div>
+		</div>
+
+		<% } %>
 	</div>
 </asp:Content>
 

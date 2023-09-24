@@ -80,8 +80,9 @@ namespace M4_Project
                 order.Delivery.OrderID = order.OrderID;
                 order.Delivery.SaveDelivery();
             }
-
+            currentCustomer.UpdateLoyaltyPoints((int) Math.Floor(order.PaymentAmount * Models.BusinessRules.Sale.LoyaltyPointsRatio));
             HttpContext.Current.Session["sale"] = null;
+            HttpContext.Current.Session["liveOrder"] = order.OrderID;
             HttpCookie cartCookie = new HttpCookie(Models.Sales.CartItem.OrderCart);
             cartCookie.Expires = DateTime.Now.AddDays(-1);
             HttpContext.Current.Response.Cookies.Add(cartCookie);

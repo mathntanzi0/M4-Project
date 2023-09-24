@@ -105,9 +105,9 @@ namespace M4_Project.Models.Sales
         private void RecordOrderOnline()
         {
             string query = "INSERT INTO [Order] " +
-                           "([customer_id], [order_type], [order_state], [payment_date], [payment_amount], [payment_method], [tip_amount]) " +
+                           "([customer_id], [order_type], [order_state], [payment_date], [payment_amount], [payment_method], [tip_amount], [staff_id]) " +
                            "VALUES " +
-                           "(@customer_id, @order_type, @order_state, @payment_date, @payment_amount, @payment_method, @tip_amount);" +
+                           "(@customer_id, @order_type, @order_state, @payment_date, @payment_amount, @payment_method, @tip_amount, -1);" +
                            "SELECT SCOPE_IDENTITY() AS order_id;";
 
             using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
@@ -116,7 +116,7 @@ namespace M4_Project.Models.Sales
                 {
                     command.Parameters.AddWithValue("@customer_id", customer.CustomerID);
                     command.Parameters.AddWithValue("@order_type", OrderType);
-                    command.Parameters.AddWithValue("@order_state", OrderState.Preparing);
+                    command.Parameters.AddWithValue("@order_state", OrderState.Pending);
                     command.Parameters.AddWithValue("@payment_amount", PaymentAmount);
                     command.Parameters.AddWithValue("@payment_method", PaymentMethod);
                     command.Parameters.AddWithValue("@payment_date", PaymentDate);

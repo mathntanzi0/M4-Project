@@ -39,6 +39,10 @@ namespace M4_Project.Models.BusinessRules
         /// </summary>
         public static readonly int InstructionCharLimit = 256;
     }
+    public static class Sale
+    {
+        public static decimal LoyaltyPointsRatio = 0.1M;
+    }
     ///
     /// <summary>
     ///     The rules set limits for certain attributes of Booking.

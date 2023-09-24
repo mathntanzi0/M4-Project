@@ -12,6 +12,7 @@ namespace M4_Project
     public partial class TrackOrder : System.Web.UI.Page
     {
         protected int orderID;
+        protected Models.Sales.Order order;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["liveOrder"] == null)
@@ -20,6 +21,12 @@ namespace M4_Project
             if (!int.TryParse(Session["liveOrder"].ToString(), out orderID))
                 Response.Redirect("/");
 
+            order = Models.Sales.Order.GetOrder(orderID);
+            if (order == null)
+            {
+                Session["liveOrder"] = null;
+                Response.Redirect("/");
+            }
         }
 
         [WebMethod]
@@ -33,6 +40,8 @@ namespace M4_Project
         {
             int orderID = (int)HttpContext.Current.Session["liveOrder"];
             Models.Sales.Order order = Models.Sales.Order.GetOrder(orderID);
+            if (order == null)
+                return null;
 
             bool[] activation = { false, false, false, false };
             int activationEnd;
