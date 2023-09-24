@@ -249,6 +249,7 @@
     <Content Include="MakeBooking.aspx" />
     <Content Include="Menu.aspx" />
     <Content Include="MenuItem.aspx" />
+    <Content Include="OrderPending.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -568,6 +569,13 @@
     <Compile Include="Models\Sales\SaleType.cs" />
     <Compile Include="Models\StaffLoginSession.cs" />
     <Compile Include="Models\StaffMember.cs" />
+    <Compile Include="OrderPending.aspx.cs">
+      <DependentUpon>OrderPending.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OrderPending.aspx.designer.cs">
+      <DependentUpon>OrderPending.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectAddress.aspx.cs">
       <DependentUpon>SelectAddress.aspx</DependentUpon>

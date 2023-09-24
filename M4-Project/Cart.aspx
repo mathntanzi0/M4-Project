@@ -154,7 +154,7 @@
                 }
             });
 		}
-        var selectCategory = document.getElementById('select_category');
+        var selectCategory = document.getElementById('<%= select_category.ClientID%>');
         var deliveryFee = document.getElementById('deliveryFee');
 		var deliveryFeeLabel = document.getElementById('deliveryFeeLabel');
         let totalCost = <%= (TotalCost + 50) %>;

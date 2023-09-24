@@ -35,7 +35,7 @@ namespace M4_Project.Models.Sales
         /// <summary>
         ///     Initializes a new instance of the M4_System.Models.Sales.Order class.
         /// </summary>
-        public Order(int orderID, Customer customer, string orderType, string orderStatus, int staffID)
+        public Order(int orderID, Customer customer, string orderType, string orderStatus)
         {
             this.orderID = orderID;
             this.customer = customer;
@@ -214,8 +214,7 @@ namespace M4_Project.Models.Sales
                             (int)reader["order_id"],
                             Customer.GetCustomer((int)reader["customer_id"]),
                             reader["order_type"].ToString(),
-                            reader["order_state"].ToString(),
-                            (int)reader["staff_id"]
+                            reader["order_state"].ToString()
                         );
                         order.PaymentDate = (DateTime) reader["payment_date"];
                         order.PaymentAmount = (decimal) reader["payment_amount"];

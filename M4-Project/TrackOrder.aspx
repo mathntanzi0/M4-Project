@@ -6,7 +6,7 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="secondary_header">
-		<h1>Order #323</h1>
+		<h1>Order #<%= orderID %></h1>
 	</div>
 	<div class="order_progress_wrapper">
 		<div class="status_bar"></div>
@@ -59,7 +59,7 @@
 					<br>
 					<p>Driver on their way.</p>
 				</div>
-				<button>Track</button>
+				<a>Track</a>
 			</div>
 		</div>
 		<div>
@@ -88,7 +88,42 @@
 
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentScripts" runat="server">
 	<script>
-		var activation = [true, false, false, false];
 
-	</script>
+		let activation = [true, true, false, false];
+        var state_cards = document.getElementsByClassName("order_progress_line");
+
+		getActivation();
+
+        function getActivation() {
+            $.ajax({
+                type: "POST",
+                url: "TrackOrder.aspx/GetActivation",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+					activation = response.d; // Set the activation array from the server response
+                    setCards();
+                    console.log("Activation values retrieved successfully.");
+                    console.log(activation); // You can now use the activation array in your code
+                },
+                error: function (error) {
+                    console.error("Error retrieving activation values: " + error.responseText);
+                }
+            });
+		}
+
+		function setCards() {
+			for (var i = 0; i < state_cards.length; i++) {
+				if (activation[i]) {
+                    console.log("Here");
+
+					state_cards[i].classList.add("in_progress");
+				}
+				else
+					state_cards[i].classList.remove("in_progress");
+			}
+        }
+        setInterval(getActivation, 10000);
+
+    </script>
 </asp:Content>

@@ -18,22 +18,26 @@
 .order_progress_line .status_details p{
 	margin-top: auto;
 }
-.order_progress_line_button{
-	
-}
-.order_progress_line_button button{
+.order_progress_line_button a{
 	margin-left: auto;
 	margin-top: auto;
 	background-color: var(--secondary-primary);
 	box-shadow: unset;
+	padding: 0.350rem 2rem;
+	border-radius: 0.5rem;
 }
-@media (max-width: 380px){
-	.order_progress_line{
+@media (max-width: 380px) {
+	.order_progress_line {
 		display: block;
 		padding: 1.175rem 0;
 	}
-	.order_progress_line .image_wrapper img{
+
+	.order_progress_line .image_wrapper svg {
 		margin: 0 1rem;
+	}
+
+	.order_progress_line_button a {
+		margin-left: 1rem;
 	}
 }
 .order_progress_wrapper {
@@ -46,8 +50,8 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent white background */
-    backdrop-filter: blur(10px); /* Apply a background blur */
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
     border-radius: 10px;
 }
 .in_progress{

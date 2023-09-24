@@ -92,13 +92,14 @@ namespace M4_Project
                 if (Session["liveOrder"] == null)
                 {
                     int orderID = Models.Sales.Order.GetLiveOrder(currentCustomer.CustomerID);
-                    Session["liveOrder"] = orderID;
-                    liveOrder = true;
+                    if (orderID > 0)
+                    {
+                        Session["liveOrder"] = orderID;
+                        liveOrder = true;
+                    }
                 } else
                     liveOrder = true;
             }
-
-
         }
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
