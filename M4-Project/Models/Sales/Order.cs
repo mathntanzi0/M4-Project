@@ -12,7 +12,7 @@ namespace M4_Project.Models.Sales
     /// <summary>
     ///     Represents an order.
     /// </summary>
-    public class Order:Sale
+    public class Order : Sale
     {
         private int orderID;
         private Customer customer;
@@ -216,10 +216,10 @@ namespace M4_Project.Models.Sales
                             reader["order_type"].ToString(),
                             reader["order_state"].ToString()
                         );
-                        order.PaymentDate = (DateTime) reader["payment_date"];
-                        order.PaymentAmount = (decimal) reader["payment_amount"];
+                        order.PaymentDate = (DateTime)reader["payment_date"];
+                        order.PaymentAmount = (decimal)reader["payment_amount"];
                         order.PaymentMethod = reader["payment_amount"].ToString();
-                        order.Tip = (decimal) reader["tip_amount"];
+                        order.Tip = (decimal)reader["tip_amount"];
                         order.ItemLines = GetOrderLines(orderID);
                         return order;
                     }
@@ -284,8 +284,8 @@ namespace M4_Project.Models.Sales
                             Customer.GetCustomer((int)reader["customer_id"]),
                             reader["order_type"].ToString(),
                             reader["order_state"].ToString(),
-                            (DateTime) reader["payment_date"],
-                            (decimal) reader["payment_amount"]);
+                            (DateTime)reader["payment_date"],
+                            (decimal)reader["payment_amount"]);
 
                         orders.Add(order);
                     }
@@ -384,7 +384,7 @@ namespace M4_Project.Models.Sales
                     {
                         Order order = new Order(
                             (int)reader["order_id"],
-                            new Customer((string) reader["first_name"], (string) reader["last_name"]),
+                            new Customer((string)reader["first_name"], (string)reader["last_name"]),
                             reader["order_type"].ToString(),
                             reader["order_state"].ToString(),
                             (DateTime)reader["payment_date"],
@@ -396,6 +396,88 @@ namespace M4_Project.Models.Sales
             }
             return orders;
         }
+        public static List<Order> GetPendingOrders()
+        {
+            List<Order> pendingOrders = new List<Order>();
+            string query = "SELECT [Customer].first_name, [Customer].last_name, order_id, order_type, order_state, payment_date, payment_amount " +
+                            "FROM [Customer], [Order] " +
+                            "WHERE [Customer].customer_id = [Order].customer_id AND order_state = @status " +
+                            "ORDER BY [Order].payment_date DESC, [Order].order_id DESC;";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@status", OrderState.Pending);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            int orderID = (int)reader["order_id"];
+                            string firstName = (string)reader["first_name"];
+                            string lastName = (string)reader["last_name"];
+                            string orderType = (string)reader["order_type"];
+                            string orderStatus = (string)reader["order_state"];
+                            DateTime paymentDate = (DateTime)reader["payment_date"];
+                            decimal paymentAmount = (decimal)reader["payment_amount"];
+
+                            Customer customer = new Customer(firstName, lastName);
+
+                            Order order = new Order(orderID, customer, orderType, orderStatus, paymentDate, paymentAmount);
+                            pendingOrders.Add(order);
+                        }
+                    }
+                }
+            }
+
+            return pendingOrders;
+        }
+
+        public static List<Order> GetLiveOrders()
+        {
+            List<Order> liveOrders = new List<Order>();
+            string query = "SELECT " +
+                "ISNULL([Customer].first_name, 'Null') AS first_name, " +
+                "ISNULL([Customer].last_name, 'Null') AS last_name, " +
+                "[Order].order_id, " +
+                "[Order].order_type, " +
+                "[Order].order_state, " +
+                "[Order].payment_date, " +
+                "[Order].payment_amount " +
+                "FROM [Order] " +
+                "LEFT JOIN [Customer] ON [Order].customer_id = [Customer].customer_id " +
+                "WHERE [Order].order_state IN ('Preparing', 'Prepared', 'On the way') " +
+                "ORDER BY [Order].payment_date DESC, [Order].order_id DESC; ";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string firstName = reader["first_name"].ToString();
+                        string lastName = reader["last_name"].ToString();
+                        int orderID = Convert.ToInt32(reader["order_id"]);
+                        string orderType = reader["order_type"].ToString();
+                        string orderState = reader["order_state"].ToString();
+                        DateTime paymentDate = Convert.ToDateTime(reader["payment_date"]);
+                        decimal paymentAmount = Convert.ToDecimal(reader["payment_amount"]);
+
+                        
+                        Customer customer = (firstName == "Null" && lastName == "Null") ? null : new Customer(firstName, lastName);
+                        Order order = new Order(orderID, customer, orderType, orderState, paymentDate, paymentAmount);
+                        liveOrders.Add(order);
+                    }
+                }
+            }
+            return liveOrders;
+        }
+
         ///
         /// <summary>
         ///     Synchronizes the order cart in the session with the cart stored in a browser cookie.
@@ -435,6 +517,7 @@ namespace M4_Project.Models.Sales
         }
         public int OrderID { get => orderID; set => orderID = value; }
         public Customer Customer { get => customer; set => customer = value; }
+        public string CustomerName { get => (customer != null) ? customer.FirstName + " " + customer.LastName : "none"; }
         public string OrderType { get => orderType; set => orderType = value; }
         public string OrderStatus { get => orderStatus; set => orderStatus = value; }
         public int StaffID { get => staffID; set => staffID = value; }

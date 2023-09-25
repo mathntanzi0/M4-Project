@@ -71,7 +71,7 @@
 					<li><a class="outer_a" href="#">Orders</a>
 						<ul>
 							<li><a href="/Admin/Menu">Orders</a></li>
-							<li><a href="/Admin/Menu">Live Orders</a></li>
+							<li><a href="/Admin/LiveOrders">Live Orders</a></li>
 							<li><a href="/Admin/Deliveries">Deliveries</a></li>
 						</ul>
 					</li>

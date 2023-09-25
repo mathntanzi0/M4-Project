@@ -60,7 +60,7 @@ table {
 }
 
 table td, table th {
-  border-bottom: 1px #dadada solid;
+  border-bottom: 1px #aaa solid;
   width: 20%;
   padding: 2rem;
   text-align: center;
@@ -95,7 +95,7 @@ table .column_with_image .column_left_image{
 }
 
 table th {
-  background-color: #00000008;
+	background-color: #00000020;
 }
 .role_label{
   font-size: 1.350rem;
