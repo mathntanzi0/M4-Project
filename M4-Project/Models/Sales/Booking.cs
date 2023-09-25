@@ -77,8 +77,9 @@ namespace M4_Project.Models.Sales
             if (ItemLines.Count < BusinessRules.ItemLine.MinMenuItems || customer.CustomerID < 1)
                 return;
 
-            string query = "INSERT INTO [Event Booking] ([customer_id], [event_date], [event_duration], [event_setting], [event_address], [payment_amount], [payment_method], [payment_date], [status]) VALUES (@customer_id, @event_date, @event_duration, @event_setting, @event_address, @payment_amount, @payment_method, @payment_date, @status);" +
-                "SELECT SCOPE_IDENTITY() AS booking_id;";
+            string query = "INSERT INTO [Event Booking] ([customer_id], [event_date], [event_duration], [event_setting], [event_address], [payment_amount], [payment_method], [payment_date], [status]) " +
+                           "VALUES (@customer_id, @event_date, @event_duration, @event_setting, @event_address, @payment_amount, @payment_method, @payment_date, @status);" +
+                           "SELECT CAST(SCOPE_IDENTITY() AS INT) AS booking_id;";
 
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
             {
@@ -88,18 +89,27 @@ namespace M4_Project.Models.Sales
                 command.Parameters.AddWithValue("@event_duration", EventDuration);
                 command.Parameters.AddWithValue("@event_setting", EventDecorDescription);
                 command.Parameters.AddWithValue("@event_address", EventAddress);
+                command.Parameters.AddWithValue("@payment_amount", PaymentAmount);
                 command.Parameters.AddWithValue("@payment_method", PaymentMethod);
                 command.Parameters.AddWithValue("@payment_date", PaymentDate);
-                command.Parameters.AddWithValue("@status", "Pending");
+                command.Parameters.AddWithValue("@status", BookingState.Pending);
                 connection.Open();
 
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                DataRow row = dt.Rows[0];
-                this.bookingID = (int) row["booking_id"];
+                this.bookingID = (int)command.ExecuteScalar();
             }
             RecordEventLine();
+        }
+        /// <summary>
+        ///     Checks if a given event date falls on an unavailable date.
+        /// </summary>
+        /// <param name="eventDate">The DateTime representing the event date to be checked.</param>
+        /// <returns>
+        ///   <c>true</c> if the provided event date falls on an unavailable date; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool isDateUnavailable(DateTime eventDate)
+        {
+            List<DateTime> unavailableDates = UnavailableDates();
+            return (unavailableDates.Contains(eventDate.Date));
         }
         ///
         /// <summary>
@@ -107,11 +117,13 @@ namespace M4_Project.Models.Sales
         /// </summary>
         private void RecordEventLine()
         {
-            foreach (ItemLine itemLine in ItemLines)
-            {
-                string query = "INSERT INTO [Event Line] ([item_id], [booking_id], [item_quantity], [sub_cost], [instructions]) VALUES (@item_id, @booking_id, @item_quantity, @sub_cost, @instructions);";
+            string query = "INSERT INTO [Event Line] ([item_id], [booking_id], [item_quantity], [sub_cost], [instructions]) VALUES (@item_id, @booking_id, @item_quantity, @sub_cost, @instructions);";
 
-                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                connection.Open();
+
+                foreach (ItemLine itemLine in ItemLines)
                 {
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@item_id", itemLine.ItemID);
@@ -119,11 +131,8 @@ namespace M4_Project.Models.Sales
                     command.Parameters.AddWithValue("@item_quantity", itemLine.ItemQuantity);
                     command.Parameters.AddWithValue("@sub_cost", itemLine.TotalSubCost);
                     command.Parameters.AddWithValue("@instructions", itemLine.Instructions);
-                    connection.Open();
 
-                    SqlDataAdapter adapter = new SqlDataAdapter(command);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
+                    command.ExecuteNonQuery();
                 }
             }
         }

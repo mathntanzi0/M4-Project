@@ -36,6 +36,8 @@ namespace M4_Project
                     txtDecorDescription.Value = decorDescription;
                     datePicker.Value = date.ToString("yyyy-MM-dd");
                     ddlDuration.Value = duration.ToString(@"hh\:mm");
+                    ddlTimeHour.Value = date.Hour.ToString();
+                    ddlTimeMin.Value = date.Minute.ToString();
                 }
             }
         }
@@ -46,13 +48,35 @@ namespace M4_Project
             string decorDescription = txtDecorDescription.Value;
             DateTime date;
             TimeSpan duration;
+            int hour;
+            int minutes;
 
-            if (DateTime.TryParse(datePicker.Value, out date)) { }
-            else
-                date = DateTime.Now.AddDays(1);
-            if (TimeSpan.TryParse(ddlDuration.Value, out duration)) { }
-            else
-                duration = new TimeSpan(0, 30, 0);
+            if (!DateTime.TryParse(datePicker.Value, out date)) 
+            {
+                string script = "alert('Please choose a valid date');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                return;
+            }
+
+            if (!TimeSpan.TryParse(ddlDuration.Value, out duration)) 
+            {
+                string script = "alert('Please choose a valid duration');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                return;
+            }
+
+            if (!int.TryParse(ddlTimeHour.Value, out hour) && !(hour > 5 && hour < 20))
+            {
+                string script = "alert('Please choose a valid time');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                return;
+            }
+            if (!int.TryParse(ddlTimeMin.Value, out minutes))
+            {
+                string script = "alert('Please choose a valid time');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                return;
+            }
 
             if (string.IsNullOrEmpty(address))
             {
@@ -62,12 +86,13 @@ namespace M4_Project
             }
 
 
-            if (isDateUnavailable(date) || !Models.Sales.Booking.dateInRange(date))
+            if (Models.Sales.Booking.isDateUnavailable(date) || !Models.Sales.Booking.dateInRange(date))
             {
                 string script = "alert('Selected date is unavailable.');";
                 ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
                 return;
             }
+            date = new DateTime(date.Year, date.Month, date.Day, hour, minutes, 0);
 
             Models.Sales.Booking booking;
 
@@ -88,18 +113,16 @@ namespace M4_Project
             HttpCookie bookingCookie = new HttpCookie("BookingInfo");
             bookingCookie.Values["Address"] = address;
             bookingCookie.Values["DecorDescription"] = decorDescription;
-            bookingCookie.Values["Date"] = date.ToString("yyyy-MM-dd");
+            bookingCookie.Values["Date"] = date.ToString("yyyy-MM-ddTHH:mm:ss");
             bookingCookie.Values["Duration"] = duration.ToString();
             bookingCookie.Expires = DateTime.Now.AddDays(1);
 
             HttpContext.Current.Response.Cookies.Add(bookingCookie);
 
-            Response.Redirect("/Menu");
-        }
-        protected bool isDateUnavailable(DateTime selectedDate)
-        {
-            List<DateTime> unavailableDates = Models.Sales.Booking.UnavailableDates();
-            return (unavailableDates.Contains(selectedDate.Date));
+            if (Request.QueryString["ReturnUrl"] != null)
+                Response.Redirect(Request.QueryString["ReturnUrl"]);
+            else
+                Response.Redirect("/Menu");
         }
         protected string GetUnavailableDatesAsJavaScriptArray()
         {

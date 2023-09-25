@@ -78,10 +78,13 @@
 					<label>Date: <%= ((M4_Project.Models.Sales.Booking)sale).EventDate.ToString("dd MMMM yyyy")%></label>
 				</div>
 				<div class="summary_line_wrapper">
+					<label>Time: <%= ((M4_Project.Models.Sales.Booking)sale).EventDate.ToString("hh:mm")%></label>
+				</div>
+				<div class="summary_line_wrapper">
 					<label>Duration: <%= ((M4_Project.Models.Sales.Booking)sale).EventDuration.ToString(@"hh\:mm")%></label>
 				</div>
 				<div class="summary_line_wrapper">
-					<label><a href="/MakeBooking">Update booking details</a></label>
+					<label><a href="/MakeBooking?ReturnUrl=/Checkout">Update booking details</a></label>
 				</div>
 			<% } %>
 			<br>

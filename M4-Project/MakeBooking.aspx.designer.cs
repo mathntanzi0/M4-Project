@@ -51,6 +51,24 @@ namespace M4_Project
         protected global::System.Web.UI.HtmlControls.HtmlSelect ddlDuration;
 
         /// <summary>
+        /// ddlTimeHour control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlSelect ddlTimeHour;
+
+        /// <summary>
+        /// ddlTimeMin control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlSelect ddlTimeMin;
+
+        /// <summary>
         /// btnAddToCart control.
         /// </summary>
         /// <remarks>

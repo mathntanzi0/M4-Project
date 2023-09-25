@@ -101,9 +101,37 @@ namespace M4_Project
             if (currentCustomer == null)
                 currentCustomer = Models.Customer.SetSession("/Checkout");
 
+            if (string.IsNullOrEmpty(booking.EventAddress))
+            {
+                string script = "alert('Please provide event address');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                return;
+            }
+
+
+            if (Models.Sales.Booking.isDateUnavailable(booking.EventDate) || !Models.Sales.Booking.dateInRange(booking.EventDate))
+            {
+                string script = "alert('Selected date is unavailable.');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                return;
+            }
+
             booking.Customer = currentCustomer;
             booking.PaymentDate = DateTime.Now;
             booking.PaymentMethod = "Card";
+            booking.PaymentAmount = TotalCost;
+
+
+
+            booking.RecordSell();
+            currentCustomer.UpdateLoyaltyPoints((int)Math.Floor(booking.PaymentAmount * Models.BusinessRules.Sale.LoyaltyPointsRatio));
+            HttpContext.Current.Session["sale"] = null;
+            HttpCookie cartCookie = new HttpCookie(Models.Sales.CartItem.BookingCart);
+            cartCookie.Expires = DateTime.Now.AddDays(-1);
+            HttpContext.Current.Response.Cookies.Add(cartCookie);
+
+            Response.Redirect("/Customer/Bookings");
+
         }
     }
 }
