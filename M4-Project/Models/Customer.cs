@@ -115,7 +115,6 @@ namespace M4_Project.Models
         /// <summary>
         /// Update FirstName Method
         /// </summary>
-
         public void UpdateFirstName(string newName)
         {
             string query = "UPDATE Customer SET first_name = @NewName WHERE customer_id = @CustomerID";
@@ -135,7 +134,6 @@ namespace M4_Project.Models
         /// <summary>
         /// Update Last Name
         /// </summary>
-
         public void UpdateLastName(string newName)
         {
             string query = "UPDATE Customer SET last_name = @NewName WHERE customer_id = @CustomerID";
@@ -155,7 +153,6 @@ namespace M4_Project.Models
         /// <summary>
         /// Update Email Address
         /// </summary>
-        
         public void UpdateEmailAdress(string newMail)
         {
             string query = "UPDATE Customer SET email_adress = @NewMail WHERE customer_id = @CustomerID";
@@ -175,7 +172,6 @@ namespace M4_Project.Models
         /// <summary>
         /// Update Phone Number
         /// </summary>
-
         public void UpdatePhoneNumber(string newPhone)
         {
             string query = "UPDATE Customer SET phone_number = @NewPhone WHERE customer_id = @CustomerID";
@@ -195,7 +191,6 @@ namespace M4_Project.Models
         /// <summary>
         /// Update Physical Address
         /// </summary>
-        
         public void UpdatePhysicalAdress(string newAddress)
         {
             string query = "UPDATE Customer SET physical_address = @NewAddress WHERE customer_id = @CustomerID";
