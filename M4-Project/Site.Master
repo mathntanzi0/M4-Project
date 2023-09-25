@@ -77,12 +77,20 @@
 				</div>
 
 				<div class= "navigation">
-					<a href="/"><li>Home</li></a>
-					<a href="/Booking"><li>Bookings</li></a>
-					<a href="/Menu"><li>Menu</li></a>
-					<a href="/About"><li>About</li></a>
-					<a href="/Contact"><li>Contact</li></a>
+					<ul>
+						<li><a class="outer_a" href="/">Home</a></li>
+						<li><a class="outer_a" href="#">Bookings</a>
+							<ul>
+								<li><a href="/Booking">Booking</a></li>
+								<li><a href="/MakeBooking">Make Booking</a></li>
+							</ul>
+						</li>
+						<li><a class="outer_a" href="/Menu">Menu</a></li>
+						<li><a class="outer_a" href="/About">About</a></li>
+						<li><a class="outer_a" href="/Contact">Contact</a></li>
+					</ul>
 				</div>
+
 			</div>
 		</div>
 		<div id="slide_menu" class="slide_navigation">

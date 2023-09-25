@@ -1,0 +1,125 @@
+.secondary_header{
+	width: 100%;
+	display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 24px 0;
+  margin-top: 104px;
+}
+.secondary_header div{
+	margin-right: 16px;
+	margin-left: auto;
+}
+.header_input div{
+  display: inline-block;
+  margin: 8px 32px;
+}
+.secondary_header select {
+  min-width: 256px;
+  padding: 12px 20px;
+  margin: 8px 32px;
+  display: inline-block;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  box-shadow: var(--card-box-shadow);
+  background-color: var(--background-color);
+  transition: background-color 0.5s ease;
+}
+.secondary_header input[type=text]{
+  width: 24vw;
+	min-width: 256px;
+	padding: 12px 20px;
+	border-radius: 4px;
+	box-sizing: border-box;
+	font-size: 1rem;
+	box-shadow: var(--card-box-shadow);
+  background-color: var(--background-color);
+  transition: background-color 0.5s ease;
+}
+.secondary_header input:focus {
+  outline: none; /* Remove the default focus outline */
+}
+.search_icon{
+	display: inline-block;
+	width: 28px;
+	height: 28px;
+	position: relative;
+	margin-left: -36px;
+	margin-bottom: -10px;
+	fill: var(--icon-color);
+}
+
+.role_label{
+	padding: 1rem 0;
+	font-size: 1.618rem;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table td, table th {
+  border-bottom: 1px #dadada solid;
+  width: 20%;
+  padding: 2rem;
+  text-align: center;
+}
+table td a {
+	color: teal;
+}
+table td button{
+	padding: 0.7rem 1rem;
+	display: inline-block;
+	margin: 0.350rem;
+}
+table td .accept_btn{
+	background-color: var(--secondary-primary);
+}
+table td .reject_btn{
+	background-color: var(--faint-red);	
+}
+table .column_with_image{
+	position: relative;
+}
+table .column_with_image .column_left_image{
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+	width: 3.5rem;
+	height: 3.5rem;
+	object-fit: cover;
+	border: 2px #00000040 solid;
+	border-radius: 50%;
+}
+
+table th {
+  background-color: #00000008;
+}
+.role_label{
+  font-size: 1.350rem;
+  margin-left: 16px;
+}
+.secondary_table .role_label{
+	padding: 2rem 0;
+}
+
+@media (max-width: 600px){
+	table td, table th {
+	  border-bottom: 1px #dadada solid;
+	  width: auto;
+	  padding: 0.6rem 0.2rem;
+	  font-size: 0.6rem;
+	}
+	.role_label{
+	  font-size: 1rem;
+	  margin-left: 16px;
+	}
+	.secondary_header{
+		display: block;
+	}
+	.secondary_header select .secondary_header input[type=text]{
+		margin: 0;
+	}
+}

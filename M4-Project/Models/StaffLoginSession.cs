@@ -12,10 +12,6 @@ namespace M4_Project.Models
         private static StaffLoginSession loginSession;
 
         private int staffID;
-        private string firstName;
-        private string lastName;
-        private string emailAddress;
-        private string phoneNumber;
         private byte[] staffImage;
         private string role;
 
@@ -24,19 +20,14 @@ namespace M4_Project.Models
             this.staffID = staffID;
             this.role = role;
         }
-        /// <summary>
-        ///     Initializes a new instance of the M4_System.Models.StaffLoginSession class.
-        /// </summary>
-        public StaffLoginSession(int staffID, string firstName, string lastName, string emailAddress, string phoneNumber, byte[] staffImage, string role)
+
+        public StaffLoginSession(int staffID, byte[] staffImage, string role)
         {
             this.staffID = staffID;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.emailAddress = emailAddress;
-            this.phoneNumber = phoneNumber;
             this.staffImage = staffImage;
             this.role = role;
         }
+
         ///
         /// <summary>
         ///     Returns a instance of the M4_System.Models.StaffLoginSession class.
@@ -50,11 +41,13 @@ namespace M4_Project.Models
         ///     Initializes and Returns a instance of the M4_System.Models.StaffLoginSession class
         ///     if the username is found on the database and the passwords match with the one in the database, otherwise it returns null.
         /// </summary>
-        public static StaffLoginSession GetSession(string username, string password)
+        public static StaffLoginSession GetSession(string username)
         {
-            string query = "SELECT TOP (1) [staff_id],[first_name],[last_name],[email_address],[phone_number],[password],[role],[staff_image],[status]" +
-            "FROM [dbo].[Staff] " +
-            "WHERE [email_address] = @username OR [phone_number] = @username;";
+            StaffLoginSession loginSession = null;
+
+            string query = "SELECT TOP (1) [staff_id], [role], [staff_image], [status] " +
+                           "FROM [dbo].[Staff] " +
+                           "WHERE [email_address] = @username";
 
             using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
             {
@@ -62,26 +55,24 @@ namespace M4_Project.Models
                 command.Parameters.AddWithValue("@username", username);
                 connection.Open();
 
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                if (dt.Rows.Count < 1)
-                    return null;
-                DataRow row = dt.Rows[0];
-
-                if (!Utilities.PasswordManager.PasswordMatch(password, (string)row["password"]))
-                    return null;
-
-                loginSession = new StaffLoginSession((int) row["staff_id"], (string)row["first_name"], (string)row["lastName"], (string)row["emailAddress"], (string)row["phoneNumber"], (byte[])row["staffImage"], (string)row["role"]);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {  
+                        loginSession = new StaffLoginSession(
+                            (int)reader["staff_id"],
+                            (byte[])reader["staff_image"],
+                            (string)reader["role"]
+                        );
+                    }
+                }
             }
+
             return loginSession;
         }
 
+
         public int StaffID { get => staffID; set => staffID = value; }
-        public string FirstName { get => firstName; set => firstName = value; }
-        public string LastName { get => lastName; set => lastName = value; }
-        public string EmailAddress { get => emailAddress; set => emailAddress = value; }
-        public string PhoneNumber { get => phoneNumber; set => phoneNumber = value; }
         public byte[] StaffImage { get => staffImage; set => staffImage = value; }
         public string Role { get => role; set => role = value; }
     }

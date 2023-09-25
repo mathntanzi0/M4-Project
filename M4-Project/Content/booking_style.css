@@ -1,6 +1,6 @@
-	.nav_header, .inner_header, .slide_navigation{
-		background-color: #dde7df;
-	}
+.nav_header, .inner_header, .slide_navigation, .navigation ul li ul {
+	background-color: #dde7df;
+}
 	.inner_header{
 		color: var(--special-text-color);
 	}

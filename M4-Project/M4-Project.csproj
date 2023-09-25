@@ -166,9 +166,12 @@
     <Content Include="Account\ResetPasswordConfirmation.aspx" />
     <Content Include="Account\TwoFactorAuthenticationSignIn.aspx" />
     <Content Include="Account\VerifyPhoneNumber.aspx" />
+    <Content Include="Admin\Content\common_admin_style.css" />
     <Content Include="Admin\Content\menu_item_style.css" />
+    <Content Include="Admin\Content\orders_style.css" />
     <Content Include="Admin\Content\staff_member_style.css" />
     <Content Include="Admin\Default.aspx" />
+    <Content Include="Admin\LiveOrder.aspx" />
     <Content Include="Admin\Login.aspx" />
     <Content Include="Admin\Menu.aspx" />
     <Content Include="Admin\MenuItem.aspx" />
@@ -405,6 +408,13 @@
     </Compile>
     <Compile Include="Admin\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\LiveOrder.aspx.cs">
+      <DependentUpon>LiveOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\LiveOrder.aspx.designer.cs">
+      <DependentUpon>LiveOrder.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Login.aspx.cs">
       <DependentUpon>Login.aspx</DependentUpon>

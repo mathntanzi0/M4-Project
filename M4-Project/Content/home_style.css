@@ -1,7 +1,7 @@
-.nav_header, .inner_header, .slide_navigation{
+.nav_header, .inner_header, .slide_navigation, .navigation ul li ul {
 	background-color: #dde7df;
 }
-.inner_header{
+.inner_header {
 	color: var(--special-text-color);
 }
 body{
@@ -9,8 +9,7 @@ body{
 }
 .header_section{
 	margin-top: 80px;
-	height: calc(100vh - 80px);
-	max-height: 800px;
+	min-height: calc(100vh - 80px);
 	width: 100vw;
 	background-color: #dde7df;
 }
