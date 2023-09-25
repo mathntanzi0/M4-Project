@@ -104,6 +104,7 @@ button {
     }
 }
 
+
 @media (max-width: 600px) {
     .secondary_header h1 {
         padding: 1rem 0;

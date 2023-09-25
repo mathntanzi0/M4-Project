@@ -17,6 +17,7 @@ namespace M4_Project
         private string _antiXsrfTokenValue;
 
         protected bool liveOrder = false;
+        protected Models.Customer currentCustomer;
 
         protected void Page_Init(object sender, EventArgs e)
         {
@@ -80,7 +81,7 @@ namespace M4_Project
                     Models.Sales.Booking.SyncSessionWithCookies();
             }
 
-            Models.Customer currentCustomer = Session["Customer"] as Models.Customer;
+            currentCustomer = Session["Customer"] as Models.Customer;
             if (currentCustomer == null && Page.Title != "Profile" && Page.Title != "Checkout" && Context.User.Identity.IsAuthenticated)
             {
                 if (Request.QueryString["ReturnUrl"] != null)

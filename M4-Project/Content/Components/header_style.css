@@ -52,10 +52,12 @@
       vertical-align: middle;
       font-weight: 800;
     }
-    .nav_icon_container{
-      height: 100%;
-      display: table;
-      float: right;
+    .nav_icon_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        float: right;
     }
     .nav_icon_container svg{
       width: 35px;
@@ -67,9 +69,11 @@
       fill: var(--icon-color);
       transition: 0.5s ease;
     }
+    .nav_icon_container .account_icon {
+        font-weight:500;
+    }
     .cart_holder {
-        display: table-cell;
-        vertical-align: middle;
+        margin-top:4px;
         text-align: center;
     }
     .cart_holder div {
