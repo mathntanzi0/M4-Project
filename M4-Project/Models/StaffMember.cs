@@ -24,6 +24,15 @@ namespace M4_Project.Models
         private string password;
         private string role;
         private string status;
+
+        ///
+        /// <summary>
+        ///     Initializes a new instance of the M4_System.Models.Sales.StaffMember class.
+        /// </summary>
+        public StaffMember()
+        {
+            staffID = -1;
+        }
         ///
         /// <summary>
         ///     Initializes a new instance of the M4_System.Models.Sales.StaffMember class.
@@ -103,6 +112,39 @@ namespace M4_Project.Models
                 DataRow row = dt.Rows[0];
                 return new StaffMember((int) row["staff_id"], row["first_name"].ToString(), row["last_name"].ToString(), row["gender"].ToString(), (decimal)row["pay_rate"], row["email_address"].ToString(), row["phone_number"].ToString(), (byte[])row["staff_image"], row["password"].ToString(), row["role"].ToString(), row["status"].ToString());
             }
+        }
+
+        public static StaffMember GetStaffMember_short(int staffID)
+        {
+            StaffMember staffMember = null;
+
+            string query = "SELECT staff_id, first_name, last_name, [role], phone_number, email_address FROM [Staff] WHERE staff_id = @staffID;";
+
+            using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@staffID", staffID);
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            staffMember = new StaffMember
+                            {
+                                StaffID = (int)reader["staff_id"],
+                                FirstName = reader["first_name"].ToString(),
+                                LastName = reader["last_name"].ToString(),
+                                Role = reader["role"].ToString(),
+                                EmailAddress = reader["email_address"].ToString(),
+                                PhoneNumber = reader["phone_number"].ToString()
+                            };
+                        }
+                    }
+                }
+            }
+            return staffMember;
         }
         /// <summary>
         ///     Retrieves staff member information based on the provided email address.

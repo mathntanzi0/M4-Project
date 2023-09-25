@@ -13,5 +13,23 @@ namespace M4_Project.Admin
 
     public partial class Order
     {
+
+        /// <summary>
+        /// select_order_type control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList select_order_type;
+
+        /// <summary>
+        /// ItemRepeater control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater ItemRepeater;
     }
 }

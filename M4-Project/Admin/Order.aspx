@@ -6,86 +6,70 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="AdminMainContent" runat="server">
     	<div class="secondary_header">
-			<h1>Order #323</h1>
+			<h1>Order <%=order.OrderID %></h1>
 			<div class="header_input">
-				<select id="select_order_type">
-					<option>Pending</option>
-					<option>Preparing</option>
-					<option>Prepared</option>
-					<option>Collected</option>
-					<option>Rejected</option>
-					<option hidden>Delivered</option>
-					<option hidden>Unsuccessful</option>
-					<option hidden>On the way</option>
-				</select>
+				<asp:DropDownList ID="select_order_type" runat="server" AutoPostBack="True" OnSelectedIndexChanged="SelectOrderType_SelectedIndexChanged">
+					<asp:ListItem Enabled="false" Text="Pending" Value="Pending" DisplayText="Pending" />
+					<asp:ListItem Enabled="false" Text="On the way" Value="On the way" DisplayText="On the way" />
+				</asp:DropDownList>
 			</div>
 		</div>
 		<div class="items_container">
-			<div class="item_wrapper">
-				<div class="image_holder">
-					<img src="assets/temp/eggs.jpg">
-				</div>
-				<div class="item_details">
-					<h2>Name</h2>
-					<h4>Price R 50.00</h4>
-					<h4>Dessert</h4>
-				</div>
-				<div class="item_line_details">
-					<h4>QTY 2</h4>
-					<h4>Cost R100.00</h4>
-				</div>
-			</div>
-
-			<div class="item_wrapper">
-				<div class="image_holder">
-					<img src="assets/temp/appletiser.jpg">
-				</div>
-				<div class="item_details">
-					<h2>Appletiser</h2>
-					<h4>Price R 50.00</h4>
-					<h4>Dessert</h4>
-				</div>
-				<div class="item_line_details">
-					<h4>QTY 2</h4>
-					<h4>Cost R100.00</h4>
-				</div>
-			</div>
-			<div class="item_wrapper">
-				<div class="image_holder">
-					<img src="assets/temp/oreo.jpg">
-				</div>
-				<div class="item_details">
-					<h2>Oreo Milkshake</h2>
-					<h4>Price R 50.00</h4>
-					<h4>Dessert</h4>
-				</div>
-				<div class="item_line_details">
-					<h4>QTY 2</h4>
-					<h4>Cost R100.00</h4>
-				</div>
-			</div>
+			<asp:Repeater ID="ItemRepeater" runat="server">
+				<ItemTemplate>
+					<div class="item_wrapper">
+						<div class="image_holder">
+							<img src="<%# "data:image/jpeg;base64," + Convert.ToBase64String((byte[])Eval("Image")) %>">
+						</div>
+						<div class="item_details">
+							<h2><%# Eval("ItemName") %></h2>
+							<h4>Price  R <%# Eval("ItemCostN2") %></h4>
+							<h4><%# Eval("ItemCategory") %></h4>
+						</div>
+						<div class="item_line_details">
+							<h4>QTY <%# Eval("ItemQuantity") %></h4>
+							<h4>Cost <%# Eval("TotalSubCostN2") %></h4>
+						</div>
+					</div>
+				</ItemTemplate>
+			</asp:Repeater>
 		</div>
 		<div class="sale_summary_wrapper">
 			<div class="detail_group">
 				<h2>Payment Details</h2>
-				<p>Payment method: Card</p>
-				<p>Tip: R 68.50</p>
-				<p>Total payment: R 373.50</p>
-				<p>Payment date: 12 June 2023 10:24</p>
+				<p>Payment method: <%= order.PaymentMethod %></p>
+				<p>Tip: R <%= order.TipN2 %></p>
+				<p>Total payment: R <%= order.TotalAmountDueN2 %></p>
+				<p>Payment date: <%= order.PaymentDate.ToString("dd MMMM yyyy HH:mm") %></p>
+				<p>Order Type: <%= order.OrderType %></p>
 			</div>
 			<div class="detail_group">
 				<h2>Staff Responsible</h2>
-				<p>Name: Thivar Kushor</p>
-				<p>Staff No: #52</p>
-				<p>Role: Manager</p>
-				<p>Phone Number: +27 56 456 6464</p>
-				
+				<% if (staffMember == null)
+                    {%>
+				<p>None</p>
+				<% }
+                    else
+                    { %>
+				<p>Name: <%= staffMember.FirstName + " " + staffMember.LastName %></p>
+				<p>Staff No: #<%= staffMember.StaffID  %></p>
+				<p>Role: <%= staffMember.Role %></p>
+				<p>Phone Number: <%= staffMember.PhoneNumber %></p>
+				<p>Email: <%= staffMember.EmailAddress %></p>
+				<% } %>
 			</div>
 			<div class="detail_group">
 				<h2>Customer</h2>
-				<p>Name: Grace Walker</p>
-				<p>Email: grace@email.com</p>
-				<p>Phone Number: +27 56 456 6464</p>
+				<% if (customer == null)
+                    {%>
+				<p>None</p>
+				<% }
+                    else
+                    { %>
+				<p>Name: <%= customer.FullName %></p>
+				<p>Email: <%= customer.EmailAddress %></p>
+				<p>Phone Number: <%= customer.PhoneNumber %></p>
+				<% } %>
 			</div>
 		</div>
 		<div style="padding-bottom: 1.175rem;" class="right_button_wrapper">

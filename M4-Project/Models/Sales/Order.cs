@@ -173,9 +173,6 @@ namespace M4_Project.Models.Sales
         /// </summary>
         public static void ChangeStatus(int orderID, string orderStatus)
         {
-            if (OrderState.IsFinalState(orderStatus))
-                return;
-
             if (!OrderState.IsValidState(orderStatus))
                 return;
 
@@ -207,12 +204,18 @@ namespace M4_Project.Models.Sales
                 {
                     if (reader.Read())
                     {
-                        Order order = new Order(
-                            (int)reader["order_id"],
-                            Customer.GetCustomer((int)reader["customer_id"]),
-                            reader["order_type"].ToString(),
-                            reader["order_state"].ToString()
-                        );
+                        Order order = null;
+                        order = new Order
+                        {
+                            OrderID = (int)reader["order_id"],
+                            OrderType = reader["order_type"].ToString(),
+                            OrderStatus = reader["order_state"].ToString(),
+                            StaffID = (int)reader["staff_id"]
+                        };
+                        int customerID;
+                        if (int.TryParse(reader["customer_id"].ToString(), out customerID))
+                            order.Customer = Customer.GetCustomer(customerID);
+                        
                         order.PaymentDate = (DateTime)reader["payment_date"];
                         order.PaymentAmount = (decimal)reader["payment_amount"];
                         order.PaymentMethod = reader["payment_amount"].ToString();

@@ -431,6 +431,7 @@ namespace M4_Project.Models
         public int CustomerID { get => customerID; set => customerID = value; }
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
+        public string FullName { get => firstName + " " + lastName;}
         public string EmailAddress { get => emailAddress; set => emailAddress = value; }
         public string PhoneNumber { get => phoneNumber; set => phoneNumber = value; }
         public string PhysicalAddress { get => physicalAddress; set => physicalAddress = value; }

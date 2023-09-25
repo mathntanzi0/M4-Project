@@ -29,7 +29,7 @@ namespace M4_Project.Admin
             if (e.CommandName == "ViewDetails")
             {
                 int orderID = Convert.ToInt32(e.CommandArgument);
-                Response.Redirect($"order?id={orderID}");
+                Response.Redirect($"order?Order={orderID}");
             }
         }
         protected void NewOrderRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
