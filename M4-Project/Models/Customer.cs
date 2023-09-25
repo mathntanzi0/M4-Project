@@ -199,7 +199,7 @@ namespace M4_Project.Models
             {
                 SqlCommand command = new SqlCommand(query, connection);
 
-                command.Parameters.AddWithValue("@NewAddress", newAddress); // Bind the new last name as a parameter to prevent SQL injection
+                command.Parameters.AddWithValue("@NewAddress", newAddress);
                 command.Parameters.AddWithValue("@CustomerID", customerID);
 
                 connection.Open();

@@ -23,5 +23,53 @@ namespace M4_Project.Admin
                 LiveOrderRepeater.DataBind();
             }
         }
+
+        protected void LiveOrderRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "ViewDetails")
+            {
+                int orderID = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect($"order?id={orderID}");
+            }
+        }
+        protected void NewOrderRepeater_ItemCommand(object source, RepeaterCommandEventArgs e)
+        {
+            if (e.CommandName == "Accept" || e.CommandName == "Reject")
+            {
+                int orderID = Convert.ToInt32(e.CommandArgument);
+                string newOrderStatus = (e.CommandName == "Accept") ? Models.Sales.OrderState.Preparing : Models.Sales.OrderState.Rejected;
+                Models.Sales.Order.ChangeStatus(orderID, newOrderStatus);
+                BindOrders();
+            }
+        }
+        private void BindOrders()
+        {
+            newOrders = Models.Sales.Order.GetPendingOrders();
+            OrderRepeater.DataSource = newOrders;
+            OrderRepeater.DataBind();
+            liveOrders = Models.Sales.Order.GetLiveOrders();
+            LiveOrderRepeater.DataSource = liveOrders;
+            LiveOrderRepeater.DataBind();
+        }
+        protected void SelectOrderType_Changed(object sender, EventArgs e)
+        {
+            
+            string selectedOrderType = select_order_type.SelectedValue;
+            if (string.IsNullOrEmpty(selectedOrderType))
+            {
+                newOrders = Models.Sales.Order.GetPendingOrders();
+                OrderRepeater.DataSource = newOrders;
+                OrderRepeater.DataBind();
+                liveOrders = Models.Sales.Order.GetLiveOrders();
+                LiveOrderRepeater.DataSource = liveOrders;
+                LiveOrderRepeater.DataBind();
+                return;
+            }
+            liveOrders = Models.Sales.Order.GetLiveOrders(selectedOrderType);
+            LiveOrderRepeater.DataSource = liveOrders;
+            LiveOrderRepeater.DataBind();
+        }
+
+
     }
 }

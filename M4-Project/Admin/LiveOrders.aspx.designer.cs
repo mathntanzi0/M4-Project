@@ -15,6 +15,15 @@ namespace M4_Project.Admin
     {
 
         /// <summary>
+        /// select_order_type control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList select_order_type;
+
+        /// <summary>
         /// OrderRepeater control.
         /// </summary>
         /// <remarks>

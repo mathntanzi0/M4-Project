@@ -1,0 +1,123 @@
+.secondary_header{
+	width: 100%;
+	display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 24px 0;
+  margin-top: 104px;
+}
+.secondary_header div{
+	margin-right: 16px;
+	margin-left: auto;
+}
+.header_input div{
+  display: inline-block;
+  margin: 8px 32px;
+}
+.secondary_header select {
+  min-width: 256px;
+  padding: 12px 20px;
+  margin: 8px 32px;
+  display: inline-block;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  box-shadow: var(--card-box-shadow);
+  background-color: var(--background-color);
+  transition: background-color 0.5s ease;
+}
+.item_wrapper{
+	--item-wrapper-width: 94vw;
+	width: var(--item-wrapper-width);
+	box-shadow: var(--card-box-shadow);
+	display: block;
+	margin: auto;
+	margin-bottom: 2rem;
+}
+.item_wrapper .image_holder img{
+	width: var(--item-wrapper-width);
+	height: var(--item-wrapper-width);
+	object-fit: cover;
+}
+.item_wrapper .item_details{
+	padding: 0.5rem;
+}
+.item_wrapper .item_details h4, .item_wrapper .item_line_details h4{
+	font-weight: 500;
+}
+.item_wrapper .item_line_details{
+	padding: 0.5rem;
+}
+@media (min-width: 600px){
+	.item_wrapper{
+		display: flex;
+	}
+	.item_wrapper .image_holder{
+		--image-holder-height: 20vw;
+		max-height: var(--image-holder-height);
+	}
+	.item_wrapper .image_holder img{
+		width: var(--image-holder-height);
+		height: var(--image-holder-height);
+	}
+	.item_wrapper .item_details h2{
+		font-size: clamp(1.175rem, 5vw, 3rem); 
+	}
+	.item_wrapper .item_line_details{
+		margin: 1rem;
+		margin-left: auto;
+	}
+	.item_wrapper .item_line_details h4{
+		font-size: 1.175rem;
+	}
+	.sale_summary_wrapper{
+		display: flex;
+		justify-content: space-between;
+	}
+}
+.sale_summary_wrapper{
+	width: 100%;
+	border-bottom: 1px solid #CCC;
+	border-top: 1px solid #CCC;
+	margin-bottom: 1rem;
+	padding: 2rem 0rem;
+}
+.detail_group h2{
+	padding-bottom: 1rem;
+}
+.detail_group p{
+	font-size: 1.175rem;
+}
+.green_button{
+	background-color: var(--secondary-primary);
+}
+.red_button{
+	background-color: var(--faint-red);
+	color: red;
+}
+.left_button{
+	margin-left: 1rem;
+}
+.right_button_wrapper{
+	position: absolute;
+	display: inline-block;
+	right: 1rem;
+}
+.right_button_wrapper button{
+	margin: 0 1rem;
+	padding: 0.5rem 4rem;
+}
+.inner_body{
+	padding-bottom: 2rem;
+}
+@media (min-width: 600px){
+	.primary_button_unfixed{
+		max-width: unset;
+		width: unset;
+		margin: unset;
+		padding: 0.65rem 6rem;
+		margin-left: auto;
+		margin-bottom: 1rem;
+		margin-right: 1.175rem;
+	}
+}

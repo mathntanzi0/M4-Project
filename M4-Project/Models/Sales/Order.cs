@@ -163,12 +163,6 @@ namespace M4_Project.Models.Sales
         /// </summary>
         public bool ChangeStatus(string orderStatus)
         {
-            if (OrderState.IsFinalState(orderStatus))
-                return false;
-
-            if (!OrderState.IsValidState(orderStatus))
-                return false;
-
             this.OrderStatus = orderStatus;
             ChangeStatus(OrderID, orderStatus);
             return true;
@@ -179,6 +173,12 @@ namespace M4_Project.Models.Sales
         /// </summary>
         public static void ChangeStatus(int orderID, string orderStatus)
         {
+            if (OrderState.IsFinalState(orderStatus))
+                return;
+
+            if (!OrderState.IsValidState(orderStatus))
+                return;
+
             string query = "UPDATE [Order] SET [order_state] = @order_state WHERE[order_id] = @orderID";
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
             {
@@ -186,10 +186,7 @@ namespace M4_Project.Models.Sales
                 command.Parameters.AddWithValue("@orderID", orderID);
                 command.Parameters.AddWithValue("@order_state", orderStatus);
                 connection.Open();
-
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                command.ExecuteNonQuery();
             }
         }
         ///
@@ -434,7 +431,6 @@ namespace M4_Project.Models.Sales
 
             return pendingOrders;
         }
-
         public static List<Order> GetLiveOrders()
         {
             List<Order> liveOrders = new List<Order>();
@@ -449,7 +445,7 @@ namespace M4_Project.Models.Sales
                 "FROM [Order] " +
                 "LEFT JOIN [Customer] ON [Order].customer_id = [Customer].customer_id " +
                 "WHERE [Order].order_state IN ('Preparing', 'Prepared', 'On the way') " +
-                "ORDER BY [Order].payment_date DESC, [Order].order_id DESC; ";
+                "ORDER BY [Order].payment_date ASC, [Order].order_id ASC; ";
 
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
             {
@@ -471,6 +467,48 @@ namespace M4_Project.Models.Sales
                         
                         Customer customer = (firstName == "Null" && lastName == "Null") ? null : new Customer(firstName, lastName);
                         Order order = new Order(orderID, customer, orderType, orderState, paymentDate, paymentAmount);
+                        liveOrders.Add(order);
+                    }
+                }
+            }
+            return liveOrders;
+        }
+        public static List<Order> GetLiveOrders(string orderType)
+        {
+            List<Order> liveOrders = new List<Order>();
+            string query = "SELECT " +
+                "ISNULL([Customer].first_name, 'Null') AS first_name, " +
+                "ISNULL([Customer].last_name, 'Null') AS last_name, " +
+                "[Order].order_id, " +
+                "[Order].order_type, " +
+                "[Order].order_state, " +
+                "[Order].payment_date, " +
+                "[Order].payment_amount " +
+                "FROM [Order] " +
+                "LEFT JOIN [Customer] ON [Order].customer_id = [Customer].customer_id " +
+                "WHERE [Order].order_state IN ('Preparing', 'Prepared', 'On the way') " +
+                "AND [Order].order_type = @orderType " +
+                "ORDER BY [Order].payment_date DESC, [Order].order_id DESC; ";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@orderType", orderType);
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string firstName = reader["first_name"].ToString();
+                        string lastName = reader["last_name"].ToString();
+                        int orderID = Convert.ToInt32(reader["order_id"]);
+                        string retrievedOrderType = reader["order_type"].ToString();
+                        string orderState = reader["order_state"].ToString();
+                        DateTime paymentDate = Convert.ToDateTime(reader["payment_date"]);
+                        decimal paymentAmount = Convert.ToDecimal(reader["payment_amount"]);
+                        Customer customer = (firstName == "Null" && lastName == "Null") ? null : new Customer(firstName, lastName);
+                        Order order = new Order(orderID, customer, retrievedOrderType, orderState, paymentDate, paymentAmount);
                         liveOrders.Add(order);
                     }
                 }

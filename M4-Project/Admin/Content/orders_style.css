@@ -68,10 +68,11 @@ table td, table th {
 table td a {
 	color: teal;
 }
-table td button{
+table td input[type="submit"]{
 	padding: 0.7rem 1rem;
 	display: inline-block;
 	margin: 0.350rem;
+	border-radius: 0.5rem;
 }
 table td .accept_btn{
 	background-color: var(--secondary-primary);
