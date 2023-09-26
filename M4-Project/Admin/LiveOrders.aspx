@@ -47,7 +47,10 @@
 		</div>
 
 		<br>
+
 		
+		<% if (liveOrders != null && liveOrders.Count > 0)
+            { %>
 		<div class="secondary_table">
 			<% if (newOrders != null && newOrders.Count > 0)
                 { %>
@@ -79,6 +82,14 @@
 
 			</table>
 		</div>
+		<% } %>
+		<% if ((newOrders == null || newOrders.Count < 1) && (liveOrders == null || liveOrders.Count < 1)) { %>
+		<div id="empty_box">
+			<h3>No Live Order Found</h3>
+			<p>There is currently no live orders.</p>
+			<a href="/Admin/POS"><div>Point of Sale</div></a>
+		</div>
+		<% } %>
 </asp:Content>
 
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentScripts" runat="server">
