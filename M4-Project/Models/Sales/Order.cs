@@ -346,7 +346,7 @@ namespace M4_Project.Models.Sales
             List<Order> orders = new List<Order>();
 
             SqlCommand command = new SqlCommand();
-            if (string.IsNullOrEmpty(customerName) || string.IsNullOrEmpty(orderType))
+            if (string.IsNullOrEmpty(customerName) && string.IsNullOrEmpty(orderType))
             {
                 string query = "SELECT [Customer].first_name, [Customer].last_name, order_id, order_type, order_state, payment_date, payment_amount " +
                     "FROM[Customer], [Order] " +
@@ -362,7 +362,7 @@ namespace M4_Project.Models.Sales
                     "FROM[Customer], [Order] " +
                     "WHERE[Customer].customer_id = [Order].customer_id " +
                     "AND [Customer].first_name + ' ' + [Customer].last_name LIKE '%'+@searchValue+'%' " +
-                    "AND order_type = @orderType " +
+                    "AND order_type Like '%'+@orderType+'%' " +
                     "ORDER BY[Order].payment_date DESC, [Order].order_id DESC " +
                     "OFFSET @startRow ROWS " +
                     "FETCH NEXT @MaxListSize ROWS ONLY; ";

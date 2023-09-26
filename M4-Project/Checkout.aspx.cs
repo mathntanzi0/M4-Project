@@ -121,8 +121,6 @@ namespace M4_Project
             booking.PaymentMethod = "Card";
             booking.PaymentAmount = TotalCost;
 
-
-
             booking.RecordSell();
             currentCustomer.UpdateLoyaltyPoints((int)Math.Floor(booking.PaymentAmount * Models.BusinessRules.Sale.LoyaltyPointsRatio));
             HttpContext.Current.Session["sale"] = null;
@@ -131,7 +129,6 @@ namespace M4_Project
             HttpContext.Current.Response.Cookies.Add(cartCookie);
 
             Response.Redirect("/Customer/Bookings");
-
         }
     }
 }

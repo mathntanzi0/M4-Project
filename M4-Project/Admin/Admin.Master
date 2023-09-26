@@ -70,7 +70,7 @@
 					<li><a class="outer_a" href="/Admin/Menu">Menu</a></li>
 					<li><a class="outer_a" href="#">Orders</a>
 						<ul>
-							<li><a href="/Admin/Menu">Orders</a></li>
+							<li><a href="/Admin/Orders">Orders</a></li>
 							<li><a href="/Admin/LiveOrders">Live Orders</a></li>
 							<li><a href="/Admin/Deliveries">Deliveries</a></li>
 						</ul>

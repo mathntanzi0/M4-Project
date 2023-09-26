@@ -166,9 +166,10 @@
     <Content Include="Account\ResetPasswordConfirmation.aspx" />
     <Content Include="Account\TwoFactorAuthenticationSignIn.aspx" />
     <Content Include="Account\VerifyPhoneNumber.aspx" />
+    <Content Include="Admin\Bookings.aspx" />
     <Content Include="Admin\Content\common_admin_style.css" />
     <Content Include="Admin\Content\menu_item_style.css" />
-    <Content Include="Admin\Content\orders_style.css" />
+    <Content Include="Admin\Content\sales_style.css" />
     <Content Include="Admin\Content\sale_view_style.css" />
     <Content Include="Admin\Content\staff_member_style.css" />
     <Content Include="Admin\Default.aspx" />
@@ -177,6 +178,7 @@
     <Content Include="Admin\Menu.aspx" />
     <Content Include="Admin\MenuItem.aspx" />
     <Content Include="Admin\Order.aspx" />
+    <Content Include="Admin\Orders.aspx" />
     <Content Include="Admin\StaffMember.aspx" />
     <Content Include="Admin\UpdateDarkModeSession.aspx" />
     <Content Include="Assets\chef1.png" />
@@ -404,6 +406,13 @@
     <Compile Include="Admin\Admin.Master.designer.cs">
       <DependentUpon>Admin.Master</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Bookings.aspx.cs">
+      <DependentUpon>Bookings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Bookings.aspx.designer.cs">
+      <DependentUpon>Bookings.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -445,6 +454,13 @@
     </Compile>
     <Compile Include="Admin\Order.aspx.designer.cs">
       <DependentUpon>Order.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Orders.aspx.cs">
+      <DependentUpon>Orders.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Orders.aspx.designer.cs">
+      <DependentUpon>Orders.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\StaffMember.aspx.cs">
       <DependentUpon>StaffMember.aspx</DependentUpon>
@@ -584,6 +600,7 @@
     <Compile Include="Models\Sales\Delivery.cs" />
     <Compile Include="Models\Sales\ItemLine.cs" />
     <Compile Include="Models\Sales\Order.cs" />
+    <Compile Include="Models\Sales\OrdersSearch.cs" />
     <Compile Include="Models\Sales\Sale.cs" />
     <Compile Include="Models\Sales\SaleType.cs" />
     <Compile Include="Models\StaffLoginSession.cs" />
