@@ -11,14 +11,13 @@ namespace M4_Project.Admin
     {
         protected List<Models.Sales.Order> orders;
         protected string p_NotFound = "The system currently does not have any orders in place.";
-        protected int page;
+        protected int page = 1;
         protected int maxPage = 1;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                page = 1;
                 orders = GetOrders();
                 OrderRepeater.DataSource = orders;
                 OrderRepeater.DataBind();

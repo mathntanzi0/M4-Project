@@ -24,22 +24,22 @@ namespace M4_Project.Admin
         protected global::System.Web.UI.WebControls.TextBox search_bar;
 
         /// <summary>
-        /// select_order_type control.
+        /// select_event_status control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList select_order_type;
+        protected global::System.Web.UI.WebControls.DropDownList select_event_status;
 
         /// <summary>
-        /// OrderRepeater control.
+        /// EventRepeater control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater OrderRepeater;
+        protected global::System.Web.UI.WebControls.Repeater EventRepeater;
 
         /// <summary>
         /// btnPreviousPage control.

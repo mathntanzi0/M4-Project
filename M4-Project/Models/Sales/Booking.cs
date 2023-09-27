@@ -430,9 +430,11 @@ namespace M4_Project.Models.Sales
         public string EventAddress { get => eventAddress; set => eventAddress = value; }
         public string EventDecorDescription { get => eventDecorDescription; set => eventDecorDescription = value; }
         public DateTime EventDate { get => eventDate; set => eventDate = value; }
+        public string Str_EventDate { get => eventDate.ToString("dd MMM yyyy HH:mm"); }
         public TimeSpan EventDuration { get => eventDuration; set => eventDuration = value; }
         public string BookingStatus { get => bookingStatus; set => bookingStatus = value; }
         public Customer Customer { get => customer; set => customer = value; }
+        public string CustomerName { get => (customer != null) ? customer.FirstName + " " + customer.LastName : "none"; }
         public override int SaleType => Sales.SaleType.EventBooking;
     }
 

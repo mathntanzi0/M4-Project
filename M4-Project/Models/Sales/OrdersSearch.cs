@@ -90,7 +90,7 @@ namespace M4_Project.Models.Sales
                 queryBuilder.Append(whereClause.ToString());
             }
 
-            queryBuilder.Append("ORDER BY [Order].payment_date ASC, [Order].order_id ASC ");
+            queryBuilder.Append("ORDER BY [Order].payment_date DESC, [Order].order_id DESC ");
             queryBuilder.Append("OFFSET @page ROWS ");
             queryBuilder.Append("FETCH NEXT @maxOrders ROWS ONLY;");
 

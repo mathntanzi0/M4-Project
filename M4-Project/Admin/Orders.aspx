@@ -6,7 +6,7 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="AdminMainContent" runat="server">
     	<div class="secondary_header">
-			<h1>Live Orders</h1>
+			<h1>Orders</h1>
 			<div>
 				<asp:TextBox ID="search_bar" runat="server" CssClass="search-input" placeholder="Search by customer or order number..." OnTextChanged="SearchTextBox_TextChanged"></asp:TextBox>
 				<svg class="search_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
@@ -24,7 +24,7 @@
 		<% if (orders.Count > 0)
             { %>
 		<div class="secondary_table">
-			<h2 class="role_label">Orders</h2>
+			<h2 class="role_label">Most Recent</h2>
 			<table>
 				<tr>
 					<th>Customer</th>

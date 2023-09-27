@@ -597,6 +597,7 @@
     <Compile Include="Models\MenuItem.cs" />
     <Compile Include="Models\RoleActions.cs" />
     <Compile Include="Models\Sales\Booking.cs" />
+    <Compile Include="Models\Sales\BookingSearch.cs" />
     <Compile Include="Models\Sales\Delivery.cs" />
     <Compile Include="Models\Sales\ItemLine.cs" />
     <Compile Include="Models\Sales\Order.cs" />
