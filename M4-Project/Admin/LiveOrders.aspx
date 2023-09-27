@@ -35,6 +35,8 @@
 						<td><%# Eval("OrderType") %></td>
 						<td><%# Eval("PaymentAmount", "R {0:F2}") %></td>
 						<td>
+							<asp:Button runat="server" Text="View" CommandName="View" CommandArgument='<%# Eval("OrderID") %>' CssClass="accept_btn" />
+							<br />
 							<asp:Button runat="server" Text="Accept" CommandName="Accept" CommandArgument='<%# Eval("OrderID") %>' CssClass="accept_btn" />
 							<asp:Button runat="server" Text="Reject" CommandName="Reject" CommandArgument='<%# Eval("OrderID") %>' CssClass="reject_btn" />
 						</td>
@@ -71,7 +73,7 @@
 							<td><%# Eval("OrderID") %></td>
 							<td><%# Eval("OrderType") %></td>
 							<td><%# Eval("OrderStatus") %></td>
-							<td><%# Eval("PaymentDate") %></td>
+							<td><%# Eval("Str_PaymentDate") %></td>
 							<td><%# Eval("PaymentAmount", "R {0:F2}") %></td>
 							<td>
 								<asp:Button runat="server" Text="View Details" CommandName="ViewDetails" CommandArgument='<%# Eval("OrderID") %>' CssClass="accept_btn" />

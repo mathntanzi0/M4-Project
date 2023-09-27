@@ -158,6 +158,9 @@ namespace M4_Project.Models.Sales
         /// </summary>
         public static void ChangeStatus(int bookingID, string bookingStatus)
         {
+            if (!BookingState.IsValidState(bookingStatus))
+                return;
+
             string query = "UPDATE [Event Booking] SET [status] = @status WHERE[booking_id] = @bookingID";
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
             {
@@ -166,9 +169,7 @@ namespace M4_Project.Models.Sales
                 command.Parameters.AddWithValue("@status", bookingStatus);
                 connection.Open();
 
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
+                command.ExecuteNonQuery();
             }
         }
         ///
@@ -177,24 +178,38 @@ namespace M4_Project.Models.Sales
         /// </summary>
         public static Booking GetBooking(int bookingID)
         {
-            string query = "SELECT * FROM [Event Booking] " +
-                           "WHERE booking_id = @booking_id";
+            string query = "SELECT * FROM [Event Booking] WHERE booking_id = @booking_id";
 
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
-                SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@booking_id", bookingID);
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                if (dt.Rows.Count < 1)
-                    return null;
-                DataRow row = dt.Rows[0];
+                connection.Open();
 
-                Customer customer = Customer.GetCustomer((int)row["customer_id"]);
-                Booking booking = new Booking((int)row["booking_id"], customer, (string)row["event_address"], (string)row["event_setting"], (DateTime)row["event_date"], (TimeSpan)row["event_duration"], (string)row["status"]);
-                booking.ItemLines = GetEventLines(bookingID);
-                return booking;
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (!reader.HasRows)
+                        return null;
+
+                    reader.Read();
+
+                    Customer customer = Customer.GetCustomer(reader.GetInt32(reader.GetOrdinal("customer_id")));
+                    Booking booking = new Booking(
+                        reader.GetInt32(reader.GetOrdinal("booking_id")),
+                        customer,
+                        reader.GetString(reader.GetOrdinal("event_address")),
+                        (reader.IsDBNull(reader.GetOrdinal("event_setting")) || string.IsNullOrEmpty(reader["event_setting"].ToString())) ? "none" : reader.GetString(reader.GetOrdinal("event_setting")),
+                        reader.GetDateTime(reader.GetOrdinal("event_date")),
+                        reader.GetTimeSpan(reader.GetOrdinal("event_duration")),
+                        reader.GetString(reader.GetOrdinal("status"))
+                    );
+                    booking.PaymentDate = reader.GetDateTime(reader.GetOrdinal("payment_date"));
+                    booking.PaymentAmount = reader.GetDecimal(reader.GetOrdinal("payment_amount"));
+                    booking.PaymentMethod = reader.GetString(reader.GetOrdinal("payment_method"));
+
+                    booking.ItemLines = GetEventLines(bookingID);
+                    return booking;
+                }
             }
         }
         /// <summary>
@@ -243,21 +258,34 @@ namespace M4_Project.Models.Sales
             string query = "SELECT [Event Line].item_id, [Menu Item].item_name, [Menu Item].item_price, [Menu Item].item_image, booking_id, item_quantity, sub_cost, instructions " +
                            "FROM dbo.[Event Line], [Menu Item] " +
                            "WHERE booking_id = @bookingID AND [Event Line].item_id = [Menu Item].item_id;";
-            List<Models.Sales.ItemLine> itemLines = new List<ItemLine>();
+            List<ItemLine> itemLines = new List<ItemLine>();
+
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            using (SqlCommand command = new SqlCommand(query, connection))
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@booking_id", bookingID);
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                foreach (DataRow row in dt.Rows)
+                command.Parameters.AddWithValue("@bookingID", bookingID);
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
                 {
-                    ItemLine itemLine = new ItemLine((int)row["item_id"], (int)row["item_quantity"], (decimal)row["item_price"], (string)row["instructions"], (string)row["item_name"], (byte[])row["item_image"], "");
-                    itemLines.Add(itemLine);
+                    while (reader.Read())
+                    {
+                        ItemLine itemLine = new ItemLine(
+                            reader.GetInt32(reader.GetOrdinal("item_id")),
+                            reader.GetInt32(reader.GetOrdinal("item_quantity")),
+                            reader.GetDecimal(reader.GetOrdinal("item_price")),
+                            reader.IsDBNull(reader.GetOrdinal("instructions")) ? null : reader.GetString(reader.GetOrdinal("instructions")),
+                            reader.GetString(reader.GetOrdinal("item_name")),
+                            (byte[])reader["item_image"],
+                            ""
+                        );
+
+                        itemLines.Add(itemLine);
+                    }
                 }
-                return itemLines;
             }
+
+            return itemLines;
         }
         ///
         /// <summary>

@@ -166,6 +166,7 @@
     <Content Include="Account\ResetPasswordConfirmation.aspx" />
     <Content Include="Account\TwoFactorAuthenticationSignIn.aspx" />
     <Content Include="Account\VerifyPhoneNumber.aspx" />
+    <Content Include="Admin\Booking.aspx" />
     <Content Include="Admin\Bookings.aspx" />
     <Content Include="Admin\Content\common_admin_style.css" />
     <Content Include="Admin\Content\menu_item_style.css" />
@@ -405,6 +406,13 @@
     </Compile>
     <Compile Include="Admin\Admin.Master.designer.cs">
       <DependentUpon>Admin.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Booking.aspx.cs">
+      <DependentUpon>Booking.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Booking.aspx.designer.cs">
+      <DependentUpon>Booking.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Bookings.aspx.cs">
       <DependentUpon>Bookings.aspx</DependentUpon>

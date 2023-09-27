@@ -9,8 +9,8 @@
 			<h1>Order <%=order.OrderID %></h1>
 			<div class="header_input">
 				<asp:DropDownList ID="select_order_type" runat="server" AutoPostBack="True" OnSelectedIndexChanged="SelectOrderType_SelectedIndexChanged">
-					<asp:ListItem Enabled="false" Text="Pending" Value="Pending" DisplayText="Pending" />
-					<asp:ListItem Enabled="false" Text="On the way" Value="On the way" DisplayText="On the way" />
+					<asp:ListItem Text="Pending" Value="Pending" DisplayText="Pending" style="display:none"/>
+					<asp:ListItem Text="On the way" Value="On the way" DisplayText="On the way" style="display:none"/>
 				</asp:DropDownList>
 			</div>
 		</div>
@@ -25,6 +25,9 @@
 							<h2><%# Eval("ItemName") %></h2>
 							<h4>Price  R <%# Eval("ItemCostN2") %></h4>
 							<h4><%# Eval("ItemCategory") %></h4>
+							<%# !string.IsNullOrEmpty(Eval("Instructions").ToString()) ? 
+							"<h4>Instructions</h4><h4>" + Eval("Instructions") + "</h4>" : 
+							"" %>
 						</div>
 						<div class="item_line_details">
 							<h4>QTY <%# Eval("ItemQuantity") %></h4>

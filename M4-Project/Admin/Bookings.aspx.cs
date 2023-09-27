@@ -50,8 +50,8 @@ namespace M4_Project.Admin
         {
             if (e.CommandName == "ViewDetails")
             {
-                int orderID = Convert.ToInt32(e.CommandArgument);
-                Response.Redirect($"order?Order={orderID}");
+                int bookingID = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect($"Booking?Event={bookingID}");
             }
         }
         private List<Models.Sales.Booking> GetEvents()

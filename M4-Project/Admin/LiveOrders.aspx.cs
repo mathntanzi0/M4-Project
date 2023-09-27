@@ -41,6 +41,11 @@ namespace M4_Project.Admin
                 Models.Sales.Order.ChangeStatus(orderID, newOrderStatus);
                 BindOrders();
             }
+            if (e.CommandName == "View")
+            {
+                int orderID = Convert.ToInt32(e.CommandArgument);
+                Response.Redirect($"order?Order={orderID}");
+            }
         }
         private void BindOrders()
         {

@@ -61,9 +61,9 @@ namespace M4_Project.Admin
 
             foreach (ListItem item in select_order_type.Items)
             {
-                if (item.Value == order.OrderStatus)
+                if (item.Text == order.OrderStatus)
                 {
-                    item.Selected = true;
+                    select_order_type.SelectedValue = item.Value;
                     break;
                 }
             }

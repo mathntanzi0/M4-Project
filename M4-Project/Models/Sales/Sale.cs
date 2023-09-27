@@ -53,6 +53,7 @@ namespace M4_Project.Models.Sales
         public decimal Tip { get => tip; set => tip = value; }
         public string TipN2 { get => tip.ToString("N2"); }
         public DateTime PaymentDate { get => paymentDate; set => paymentDate = value; }
+        public string Str_PaymentDate { get => paymentDate.ToString("dd MMM yyyy HH:mm"); }
         public List<ItemLine> ItemLines { get => itemLines; set => itemLines = value; }
         public Dictionary<int, int> Cart { get => cart; set => cart = value; }
         public abstract int SaleType { get; }

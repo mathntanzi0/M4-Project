@@ -73,6 +73,7 @@ table td input[type="submit"]{
 	display: inline-block;
 	margin: 0.350rem;
 	border-radius: 0.5rem;
+	cursor:pointer;
 }
 table td .accept_btn{
 	background-color: var(--secondary-primary);
