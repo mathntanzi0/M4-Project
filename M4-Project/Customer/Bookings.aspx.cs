@@ -26,21 +26,7 @@ namespace M4_Project.Customer
         protected string GetBookingStatusColor(object status)
         {
             string bookingStatus = status.ToString();
-
-            if (bookingStatus == Models.Sales.BookingState.Pending)
-                return "#F46036";
-            else if (bookingStatus == Models.Sales.BookingState.UpComing)
-                return "#F5AF36";
-            else if (bookingStatus == Models.Sales.BookingState.InProgress)
-                return "#1B998B";
-            else if (bookingStatus == Models.Sales.BookingState.Completed)
-                return "green";
-            else if (bookingStatus == Models.Sales.BookingState.Canceled)
-                return "#D7263D";
-            else if (bookingStatus == Models.Sales.BookingState.Rejected)
-                return "#D7263D";
-            else
-                return "#000000";
+            return Models.Sales.BookingState.GetStatusColor(bookingStatus);
         }
     }
 }

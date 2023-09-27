@@ -19,6 +19,7 @@ namespace M4_Project.Admin
             if (!IsPostBack)
             {
                 events = GetEvents();
+                events.Sort();
                 EventRepeater.DataSource = events;
                 EventRepeater.DataBind();
 

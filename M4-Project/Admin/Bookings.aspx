@@ -43,7 +43,7 @@
 							<td><%# Eval("CustomerName") %></td>
 							<td><%# Eval("BookingID") %></td>
 							<td><%# Eval("Str_EventDate") %></td>
-							<td><%# Eval("BookingStatus") %></td>
+							<td style="color:<%# M4_Project.Models.Sales.BookingState.GetStatusColor(Eval("BookingStatus").ToString())%>"><%# Eval("BookingStatus") %></td>
 							<td><%# Eval("PaymentAmount", "R {0:F2}") %></td>
 							<td>
 								<asp:Button runat="server" Text="View Details" CommandName="ViewDetails" CommandArgument='<%# Eval("BookingID") %>' CssClass="accept_btn" />

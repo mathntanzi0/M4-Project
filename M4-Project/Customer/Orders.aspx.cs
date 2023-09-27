@@ -26,25 +26,7 @@ namespace M4_Project.Customer
         protected string GetStatusColor(object status)
         {
             string orderStatus = status.ToString();
-
-            if (orderStatus == Models.Sales.OrderState.Pending)
-                return "#F46036";
-            else if (orderStatus == Models.Sales.OrderState.Preparing)
-                return "#F5AF36";
-            else if (orderStatus == Models.Sales.OrderState.Prepared)
-                return "#1B998B";
-            else if (orderStatus == Models.Sales.OrderState.Unsuccessful)
-                return "#D7263D";
-            else if (orderStatus == Models.Sales.OrderState.OnTheWay)
-                return "#2E294E";
-            else if (orderStatus == Models.Sales.OrderState.Collected)
-                return "green";
-            else if (orderStatus == Models.Sales.OrderState.Delivered)
-                return "green";
-            else if (orderStatus == Models.Sales.OrderState.Rejected)
-                return "#D7263D";
-            else
-                return "#000000";
+            return Models.Sales.OrderState.GetStatusColor(orderStatus);
         }
     }
 }

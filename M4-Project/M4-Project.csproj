@@ -230,10 +230,12 @@
     <Content Include="Content\SignupStyle.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Customer\Account.aspx" />
+    <Content Include="Customer\Booking.aspx" />
     <Content Include="Customer\Bookings.aspx" />
     <Content Include="Customer\Content\account_style.css" />
     <Content Include="Customer\Content\sells_style.css" />
     <Content Include="Customer\Default.aspx" />
+    <Content Include="Customer\Order.aspx" />
     <Content Include="Customer\Orders.aspx" />
     <Content Include="Customer\Profile.aspx" />
     <Content Include="Default.aspx" />
@@ -530,6 +532,13 @@
     <Compile Include="Customer\Account.aspx.designer.cs">
       <DependentUpon>Account.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Customer\Booking.aspx.cs">
+      <DependentUpon>Booking.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\Booking.aspx.designer.cs">
+      <DependentUpon>Booking.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Customer\Bookings.aspx.cs">
       <DependentUpon>Bookings.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -543,6 +552,13 @@
     </Compile>
     <Compile Include="Customer\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Customer\Order.aspx.cs">
+      <DependentUpon>Order.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\Order.aspx.designer.cs">
+      <DependentUpon>Order.aspx</DependentUpon>
     </Compile>
     <Compile Include="Customer\Orders.aspx.cs">
       <DependentUpon>Orders.aspx</DependentUpon>

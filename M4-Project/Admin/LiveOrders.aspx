@@ -72,7 +72,7 @@
 						<tr>
 							<td><%# Eval("OrderID") %></td>
 							<td><%# Eval("OrderType") %></td>
-							<td><%# Eval("OrderStatus") %></td>
+							<td style="color: <%# M4_Project.Models.Sales.OrderState.GetStatusColor(Eval("OrderStatus").ToString()) %> "><%# Eval("OrderStatus") %></td>
 							<td><%# Eval("Str_PaymentDate") %></td>
 							<td><%# Eval("PaymentAmount", "R {0:F2}") %></td>
 							<td>

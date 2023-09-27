@@ -11,7 +11,7 @@ namespace M4_Project.Models.Sales
     /// <summary>
     ///     Represents a booking for an event.
     /// </summary>
-    public class Booking : Sale
+    public class Booking : Sale, IComparable<Booking>
     {
         private int bookingID;
         private Customer customer;
@@ -427,6 +427,16 @@ namespace M4_Project.Models.Sales
         {
             return (date >= BusinessRules.Booking.MinEventDate) && (date <= BusinessRules.Booking.MaxEventDate);
         }
+        public int CompareTo(Booking other)
+        {
+            if (this.BookingStatus == BookingState.Pending && other.BookingStatus != BookingState.Pending)
+                return -1;
+            else if (this.BookingStatus != BookingState.Pending && other.BookingStatus == BookingState.Pending)
+                return 1;
+            else
+                return 0;
+        }
+
         ///
         /// <summary>
         ///     Returns a list of event bookings using staff member's identification number.
@@ -521,6 +531,23 @@ namespace M4_Project.Models.Sales
                    state == Completed ||
                    state == Canceled ||
                    state == Rejected;
+        }
+        public static string GetStatusColor(string status)
+        {
+            if (status == Pending)
+                return "#F46036";
+            else if (status == UpComing)
+                return "#F5AF36";
+            else if (status == InProgress)
+                return "#1B998B";
+            else if (status == Completed)
+                return "green";
+            else if (status == Canceled)
+                return "#D7263D";
+            else if (status == Rejected)
+                return "#D7263D";
+            else
+                return "#000000";
         }
     }
 }

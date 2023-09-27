@@ -20,26 +20,28 @@
 			<% } %>
 			<asp:Repeater ID="orderRepeater" runat="server">
 				<ItemTemplate>
-					<div class="sell_card">
-						<div class="date_container">
-							<h2>
-								<%# Eval("PaymentDate", "{0:MMMM}") %> <br>
-								<%# Eval("PaymentDate", "{0:dd}") %> <br>
-								<%# Eval("PaymentDate", "{0:yyyy}") %>
-							</h2>
+					<a href="Order?Order=<%# Eval("OrderID") %>">
+						<div class="sell_card">
+							<div class="date_container">
+								<h2>
+									<%# Eval("PaymentDate", "{0:MMMM}") %> <br>
+									<%# Eval("PaymentDate", "{0:dd}") %> <br>
+									<%# Eval("PaymentDate", "{0:yyyy}") %>
+								</h2>
+							</div>
+							<div class="sell_details">
+								<h2 class="header_detail">#<%# Eval("OrderID") %> <%# Eval("OrderType") %></h2>
+								<h2 class="sell_status">Status: <span style='color:<%# GetStatusColor(Eval("OrderStatus")) %>'><%# Eval("OrderStatus") %></span></h2>
+							</div>
+							<div class="right_sell_details">
+								<h2 class="sell_payment"><br /></h2>
+								<svg class="common_icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48">
+									<path d="m560-242-43-42 168-168H160v-60h525L516-681l43-42 241 241-240 240Z" />
+								</svg>
+								<h2 class="sell_payment"><%# Eval("PaymentAmount", "{0:C}") %></h2>
+							</div>
 						</div>
-						<div class="sell_details">
-							<h2 class="header_detail">#<%# Eval("OrderID") %> <%# Eval("OrderType") %></h2>
-							<h2 class="sell_status">Status: <span style='color:<%# GetStatusColor(Eval("OrderStatus")) %>'><%# Eval("OrderStatus") %></span></h2>
-						</div>
-						<div class="right_sell_details">
-							<h2 class="sell_payment"><br /></h2>
-							<svg class="common_icon" xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48">
-								<path d="m560-242-43-42 168-168H160v-60h525L516-681l43-42 241 241-240 240Z" />
-							</svg>
-							<h2 class="sell_payment"><%# Eval("PaymentAmount", "{0:C}") %></h2>
-						</div>
-					</div>
+					</a>
 				</ItemTemplate>
 			</asp:Repeater>
 		</div>

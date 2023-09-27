@@ -218,7 +218,7 @@ namespace M4_Project.Models.Sales
                         
                         order.PaymentDate = (DateTime)reader["payment_date"];
                         order.PaymentAmount = (decimal)reader["payment_amount"];
-                        order.PaymentMethod = reader["payment_amount"].ToString();
+                        order.PaymentMethod = reader["payment_method"].ToString();
                         order.Tip = (decimal)reader["tip_amount"];
                         order.ItemLines = GetOrderLines(orderID);
                         return order;
@@ -647,6 +647,28 @@ namespace M4_Project.Models.Sales
                    state == Collected ||
                    state == Delivered ||
                    state == Rejected;
+        }
+
+        public static string GetStatusColor(string orderStatus)
+        {
+            if (orderStatus == Pending)
+                return "#F46036";
+            else if (orderStatus == Preparing)
+                return "#F5AF36";
+            else if (orderStatus == Prepared)
+                return "#1B998B";
+            else if (orderStatus == Unsuccessful)
+                return "#D7263D";
+            else if (orderStatus == OnTheWay)
+                return "#2E294E";
+            else if (orderStatus == Collected)
+                return "green";
+            else if (orderStatus == Delivered)
+                return "green";
+            else if (orderStatus == Rejected)
+                return "#D7263D";
+            else
+                return "#000000";
         }
     }
 }
