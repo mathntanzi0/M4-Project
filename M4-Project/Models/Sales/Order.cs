@@ -533,7 +533,6 @@ namespace M4_Project.Models.Sales
             }
             return liveOrders;
         }
-
         ///
         /// <summary>
         ///     Synchronizes the order cart in the session with the cart stored in a browser cookie.
@@ -663,7 +662,6 @@ namespace M4_Project.Models.Sales
                    state == Delivered ||
                    state == Rejected;
         }
-
         public static string GetStatusColor(string orderStatus)
         {
             if (orderStatus == Pending)
