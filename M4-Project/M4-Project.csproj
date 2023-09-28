@@ -166,6 +166,8 @@
     <Content Include="Account\ResetPasswordConfirmation.aspx" />
     <Content Include="Account\TwoFactorAuthenticationSignIn.aspx" />
     <Content Include="Account\VerifyPhoneNumber.aspx" />
+    <Content Include="Admin\AddItem.aspx" />
+    <Content Include="Admin\AddStaff.aspx" />
     <Content Include="Admin\Booking.aspx" />
     <Content Include="Admin\Bookings.aspx" />
     <Content Include="Admin\Content\add_item_style.css" />
@@ -199,11 +201,13 @@
     <Content Include="Assets\chef2.png" />
     <Content Include="Assets\chef3.jpg" />
     <Content Include="Assets\chef4.jpg" />
+    <Content Include="Assets\default_item.png" />
     <Content Include="Assets\event_catering.jpg" />
     <Content Include="Assets\event_catering_1.jpg" />
     <Content Include="Assets\event_catering_2.jpg" />
     <Content Include="Assets\event_catering_3.jpg" />
     <Content Include="Assets\home_header_image.png" />
+    <Content Include="Assets\imagesmode.svg" />
     <Content Include="Assets\login_cover.png" />
     <Content Include="Assets\logo.png" />
     <Content Include="Assets\temp\appletiser.jpg" />
@@ -414,6 +418,20 @@
     </Compile>
     <Compile Include="Account\VerifyPhoneNumber.aspx.designer.cs">
       <DependentUpon>VerifyPhoneNumber.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AddItem.aspx.cs">
+      <DependentUpon>AddItem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AddItem.aspx.designer.cs">
+      <DependentUpon>AddItem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\AddStaff.aspx.cs">
+      <DependentUpon>AddStaff.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\AddStaff.aspx.designer.cs">
+      <DependentUpon>AddStaff.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Admin.Master.cs">
       <DependentUpon>Admin.Master</DependentUpon>

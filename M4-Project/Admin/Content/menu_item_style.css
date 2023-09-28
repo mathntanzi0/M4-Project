@@ -2,17 +2,19 @@
   display: flex;
   padding-top: 1rem;
 }
-.item_image_wrapper{
-  width: 26vw;
-  min-width: 16rem;
+.item_image_wrapper {
+    --size: 24vw;
+    width: var(--size);
+    height: var(--size);
 }
-.item_image_wrapper img{
-  width: 100%;
+.item_image_wrapper img {
+    width: var(--size);
+    height: var(--size);
+    object-fit: cover;
 }
 .item_details{
   position: relative;
   margin-left: 2rem;
-  min-height: 22rem;
 }
 .middle_details_wrapper{
   margin-top: 1rem;

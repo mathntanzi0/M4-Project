@@ -11,7 +11,8 @@ namespace M4_Project.Admin.POS
 {
     public partial class MenuItem : System.Web.UI.Page
     {
-        public Models.MenuItem menuItem;
+        protected Models.MenuItem menuItem;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)

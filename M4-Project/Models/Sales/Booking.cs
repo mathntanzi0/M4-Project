@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Text;
 using System.Web;
 
 namespace M4_Project.Models.Sales
@@ -67,7 +68,6 @@ namespace M4_Project.Models.Sales
             this.PaymentAmount = paymentAmount;
             this.bookingStatus = bookingStatus;
         }
-
         ///
         /// <summary>
         ///     Records the attributes' values of an instance of M4_System.Models.Sales.Booking class to the database.
@@ -416,6 +416,41 @@ namespace M4_Project.Models.Sales
             }
             return unavailableDates;
         }
+        public static ItemSummary GetItemSummary(int itemID)
+        {
+            int year = DateTime.Now.Year;
+            int month = DateTime.Now.Month;
+
+            StringBuilder query = new StringBuilder();
+            query.Append("SELECT COUNT([item_id]) AS RowsCount, SUM([Event Line].item_quantity) AS TotalQty, SUM(sub_cost) AS TotalAmount");
+            query.Append(" FROM [Event Line], [Event Booking]");
+            query.Append(" WHERE [Event Booking].booking_id = [Event Line].booking_id");
+            query.Append(" AND MONTH([Event Booking].payment_date) = @month");
+            query.Append(" AND YEAR([Event Booking].payment_date) = @year");
+            query.Append(" AND item_id = @itemID;");
+
+            ItemSummary itemSummary = new ItemSummary();
+            using (SqlCommand command = new SqlCommand(query.ToString()))
+            {
+                using (Database dbConnection = new Database(command))
+                {
+                    dbConnection.Command.Parameters.AddWithValue("@month", month);
+                    dbConnection.Command.Parameters.AddWithValue("@year", year);
+                    dbConnection.Command.Parameters.AddWithValue("@itemID", itemID);
+
+                    using (SqlDataReader reader = dbConnection.Command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            itemSummary.RowsCount = reader["RowsCount"] != DBNull.Value ? (int)reader["RowsCount"] : 0;
+                            itemSummary.TotalQty = reader["TotalQty"] != DBNull.Value ? (int)reader["TotalQty"] : 0;
+                            itemSummary.TotalAmount = reader["TotalAmount"] != DBNull.Value ? (decimal)reader["TotalAmount"] : 0;
+                        }
+                    }
+                }
+            }
+            return itemSummary;
+        }
         /// <summary>
         ///     Checks if a given DateTime falls within a specified date range defined by minimum and maximum dates.
         /// </summary>
@@ -436,34 +471,10 @@ namespace M4_Project.Models.Sales
             else
                 return 0;
         }
-
         ///
         /// <summary>
         ///     Returns a list of event bookings using staff member's identification number.
         /// </summary>
-        /*public static List<Booking> GetBookings(int page, int maxListSize, int staffID)
-        {
-            string query = "SELECT [Event Booking].[booking_id], [Event Booking].[customer_id], [Customer].first_name, [Customer].last_name, [event_date], [event_duration], [event_setting], [event_address], [payment_amount], [payment_method], [payment_date], [status] " +
-              "FROM [Event Booking], [Event Staff], Customer " +
-              "WHERE [Event Staff].staff_id = @staff_id AND [Event Staff].booking_id = [Event Booking].booking_id AND Customer.customer_id = [Event Booking].customer_id " +
-              "ORDER BY [first_name], [last_name], [Event Booking].[booking_id] ASC " +
-              "OFFSET @page ROW " +
-              "FETCH NEXT @limit ROWS ONLY";
-
-            List<Booking> bookings = new List<Booking>();
-            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@staff_id", staffID);
-                command.Parameters.AddWithValue("@page", page);
-                command.Parameters.AddWithValue("@limit", maxListSize);
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                //Waiting for customer class.
-                return null;
-            }
-        }*/
         public int BookingID { get => bookingID; set => bookingID = value; }
         public string EventAddress { get => eventAddress; set => eventAddress = value; }
         public string EventDecorDescription { get => eventDecorDescription; set => eventDecorDescription = value; }
@@ -475,7 +486,6 @@ namespace M4_Project.Models.Sales
         public string CustomerName { get => (customer != null) ? customer.FirstName + " " + customer.LastName : "none"; }
         public override int SaleType => Sales.SaleType.EventBooking;
     }
-
     /// <summary>
     ///     Enumerates Potential Booking States.
     /// </summary>

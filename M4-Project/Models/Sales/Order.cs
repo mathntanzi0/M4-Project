@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace M4_Project.Models.Sales
@@ -532,6 +533,43 @@ namespace M4_Project.Models.Sales
                 }
             }
             return liveOrders;
+        }
+        public static ItemSummary GetItemSummary(int itemID)
+        {
+            int year = DateTime.Now.Year;
+            int month = DateTime.Now.Month;
+
+            StringBuilder query = new StringBuilder();
+            query.Append("SELECT COUNT([item_id]) AS RowsCount, SUM([Order Line].item_quantity) AS TotalQty, SUM(sub_cost) AS TotalAmount");
+            query.Append(" FROM [Order Line], [Order]");
+            query.Append(" WHERE [Order].order_id = [Order Line].order_id");
+            query.Append(" AND MONTH([Order].payment_date) = @month");
+            query.Append(" AND YEAR([Order].payment_date) = @year");
+            query.Append(" AND item_id = @item;");
+
+            ItemSummary itemSummary = new ItemSummary();
+            using (SqlCommand command = new SqlCommand(query.ToString()))
+            {
+                using (Database dbConnection = new Database(command))
+                {
+                    dbConnection.Command.Parameters.AddWithValue("@month", month);
+                    dbConnection.Command.Parameters.AddWithValue("@year", year);
+                    dbConnection.Command.Parameters.AddWithValue("@item", itemID);
+
+                    using (SqlDataReader reader = dbConnection.Command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            itemSummary.RowsCount = reader["RowsCount"] != DBNull.Value ? (int)reader["RowsCount"] : 0;
+                            itemSummary.TotalQty = reader["TotalQty"] != DBNull.Value ? (int)reader["TotalQty"] : 0;
+                            itemSummary.TotalAmount = reader["TotalAmount"] != DBNull.Value ? (decimal)reader["TotalAmount"] : 0;
+
+                        }
+                    }
+                    
+                }
+            }
+            return itemSummary;
         }
         ///
         /// <summary>

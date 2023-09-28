@@ -42,7 +42,6 @@ namespace M4_Project.Models.Sales
             this.image = image;
             this.itemCategory = itemCategory;
         }
-
         public int ItemID { get => itemID; set => itemID = value; }
         public int ItemQuantity { get => itemQuantity; set { itemQuantity = value; totalSubCost = itemCost * itemQuantity; } }
         public decimal ItemCost { get => itemCost; set => itemCost = value; }
@@ -62,16 +61,20 @@ namespace M4_Project.Models.Sales
         public readonly static string OrderCart = "OrderCart";
         public readonly static string BookingCart = "BookingCart";
         public readonly static string BookingInfo = "BookingInfo";
-
         public CartItem(int itemID, int itemQuantity, string instructions)
         {
             this.itemID = itemID;
             this.itemQuantity = itemQuantity;
             this.instructions = instructions;
         }
-
         public int ItemID { get => itemID; set => itemID = value; }
         public int ItemQuantity { get => itemQuantity; set => itemQuantity = value; }
         public string Instructions { get => instructions; set => instructions = value; }
+    }
+    public class ItemSummary
+    {
+        public int RowsCount { get; set; }
+        public int TotalQty { get; set; }
+        public decimal TotalAmount { get; set; }
     }
 }

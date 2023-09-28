@@ -87,7 +87,11 @@
 							<li><a href="/Admin/POS/Cart">Cart</a></li>
 						</ul>
 					</li>
-					<li><a class="outer_a" href="/Admin/Staff">Staff</a></li>
+					<li><a class="outer_a" href="/Admin/Staff">Staff</a>
+						<ul>
+							<li><a href="/Admin/POS/AddStaff">Add Member</a></li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 			</div>
@@ -184,7 +188,7 @@
 			});
             var isDarkModeNow = document.body.classList.contains("dark-mode");
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "UpdateDarkModeSession.aspx?isDarkMode=" + isDarkModeNow, true);
+            xhr.open("GET", "/Admin/UpdateDarkModeSession.aspx?isDarkMode=" + isDarkModeNow, true);
             xhr.send();
 		}
 

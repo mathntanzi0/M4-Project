@@ -2,12 +2,15 @@
   display: flex;
   padding-top: 1rem;
 }
-.item_image_wrapper{
-  width: 26vw;
-  min-width: 16rem;
+.item_image_wrapper {
+    --size: 24vw;
+    width: var(--size);
+    height: var(--size);
 }
 .item_image_wrapper img{
-  width: 100%;
+  width: var(--size);
+  height: var(--size);
+  object-fit:cover;
 }
 .item_details{
   position: relative;

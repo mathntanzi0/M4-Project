@@ -26,7 +26,7 @@ namespace M4_Project.Models
         /// <summary>
         ///     Initializes a new instance of the M4_System.Models.MenuItem class.
         /// </summary>
-        private MenuItem()
+        public MenuItem()
         {
             this.itemID = -1;
         }
@@ -146,8 +146,7 @@ namespace M4_Project.Models
         /// </summary>
         public void AddMenuItem()
         {
-            string query = "INSERT INTO [Menu Item] ([item_name], [item_description], [item_price], [item_type], [item_image], [availability]) VALUES (@item_name, @item_description, @item_price, @item_type, @item_image, @availability); " +
-                "SELECT SCOPE_IDENTITY() AS item_id;";
+            string query = "INSERT INTO [Menu Item] ([item_name], [item_description], [item_price], [item_type], [item_image], [availability]) VALUES (@item_name, @item_description, @item_price, @item_type, @item_image, @availability); ";
 
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
             {
@@ -160,8 +159,8 @@ namespace M4_Project.Models
                 command.Parameters.AddWithValue("@availability", status);
                 connection.Open();
 
-                object insertedItemId = command.ExecuteScalar();
-                this.itemID = Convert.ToInt32(insertedItemId);
+                command.ExecuteNonQuery();
+                
                 connection.Close();
             }
         }
@@ -171,18 +170,69 @@ namespace M4_Project.Models
         /// </summary>
         public static void DeleteMenuItem(int itemID)
         {
-            string query = "DELETE [Menu Item] WHERE item_id = @item_id;";
+            string query = "DELETE [Order Line] WHERE [Order Line].item_id = @itemID; " +
+                "DELETE [Event Line] WHERE [Event Line].item_id = @itemID; " +
+                "DELETE [Menu Item] WHERE [Menu Item].item_id = @itemID;";
 
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@item_name", itemID);
+                command.Parameters.AddWithValue("@itemID", itemID);
+                connection.Open();
                 command.ExecuteNonQuery();
                 connection.Close();
             }
         }
+        public void UpdateMenuItemWithImage()
+        {
+            string query = @"
+                UPDATE [Menu Item]
+                SET [item_name] = @item_name,
+                    [item_description] = @item_description,
+                    [item_price] = @item_price,
+                    [item_type] = @item_type,
+                    [item_image] = @item_image
+                WHERE [item_id] = @item_id;";
 
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@item_id", itemID);
+                command.Parameters.AddWithValue("@item_name", itemName);
+                command.Parameters.AddWithValue("@item_description", itemDescription);
+                command.Parameters.AddWithValue("@item_price", itemPrice);
+                command.Parameters.AddWithValue("@item_type", itemCategory);
+                command.Parameters.AddWithValue("@item_image", itemImage);
 
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+        public void UpdateMenuItem()
+        {
+            string query = @"
+                UPDATE [Menu Item]
+                SET [item_name] = @item_name,
+                    [item_description] = @item_description,
+                    [item_price] = @item_price,
+                    [item_type] = @item_type
+                WHERE [item_id] = @item_id;";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@item_id", itemID);
+                command.Parameters.AddWithValue("@item_name", itemName);
+                command.Parameters.AddWithValue("@item_description", itemDescription);
+                command.Parameters.AddWithValue("@item_price", itemPrice);
+                command.Parameters.AddWithValue("@item_type", itemCategory);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
         public static void SetMenuCategories()
         {
             string query = "SELECT Distinct item_type " +
@@ -202,7 +252,6 @@ namespace M4_Project.Models
                 }
             }
         }
-
         public int ItemID { get => itemID; set => itemID = value; }
         public string ItemName { get => itemName; set => itemName = value; }
         public string ItemDescription { get => itemDescription; set => itemDescription = value; }
@@ -271,5 +320,10 @@ namespace M4_Project.Models
         public int Page { get => page; }
         public string ItemName { get => itemName; set => itemName = value; }
         public string ItemType { get => itemType; set => itemType = value; }
+    }
+    public static class MenuItemStatus
+    {
+        public readonly static string Available = "Available";
+        public readonly static string Unavailable = "Unavailable";
     }
 }

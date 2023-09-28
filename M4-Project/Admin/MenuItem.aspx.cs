@@ -10,6 +10,8 @@ namespace M4_Project.Admin
     public partial class MenuItem : System.Web.UI.Page
     {
         public Models.MenuItem menuItem;
+        protected Models.Sales.ItemSummary orderItemSummary;
+        protected Models.Sales.ItemSummary bookingItemSummary;
         protected void Page_Load(object sender, EventArgs e)
         {
             string str_itemID = Request.QueryString["Item"];
@@ -24,10 +26,33 @@ namespace M4_Project.Admin
             if (menuItem == null)
                 Response.Redirect("Menu");
             Page.Title = menuItem.ItemName;
+            orderItemSummary = Models.Sales.Order.GetItemSummary(menuItem.ItemID);
+            bookingItemSummary = Models.Sales.Booking.GetItemSummary(menuItem.ItemID);
 
             string base64String = Convert.ToBase64String(menuItem.ItemImage);
             string imageUrl = "data:image/jpeg;base64," + base64String;
             Image1.ImageUrl = imageUrl;
+
+            EditButton.CommandArgument = menuItem.ItemID.ToString();
+            DeleteButton.CommandArgument = menuItem.ItemID.ToString();
+        }
+        protected void EditButton_Click(object sender, EventArgs e)
+        {
+            Button editButton = (Button)sender;
+            string itemID = editButton.CommandArgument;
+
+            Response.Redirect("/Admin/AddItem?Item="+itemID);
+        }
+        protected void DeleteButton_Click(object sender, EventArgs e)
+        {
+            Button editButton = (Button)sender;
+            string itemID = editButton.CommandArgument;
+
+            if (!int.TryParse(itemID, out int int_itemID))
+                Response.Redirect("/");
+
+            Models.MenuItem.DeleteMenuItem(int_itemID);
+            Response.Redirect("/Admin/Menu");
         }
     }
 }

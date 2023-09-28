@@ -54,7 +54,7 @@ body {
     margin-top: 96px;
 }
 
-button {
+button, input[type="submit"] {
     padding: 0.5rem 2.5rem;
     border-radius: 0.5rem;
     box-shadow: var(--card-box-shadow);
@@ -72,8 +72,8 @@ button {
     position: fixed;
     bottom: 1.175rem;
     right: 1.175rem;
-    background-color: var(--primary-color);
-    color: var(--special-text-color);
+    background-color: var(--secondary-primary);
+    color: var(--text-color);
 }
 
 .delete_button {

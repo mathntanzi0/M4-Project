@@ -61,7 +61,6 @@
 		</div>
 
 	<% } %>
-		<button class="primary_button">Add Staff</button>
 
 	<div class="page_nav_container">
 		<% if (page > 1)

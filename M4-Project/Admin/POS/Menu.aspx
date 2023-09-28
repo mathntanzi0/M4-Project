@@ -6,7 +6,7 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="AdminMainContent" runat="server">
 		<div class="secondary_header">
-			<h1>Menu</h1>
+			<h1>Point of Sale</h1>
 			<div class="header_input">
 				<div>
 					<asp:TextBox ID="itemName" runat="server" Placeholder="Search by item name..."></asp:TextBox>
