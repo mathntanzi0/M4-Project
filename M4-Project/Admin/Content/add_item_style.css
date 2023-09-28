@@ -1,0 +1,52 @@
+.secondary_header{
+	width: 100%;
+	display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 24px 0;
+  margin-top: 104px;
+}
+.secondary_header div{
+	margin-right: 16px;
+	margin-left: auto;
+}
+.item_image_wrapper{
+	width: 200px;
+	text-align: center;
+}
+.item_image_wrapper label{
+	display: block;
+	padding: 8px;
+}
+.inline_input_fields{
+	margin-top: 2rem;
+	margin-left: 1rem;
+}
+.input_field{
+	display: inline-block;
+	width: 34vw;
+}
+.input_item_right{
+	margin-left: 12vw;
+}
+.input_field label{
+	display: block;
+	padding: 0.5rem 0;
+}
+.input_field input, .input_field select {
+  width: 100%;
+	padding: 12px 20px;
+	border: 1px solid #aaa;
+	border-radius: 4px;
+	box-sizing: border-box;
+	font-size: 1rem;
+	box-shadow: var(--card-box-shadow);
+  background-color: var(--background-color);
+  transition: background-color 0.5s ease;
+}
+.input_item_category input, .input_item_category select{
+	width: calc(50% - 2px);
+}
+.input_item_category input{
+	visibility: hidden;
+}

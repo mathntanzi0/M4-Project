@@ -168,12 +168,14 @@
     <Content Include="Account\VerifyPhoneNumber.aspx" />
     <Content Include="Admin\Booking.aspx" />
     <Content Include="Admin\Bookings.aspx" />
+    <Content Include="Admin\Content\add_item_style.css" />
     <Content Include="Admin\Content\common_admin_style.css" />
     <Content Include="Admin\Content\menu_item_style.css" />
     <Content Include="Admin\Content\sales_style.css" />
     <Content Include="Admin\Content\sale_view_style.css" />
     <Content Include="Admin\Content\staff_member_style.css" />
     <Content Include="Admin\Content\staff_style.css" />
+    <Content Include="Admin\Content\table_style.css" />
     <Content Include="Admin\Default.aspx" />
     <Content Include="Admin\LiveOrders.aspx" />
     <Content Include="Admin\Login.aspx" />
@@ -183,7 +185,10 @@
     <Content Include="Admin\Orders.aspx" />
     <Content Include="Admin\POS\Cart.aspx" />
     <Content Include="Admin\POS\Checkout.aspx" />
+    <Content Include="Admin\POS\Customer.aspx" />
+    <Content Include="Admin\POS\Customers.aspx" />
     <Content Include="Admin\POS\Default.aspx" />
+    <Content Include="Admin\POS\MakeBooking.aspx" />
     <Content Include="Admin\POS\Menu.aspx" />
     <Content Include="Admin\POS\MenuItem.aspx" />
     <Content Include="Admin\Staff.aspx" />
@@ -494,12 +499,33 @@
     <Compile Include="Admin\POS\Checkout.aspx.designer.cs">
       <DependentUpon>Checkout.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\POS\Customer.aspx.cs">
+      <DependentUpon>Customer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\POS\Customer.aspx.designer.cs">
+      <DependentUpon>Customer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\POS\Customers.aspx.cs">
+      <DependentUpon>Customers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\POS\Customers.aspx.designer.cs">
+      <DependentUpon>Customers.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\POS\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Admin\POS\Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\POS\MakeBooking.aspx.cs">
+      <DependentUpon>MakeBooking.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\POS\MakeBooking.aspx.designer.cs">
+      <DependentUpon>MakeBooking.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\POS\Menu.aspx.cs">
       <DependentUpon>Menu.aspx</DependentUpon>

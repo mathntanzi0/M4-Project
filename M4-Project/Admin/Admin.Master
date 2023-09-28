@@ -82,6 +82,7 @@
 					<li><a class="outer_a" href="/Admin/Bookings">Bookings</a></li>
 					<li><a class="outer_a" href="/Admin/POS">POS</a>
 						<ul>
+							<li><a href="/Admin/POS/Customers">Customers</a></li>
 							<li><a href="/Admin/POS/Menu">Menu</a></li>
 							<li><a href="/Admin/POS/Cart">Cart</a></li>
 						</ul>

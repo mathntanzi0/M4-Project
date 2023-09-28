@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data.SqlClient;
 using System.Data;
+using System.Text;
 
 namespace M4_Project.Models
 {
@@ -25,6 +26,13 @@ namespace M4_Project.Models
         private int loyaltyPoints;
         private string password;
 
+        ///<summary>
+        /// Initializing a new class instance of the customer.
+        ///</summary>
+        public Customer()
+        {
+            customerID = -1;
+        }
         ///<summary>
         /// Initializing a new class instance of the customer.
         ///</summary>
@@ -289,7 +297,7 @@ namespace M4_Project.Models
         /// <param name="page"></param>
         /// <param name="maxListSize"></param>
         /// <returns></returns>
-        public System.Collections.Generic.List<Customer> GetCustomers(int page,int maxListSize)
+        public System.Collections.Generic.List<Customer> GetCustomers(int page, int maxListSize)
         {
             List<Customer> customers = new List<Customer>();
 
@@ -419,7 +427,7 @@ namespace M4_Project.Models
             if (currentCustomer != null)
                 HttpContext.Current.Session["Customer"] = currentCustomer;
             else
-                HttpContext.Current.Response.Redirect("/Customer/Profile?ReturnUrl="+ReturnUrl);
+                HttpContext.Current.Response.Redirect("/Customer/Profile?ReturnUrl=" + ReturnUrl);
 
             return currentCustomer;
         }
@@ -431,11 +439,137 @@ namespace M4_Project.Models
         public int CustomerID { get => customerID; set => customerID = value; }
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
-        public string FullName { get => firstName + " " + lastName;}
+        public string FullName { get => firstName + " " + lastName; }
         public string EmailAddress { get => emailAddress; set => emailAddress = value; }
         public string PhoneNumber { get => phoneNumber; set => phoneNumber = value; }
         public string PhysicalAddress { get => physicalAddress; set => physicalAddress = value; }
         public int LoyaltyPoints { get => loyaltyPoints; set => loyaltyPoints = value; }
         public string Password { get => password; set => password = value; }
+    }
+    public class CustomerSearch
+    {
+        public string Query { get; private set; }
+        public string RowCountQuery { get; private set; }
+        public string CustomerName { get; private set; }
+        public int Page { get; private set; }
+        public int MaxPerPage { get; private set; }
+        public int MaxPage { get; private set; }
+        private SqlCommand Command { get; set; }
+        public List<Customer> Customers { get; private set; }
+
+        public CustomerSearch(string pageString, string searchText, int MaxPerPage)
+        {
+            this.MaxPerPage = MaxPerPage;
+            Command = new SqlCommand();
+            bool whereAdded = false;
+            StringBuilder whereClause = WhereClause(searchText, ref whereAdded);
+
+            if (RowCount(whereClause) < 1)
+            {
+                this.Customers = new List<Customer>();
+                return;
+            }
+            int page;
+            if (!string.IsNullOrEmpty(pageString) && int.TryParse(pageString, out page))
+            {
+                if (page > MaxPage)
+                    Page = MaxPage;
+                else if (page < 0)
+                    Page = 1;
+                else
+                    Page = page;
+            }
+            else
+            {
+                Page = 1;
+            }
+            Command.Parameters.AddWithValue("@page", (Page - 1) * MaxPerPage);
+            Command.Parameters.AddWithValue("@maxOrders", MaxPerPage);
+
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.Append("SELECT [customer_id], [first_name], [last_name], [email_address], [phone_number], [loyalty_points] ");
+            queryBuilder.Append("FROM [Customer] ");
+
+            if (whereAdded)
+            {
+                queryBuilder.Append("WHERE ");
+                queryBuilder.Append(whereClause.ToString());
+            }
+            queryBuilder.Append("ORDER BY (first_name + ' ' + last_name) ASC ");
+            queryBuilder.Append("OFFSET @page ROWS ");
+            queryBuilder.Append("FETCH NEXT @maxOrders ROWS ONLY;");
+
+            Query = queryBuilder.ToString();
+            Command.CommandText = Query;
+            GetCustomers();
+        }
+        private void GetCustomers()
+        {
+            List<Customer> customers = new List<Customer>();
+            using (Database dbConnection = new Database(Command))
+            {
+                using (SqlDataReader reader = dbConnection.Command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int customerID = Convert.ToInt32(reader["customer_id"]);
+                        string firstName = reader["first_name"].ToString();
+                        string lastName = reader["last_name"].ToString();
+                        string emailAddress = reader["email_address"].ToString();
+                        string phoneNumber = reader["phone_number"].ToString();
+                        int loyaltyPoints = Convert.ToInt32(reader["loyalty_points"]);
+
+                        Customer customer = new Customer()
+                        {
+                            CustomerID = customerID,
+                            FirstName = firstName,
+                            LastName = lastName,
+                            EmailAddress = emailAddress,
+                            PhoneNumber = phoneNumber,
+                            LoyaltyPoints = loyaltyPoints
+                        };
+
+                        customers.Add(customer);
+                    }
+                }
+            }
+            this.Customers = customers;
+        }
+        private int RowCount(StringBuilder whereClause)
+        {
+            int rowCount = 0;
+
+            StringBuilder query = new StringBuilder();
+            RowCountQuery = "SELECT COUNT([customer_id]) FROM [Customer] ";
+
+            query.Append(RowCountQuery);
+            if (whereClause.Length < 1)
+                query.Append(';');
+            else
+            {
+                query.Append("WHERE ");
+                query.Append(whereClause.ToString());
+            }
+
+            Command.CommandText = query.ToString();
+            using (Database dbConnection = new Database(Command))
+                rowCount = (int)dbConnection.Command.ExecuteScalar();
+
+            if (rowCount != 0)
+                MaxPage = (int)Math.Ceiling((decimal)rowCount / (decimal)MaxPerPage);
+            return rowCount;
+        }
+        private StringBuilder WhereClause(string searchText, ref bool whereAdded)
+        {
+            StringBuilder whereClause = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                whereClause.Append(" (first_name + ' ' + last_name LIKE '%' + @search + '%') ");
+                whereAdded = true;
+                Command.Parameters.AddWithValue("@search", searchText);
+            }
+            return whereClause;
+        }
     }
 }

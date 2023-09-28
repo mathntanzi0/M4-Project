@@ -66,12 +66,12 @@ namespace M4_Project.Admin.POS
         }
         private void ProcessBooking(Models.Sales.Booking booking)
         {
-            if (!Context.User.Identity.IsAuthenticated)
-                Response.Redirect("/Account/Login?ReturnUrl=/Admin/POS/Checkout");
+            Models.Customer currentCustomer = new Models.Customer();
 
-            /*Models.Customer currentCustomer = Session["Customer"] as Models.Customer;
-            if (currentCustomer == null)
-                currentCustomer = Models.Customer.SetSession("/Admin/POS/Checkout");
+            if (!int.TryParse(Session["BookingCustomer"].ToString(), out int customerID))
+                Response.Redirect("/Admin/POS/Customers");
+            
+            currentCustomer.CustomerID = customerID;
 
             if (string.IsNullOrEmpty(booking.EventAddress))
             {
@@ -96,10 +96,6 @@ namespace M4_Project.Admin.POS
             booking.RecordSell();
             currentCustomer.UpdateLoyaltyPoints((int)Math.Floor(booking.PaymentAmount * Models.BusinessRules.Sale.LoyaltyPointsRatio));
             HttpContext.Current.Session["POS"] = null;
-            HttpCookie cartCookie = new HttpCookie(Models.Sales.CartItem.BookingCart);
-            cartCookie.Expires = DateTime.Now.AddDays(-1);
-            HttpContext.Current.Response.Cookies.Add(cartCookie);*/
-
             Response.Redirect("/Admin/Bookings");
         }
     }

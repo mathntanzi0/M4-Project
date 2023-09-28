@@ -87,7 +87,7 @@
 					<label>Duration: <%= ((M4_Project.Models.Sales.Booking)sale).EventDuration.ToString(@"hh\:mm")%></label>
 				</div>
 				<div class="summary_line_wrapper">
-					<label><a href="/MakeBooking?ReturnUrl=/Checkout">Update booking details</a></label>
+					<label><a href="/Admin/POS/MakeBooking?ReturnUrl=/Admin/POS/Checkout">Update booking details</a></label>
 				</div>
 			<% } %>
 			<br>

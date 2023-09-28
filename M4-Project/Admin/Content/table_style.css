@@ -49,6 +49,7 @@
 	margin-bottom: -10px;
 	fill: var(--icon-color);
 }
+
 .role_label{
 	padding: 1rem 0;
 	font-size: 1.618rem;
@@ -67,6 +68,17 @@ table td, table th {
 table td a {
 	color: teal;
 }
+table td button{
+	padding: 0.7rem 1rem;
+	display: inline-block;
+	margin: 0.350rem;
+}
+table td .accept_btn{
+	background-color: var(--secondary-primary);
+}
+table td .reject_btn{
+	background-color: var(--faint-red);	
+}
 table .column_with_image{
 	position: relative;
 }
@@ -78,6 +90,7 @@ table .column_with_image .column_left_image{
 	width: 3.5rem;
 	height: 3.5rem;
 	object-fit: cover;
+	border: 2px #00000040 solid;
 	border-radius: 50%;
 }
 
@@ -91,6 +104,26 @@ table th {
 .secondary_table .role_label{
 	padding: 2rem 0;
 }
+
+@media (max-width: 600px){
+	table td, table th {
+	  border-bottom: 1px #dadada solid;
+	  width: auto;
+	  padding: 0.6rem 0.2rem;
+	  font-size: 0.6rem;
+	}
+	.role_label{
+	  font-size: 1rem;
+	  margin-left: 16px;
+	}
+	.secondary_header{
+		display: block;
+	}
+	.secondary_header select .secondary_header input[type=text]{
+		margin: 0;
+	}
+}
+
 table td input[type="submit"] {
 	padding: 0.7rem 1rem;
 	display: inline-block;
@@ -118,6 +151,7 @@ table td input[type="submit"] {
 	background-color: #00000000;
 	cursor: pointer;
 }
+
 	.page_box:active {
 		color: teal;
 	}
