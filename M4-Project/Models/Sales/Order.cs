@@ -75,26 +75,41 @@ namespace M4_Project.Models.Sales
         /// </summary>
         private void RecordOrderInStore()
         {
-            string query = "INSERT INTO [Order] ([staff_id], [order_type], [order_state], [payment_date], [payment_amount], [payment_method], [tip_amount]) VALUES (@staff_id, @order_type, @order_state, @payment_date, @payment_amount, @payment_method, @tip_amount);" +
-                "SELECT SCOPE_IDENTITY() AS order_id;";
+            string query = @"
+                            INSERT INTO [Order] (
+                                [staff_id], 
+                                [order_type], 
+                                [order_state], 
+                                [payment_date], 
+                                [payment_amount], 
+                                [payment_method], 
+                                [tip_amount]
+                            ) VALUES (
+                                @staff_id, 
+                                @order_type, 
+                                @order_state, 
+                                @payment_date, 
+                                @payment_amount, 
+                                @payment_method, 
+                                @tip_amount
+                            );
+                            SELECT SCOPE_IDENTITY() AS order_id;";
 
             using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@staff_id", StaffID);
-                command.Parameters.AddWithValue("@order_type", OrderType);
-                command.Parameters.AddWithValue("@order_state", "Preparing");
-                command.Parameters.AddWithValue("@payment_amount", PaymentAmount);
-                command.Parameters.AddWithValue("@payment_method", PaymentMethod);
-                command.Parameters.AddWithValue("@payment_date", PaymentDate);
-                command.Parameters.AddWithValue("@tip_amount", Tip);
-                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@staff_id", StaffID);
+                    command.Parameters.AddWithValue("@order_type", OrderType);
+                    command.Parameters.AddWithValue("@order_state", OrderState.Preparing);
+                    command.Parameters.AddWithValue("@payment_amount", PaymentAmount);
+                    command.Parameters.AddWithValue("@payment_method", PaymentMethod);
+                    command.Parameters.AddWithValue("@payment_date", PaymentDate);
+                    command.Parameters.AddWithValue("@tip_amount", Tip);
 
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                DataRow row = dt.Rows[0];
-                this.OrderID = (int)row["order_id"];
+                    connection.Open();
+                    this.OrderID = Convert.ToInt32(command.ExecuteScalar());
+                }
             }
             RecordOrderLine();
         }
@@ -265,7 +280,7 @@ namespace M4_Project.Models.Sales
         {
             List<Order> orders = new List<Order>();
 
-            string query = "SELECT customer_id, order_id, order_state, order_type, payment_amount, payment_date, payment_method, staff_id, tip_amount " +
+            string query = "SELECT TOP(10) customer_id, order_id, order_state, order_type, payment_amount, payment_date, payment_method, staff_id, tip_amount " +
                 "FROM [Order] WHERE customer_id = @customerID " +
                 "ORDER BY payment_date DESC;";
 
@@ -448,7 +463,7 @@ namespace M4_Project.Models.Sales
                 "FROM [Order] " +
                 "LEFT JOIN [Customer] ON [Order].customer_id = [Customer].customer_id " +
                 "WHERE [Order].order_state IN ('Preparing', 'Prepared', 'On the way') " +
-                "ORDER BY [Order].payment_date ASC, [Order].order_id ASC; ";
+                "ORDER BY [Order].payment_date DESC, [Order].order_id DESC; ";
 
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
             {

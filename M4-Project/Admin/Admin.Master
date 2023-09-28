@@ -20,7 +20,11 @@
     <form id="form" runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see https://go.microsoft.com/fwlink/?LinkID=301884 --%>
                 <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
                 <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
                 <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
                 <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
@@ -76,7 +80,12 @@
 						</ul>
 					</li>
 					<li><a class="outer_a" href="/Admin/Bookings">Bookings</a></li>
-					<li><a class="outer_a" href="/Admin/POS">POS</a></li>
+					<li><a class="outer_a" href="/Admin/POS">POS</a>
+						<ul>
+							<li><a href="/Admin/POS/Menu">Menu</a></li>
+							<li><a href="/Admin/POS/Cart">Cart</a></li>
+						</ul>
+					</li>
 					<li><a class="outer_a" href="/Admin/Staff">Staff</a></li>
 				</ul>
 			</div>

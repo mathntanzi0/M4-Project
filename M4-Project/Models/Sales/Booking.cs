@@ -220,7 +220,7 @@ namespace M4_Project.Models.Sales
         public static List<Booking> GetCustomerBookings(int customerID)
         {
             List<Booking> bookings = new List<Booking>();
-            string query = "SELECT [booking_id], [event_date], [event_address], [payment_amount], [status] " +
+            string query = "SELECT TOP(10) [booking_id], [event_date], [event_address], [payment_amount], [status] " +
                             "FROM [Event Booking] " +
                             "WHERE [customer_id] = @customerID " +
                             "ORDER BY [event_date] DESC";

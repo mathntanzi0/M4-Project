@@ -35,8 +35,8 @@
 		<div class="action_control_wrapper">
 			<p>View activity details</p>
 			<div class="action_controls">
-				<a href="#">Orders</a>
-				<a href="#">Bookings</a>
+				<a href="Orders?Staff=<%= staffMember.StaffID %>">Orders</a>
+				<a href="Bookings?Staff=<%= staffMember.StaffID %>">Bookings</a>
 			</div>
 		</div>
 	</div>

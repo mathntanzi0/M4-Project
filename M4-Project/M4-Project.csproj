@@ -173,6 +173,7 @@
     <Content Include="Admin\Content\sales_style.css" />
     <Content Include="Admin\Content\sale_view_style.css" />
     <Content Include="Admin\Content\staff_member_style.css" />
+    <Content Include="Admin\Content\staff_style.css" />
     <Content Include="Admin\Default.aspx" />
     <Content Include="Admin\LiveOrders.aspx" />
     <Content Include="Admin\Login.aspx" />
@@ -180,8 +181,15 @@
     <Content Include="Admin\MenuItem.aspx" />
     <Content Include="Admin\Order.aspx" />
     <Content Include="Admin\Orders.aspx" />
+    <Content Include="Admin\POS\Cart.aspx" />
+    <Content Include="Admin\POS\Checkout.aspx" />
+    <Content Include="Admin\POS\Default.aspx" />
+    <Content Include="Admin\POS\Menu.aspx" />
+    <Content Include="Admin\POS\MenuItem.aspx" />
+    <Content Include="Admin\Staff.aspx" />
     <Content Include="Admin\StaffMember.aspx" />
     <Content Include="Admin\UpdateDarkModeSession.aspx" />
+    <Content Include="Assets\account_circle.png" />
     <Content Include="Assets\chef1.png" />
     <Content Include="Assets\chef2.png" />
     <Content Include="Assets\chef3.jpg" />
@@ -471,6 +479,48 @@
     </Compile>
     <Compile Include="Admin\Orders.aspx.designer.cs">
       <DependentUpon>Orders.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\POS\Cart.aspx.cs">
+      <DependentUpon>Cart.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\POS\Cart.aspx.designer.cs">
+      <DependentUpon>Cart.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\POS\Checkout.aspx.cs">
+      <DependentUpon>Checkout.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\POS\Checkout.aspx.designer.cs">
+      <DependentUpon>Checkout.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\POS\Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\POS\Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\POS\Menu.aspx.cs">
+      <DependentUpon>Menu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\POS\Menu.aspx.designer.cs">
+      <DependentUpon>Menu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\POS\MenuItem.aspx.cs">
+      <DependentUpon>MenuItem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\POS\MenuItem.aspx.designer.cs">
+      <DependentUpon>MenuItem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Staff.aspx.cs">
+      <DependentUpon>Staff.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Staff.aspx.designer.cs">
+      <DependentUpon>Staff.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\StaffMember.aspx.cs">
       <DependentUpon>StaffMember.aspx</DependentUpon>

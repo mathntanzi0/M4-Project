@@ -14,37 +14,38 @@ namespace M4_Project.Admin
         protected Models.Sales.Order order;
         protected void Page_Load(object sender, EventArgs e)
         {
-            
-            if (Request.QueryString["Order"] == null)
-            Response.Redirect("/");
-
-            int orderID;
-            if (!int.TryParse(Request.QueryString["Order"], out orderID))
-                Response.Redirect("/");
-
-            order = Models.Sales.Order.GetOrder(orderID);
-            if (order == null)
-                Response.Redirect("/");
-
-            customer = order.Customer;
-            staffMember = Models.StaffMember.GetStaffMember_short(order.StaffID);
-
-            ItemRepeater.DataSource = order.ItemLines;
-            ItemRepeater.DataBind();
-
-            if (Models.Sales.OrderState.IsFinalState(order.OrderStatus))
+            if (!IsPostBack)
             {
-                ListItem item = new ListItem(order.OrderStatus);
-                try
+                if (Request.QueryString["Order"] == null)
+                    Response.Redirect("/");
+
+                int orderID;
+                if (!int.TryParse(Request.QueryString["Order"], out orderID))
+                    Response.Redirect("/");
+
+                order = Models.Sales.Order.GetOrder(orderID);
+                if (order == null)
+                    Response.Redirect("/");
+
+                customer = order.Customer;
+                staffMember = Models.StaffMember.GetStaffMember_short(order.StaffID);
+
+                ItemRepeater.DataSource = order.ItemLines;
+                ItemRepeater.DataBind();
+
+                if (Models.Sales.OrderState.IsFinalState(order.OrderStatus))
                 {
-                    select_order_type.SelectedItem.Selected = false;
+                    ListItem item = new ListItem(order.OrderStatus);
+                    try
+                    {
+                        select_order_type.SelectedItem.Selected = false;
+                    }
+                    catch { }
+                    item.Selected = true;
+                    select_order_type.Items.Add(item);
+                    return;
                 }
-                catch { }
-                item.Selected = true;
-                select_order_type.Items.Add(item);
-                return;
-            }
-            string[] orderStatuses = {
+                string[] orderStatuses = {
                 Models.Sales.OrderState.Preparing,
                 Models.Sales.OrderState.Prepared,
                 Models.Sales.OrderState.Collected,
@@ -53,18 +54,19 @@ namespace M4_Project.Admin
                 Models.Sales.OrderState.Unsuccessful
             };
 
-            foreach (string status in orderStatuses)
-            {
-                ListItem item = new ListItem(status, order.OrderID + "|" + status);
-                select_order_type.Items.Add(item);
-            }
-
-            foreach (ListItem item in select_order_type.Items)
-            {
-                if (item.Text == order.OrderStatus)
+                foreach (string status in orderStatuses)
                 {
-                    select_order_type.SelectedValue = item.Value;
-                    break;
+                    ListItem item = new ListItem(status, order.OrderID + "|" + status);
+                    select_order_type.Items.Add(item);
+                }
+
+                foreach (ListItem item in select_order_type.Items)
+                {
+                    if (item.Text == order.OrderStatus)
+                    {
+                        select_order_type.SelectedValue = item.Value;
+                        break;
+                    }
                 }
             }
         }

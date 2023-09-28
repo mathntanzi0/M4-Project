@@ -1,11 +1,11 @@
-﻿<%@ Page Title="Cart" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Cart.aspx.cs" Inherits="M4_Project.Cart" %>
+﻿<%@ Page Title="Cart" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="Cart.aspx.cs" Inherits="M4_Project.Admin.POS.Cart" %>
 
 <asp:Content ID ="HeadContent" ContentPlaceHolderID="head" runat="server">
-    <link rel="stylesheet" type="text/css" href="Content/Components/promo_items_wrapper.css">
-	<link rel="stylesheet" type="text/css" href="Content/cart_style.css">
+    <link rel="stylesheet" type="text/css" href="/Content/Components/promo_items_wrapper.css">
+	<link rel="stylesheet" type="text/css" href="/Content/cart_style.css">
 </asp:Content>
 
-<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="BodyContent" ContentPlaceHolderID="AdminMainContent" runat="server">
 <div class="secondary_header">
 			<% if (sale != null)
 			{ %>
@@ -41,7 +41,7 @@
 							</div>
 						</div>
 						<div class="item_action_wrapper">
-							<a href="/MenuItem?item=<%# Eval("ItemID") %>">EDIT</a>
+							<a href="/Admin/POS/MenuItem?item=<%# Eval("ItemID") %>">EDIT</a>
 							<a style="cursor:pointer" class="right_text" onclick="removeItemInCart(<%# Eval("ItemID") %>)">REMOVE ITEM</a>
 						</div>
 					</div>
@@ -79,13 +79,6 @@
 					<p>SUBTOTAL</p>
 					<p class="right_text">R <%= TotalCost %></p>
 					<br>
-					<p id="deliveryFeeLabel">Delivery Fee</p>
-					<p id="deliveryFee" class="right_text">R <%= M4_Project.Models.BusinessRules.Delivery.DeliveryFee.ToString("N2") %></p>
-					<select runat="server" style="display:block; font-size: 1rem; text-transform: uppercase; border: 1px solid #ddd;" id="select_category">
-						<option value="D">Delivery</option>
-						<option value="C">Collection</option>
-					</select>
-					<br>
 					<br>
 					<h2>Order Total</h2>
 					<h2 id="totalCostHolder" class="right_text">R <%= (TotalCost + M4_Project.Models.BusinessRules.Delivery.DeliveryFee) %></h2>
@@ -94,54 +87,13 @@
 			<button id="checkoutBtn" runat="server" OnServerClick="btnCheckout_Click">CHECKOUT</button>
 		</div>
 
-		<div class="promo_items_wrapper">
-		<header>You May Like</header>
-		<div class="promo_items">
-			<div class="item">
-				<div class="image_holder"><img src="assets/temp/oreo_ice_cream.jpg"></div>
-				<div class="promo_item_detail">
-					<h2>Name</h2>
-					<h3>R 80.50</h3>
-				</div>
-			</div>
-			<div class="item">
-				<div class="image_holder"><img src="assets/temp/eggs.jpg"></div>
-				<div class="promo_item_detail">
-					<h2>Name</h2>
-					<h3>R 80.50</h3>
-				</div>
-			</div>
-			<div class="item">
-				<div class="image_holder"><img src="assets/temp/oreo.jpg"></div>
-				<div class="promo_item_detail">
-					<h2>Name</h2>
-					<h3>R 80.50</h3>
-				</div>
-			</div>
-			<div class="item">
-				<div class="image_holder"><img src="assets/temp/appletiser.jpg"></div>
-				<div class="promo_item_detail">
-					<h2>Name</h2>
-					<h3>R 80.50</h3>
-				</div>
-			</div>
-			<div class="item">
-				<div class="image_holder"><img src="assets/temp/eggs.jpg"></div>
-				<div class="promo_item_detail">
-					<h2>Name</h2>
-					<h3>R 80.50</h3>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	<script>
         function removeItemInCart(ItemID) {
             event.preventDefault();
             var itemID = ItemID;
             $.ajax({
                 type: "POST",
-                url: "/MenuItem.aspx/RemoveItem",
+                url: "/Admin/POS/MenuItem.aspx/RemoveItem",
                 data: JSON.stringify({ itemID: itemID }),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
@@ -154,27 +106,5 @@
                 }
             });
 		}
-        var selectCategory = document.getElementById('<%= select_category.ClientID%>');
-        var deliveryFee = document.getElementById('deliveryFee');
-		var deliveryFeeLabel = document.getElementById('deliveryFeeLabel');
-        let totalCost = <%= (TotalCost + 50) %>;
-
-        selectCategory.addEventListener('change', function () {
-			var selectedOption = selectCategory.value;
-			if (selectedOption === 'D') {
-                deliveryFee.style.display = 'inline-block';
-				deliveryFeeLabel.style.display = 'inline-block';
-				totalCost += 50;
-			} else {
-                deliveryFee.style.display = 'none';
-				deliveryFeeLabel.style.display = 'none';
-                totalCost -= 50;
-			}
-            // Assuming 'totalCost' is a numeric value representing the total cost
-            var formattedTotalCost = 'R ' + totalCost.toFixed(2);
-
-            document.getElementById('totalCostHolder').innerHTML = formattedTotalCost;
-
-		});
     </script>
 </asp:Content>

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace M4_Project.Models
@@ -93,25 +95,38 @@ namespace M4_Project.Models
         public static StaffMember GetStaffMember(int staffID)
         {
             string query = "SELECT [staff_id], [first_name], [last_name], [gender], [pay_rate], [email_address], [phone_number], [password], [role], [staff_image], [status] " +
-                "FROM [GroupPmb6].[dbo].[Staff] " +
-                "WHERE[staff_id] = @staffID";
+               "FROM [GroupPmb6].[dbo].[Staff] " +
+               "WHERE [staff_id] = @staffID";
 
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@staffID", staffID);
-                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@staffID", staffID);
+                    connection.Open();
 
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                if (dt.Rows.Count < 1)
-                    return null;
-
-                DataRow row = dt.Rows[0];
-                return new StaffMember((int) row["staff_id"], row["first_name"].ToString(), row["last_name"].ToString(), row["gender"].ToString(), (decimal)row["pay_rate"], row["email_address"].ToString(), row["phone_number"].ToString(), (byte[])row["staff_image"], row["password"].ToString(), row["role"].ToString(), row["status"].ToString());
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new StaffMember(
+                                (int)reader["staff_id"],
+                                reader["first_name"].ToString(),
+                                reader["last_name"].ToString(),
+                                reader["gender"].ToString(),
+                                (decimal)reader["pay_rate"],
+                                reader["email_address"].ToString(),
+                                reader["phone_number"].ToString(),
+                                (reader.IsDBNull(reader.GetOrdinal("staff_image"))) ? StaffSearch.GetDefaultImage() : (byte[])reader["staff_image"],
+                                reader["password"].ToString(),
+                                reader["role"].ToString(),
+                                reader["status"].ToString()
+                            );
+                        }
+                    }
+                }
             }
+            return null;
         }
 
         public static StaffMember GetStaffMember_short(int staffID)
@@ -176,7 +191,7 @@ namespace M4_Project.Models
                                 (decimal)reader["pay_rate"],
                                 reader["email_address"].ToString(),
                                 reader["phone_number"].ToString(),
-                                (byte[])reader["staff_image"],
+                                (reader.IsDBNull(reader.GetOrdinal("staff_image"))) ? StaffSearch.GetDefaultImage() : (byte[])reader["staff_image"],
                                 reader["password"].ToString(),
                                 reader["role"].ToString(),
                                 reader["status"].ToString()
@@ -273,11 +288,32 @@ namespace M4_Project.Models
                 }
             }
         }
-
+        public static List<string> GetRoles()
+        {
+            List<string> roles = new List<string>();
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                connection.Open();
+                string query = "SELECT DISTINCT Role FROM Staff";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string role = reader["Role"].ToString();
+                            roles.Add(role);
+                        }
+                    }
+                }
+            }
+            return roles;
+        }
 
         public int StaffID { get => staffID; set => staffID = value; }
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
+        public string FullName { get => firstName + " " + lastName; }
         public string Gender { get => gender; set => gender = value; }
         public decimal PayRate { get => payRate; set => payRate = value; }
         public string PayRateN2 { get => payRate.ToString("N2"); }
@@ -306,5 +342,167 @@ namespace M4_Project.Models
         ///     When a staff member is in an Archive status, they are permanently barred from accessing the system.
         /// </summary>
         public readonly static string Archive = "Archive";
+    }
+    public class StaffSearch
+    {
+        public string Query { get; private set; }
+        public string RowCountQuery { get; private set; }
+        public int StaffID { get; private set; }
+        public string CustomerName { get; private set; }
+        public int Page { get; private set; }
+        public int MaxPerPage { get; private set; }
+        public int MaxPage { get; private set; }
+        private SqlCommand Command { get; set; }
+        public List<StaffMember> StaffMembers { get; private set; }
+
+        public StaffSearch(string pageString, string searchText, string role, int MaxPerPage)
+        {
+            this.MaxPerPage = MaxPerPage;
+            Command = new SqlCommand();
+            bool whereAdded = false;
+            StringBuilder whereClause = WhereClause(searchText, role, ref whereAdded);
+
+            if (RowCount(whereClause) < 1)
+            {
+                this.StaffMembers = new List<StaffMember>();
+                return;
+            }
+            int page;
+            if (!string.IsNullOrEmpty(pageString) && int.TryParse(pageString, out page))
+            {
+                if (page > MaxPage)
+                    Page = MaxPage;
+                else if (page < 0)
+                    Page = 1;
+                else
+                    Page = page;
+            }
+            else
+            {
+                Page = 1;
+            }
+            Command.Parameters.AddWithValue("@page", (Page - 1) * MaxPerPage);
+            Command.Parameters.AddWithValue("@maxOrders", MaxPerPage);
+
+            StringBuilder queryBuilder = new StringBuilder();
+            queryBuilder.Append("SELECT [staff_id], [first_name], [last_name], [email_address], [phone_number], [role], [status], staff_image ");
+            queryBuilder.Append("FROM [Staff] ");
+
+            if (whereAdded)
+            {
+                queryBuilder.Append("WHERE ");
+                queryBuilder.Append(whereClause.ToString());
+            }
+            queryBuilder.Append("ORDER BY (first_name + ' ' + last_name) ASC ");
+            queryBuilder.Append("OFFSET @page ROWS ");
+            queryBuilder.Append("FETCH NEXT @maxOrders ROWS ONLY;");
+
+            Query = queryBuilder.ToString();
+            Command.CommandText = Query;
+            GetStaffMembers();
+        }
+        private void GetStaffMembers()
+        {
+            List<StaffMember> staffMembers = new List<StaffMember>();
+            using (Database dbConnection = new Database(Command))
+            {
+                using (SqlDataReader reader = dbConnection.Command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int staffID = Convert.ToInt32(reader["staff_id"]);
+                        string firstName = reader["first_name"].ToString();
+                        string lastName = reader["last_name"].ToString();
+                        string emailAddress = reader["email_address"].ToString();
+                        string phoneNumber = reader["phone_number"].ToString();
+                        string role = reader["role"].ToString();
+                        string status = reader["status"].ToString();
+                        byte[] image = (reader.IsDBNull(reader.GetOrdinal("staff_image"))) ? GetDefaultImage() : (byte[])reader["staff_image"];
+
+                        StaffMember staffMember = new StaffMember()
+                        {
+                            StaffID = staffID,
+                            FirstName = firstName,
+                            LastName = lastName,
+                            EmailAddress = emailAddress,
+                            PhoneNumber = phoneNumber,
+                            Role = role,
+                            StaffImage = image,
+                            Status = status
+                        };
+                        staffMembers.Add(staffMember);
+                    }
+                }
+            }
+            this.StaffMembers = staffMembers;
+        }
+
+        public static byte[] GetDefaultImage()
+        {
+            string defaultImagePath = HttpContext.Current.Server.MapPath("~/Assets/account_circle.png");
+            try
+            {
+                using (FileStream fs = new FileStream(defaultImagePath, FileMode.Open, FileAccess.Read))
+                {
+                    byte[] imageData = new byte[fs.Length];
+                    fs.Read(imageData, 0, (int)fs.Length);
+                    return imageData;
+                }
+            }
+            catch (Exception ex)
+            {
+                return new byte[0];
+            }
+        }
+
+        private int RowCount(StringBuilder whereClause)
+        {
+            int rowCount = 0;
+
+            StringBuilder query = new StringBuilder();
+            RowCountQuery = "SELECT COUNT(staff_id) FROM Staff ";
+
+            query.Append(RowCountQuery);
+            if (whereClause.Length < 1)
+                query.Append(';');
+            else
+            {
+                query.Append("WHERE ");
+                query.Append(whereClause.ToString());
+            }
+
+            Command.CommandText = query.ToString();
+            using (Database dbConnection = new Database(Command))
+                rowCount = (int)dbConnection.Command.ExecuteScalar();
+
+            if (rowCount != 0)
+                MaxPage = (int)Math.Ceiling((decimal)rowCount / (decimal)MaxPerPage);
+            return rowCount;
+        }
+        private StringBuilder WhereClause(string searchText, string role, ref bool whereAdded)
+        {
+            StringBuilder whereClause = new StringBuilder();
+
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                whereClause.Append(" (first_name + ' ' + last_name LIKE '%' + @search + '%' OR first_name + ' ' + last_name LIKE '%' + @search + '%') ");
+                whereAdded = true;
+                Command.Parameters.AddWithValue("@search", searchText);
+            }
+
+            if (!string.IsNullOrEmpty(role))
+            {
+                if (whereAdded)
+                {
+                    whereClause.Append(" AND ");
+                }
+
+                whereClause.Append(" [role] = @role ");
+                whereAdded = true;
+                Command.Parameters.AddWithValue("@role", role);
+            }
+            return whereClause;
+        }
+
     }
 }

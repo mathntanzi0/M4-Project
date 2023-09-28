@@ -1,11 +1,11 @@
-﻿<%@ Page Title="Checkout" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Checkout.aspx.cs" Inherits="M4_Project.Checkout" %>
+﻿<%@ Page Title="Checkout" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="Checkout.aspx.cs" Inherits="M4_Project.Admin.POS.Checkout" %>
 
 <asp:Content ID ="HeadContent" ContentPlaceHolderID="head" runat="server">
-    <link rel="stylesheet" type="text/css" href="Content/Components/promo_items_wrapper.css">
-	<link rel="stylesheet" type="text/css" href="Content/checkout_style.css">
+    <link rel="stylesheet" type="text/css" href="/Content/Components/promo_items_wrapper.css">
+	<link rel="stylesheet" type="text/css" href="/Content/checkout_style.css">
 </asp:Content>
 
-<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+<asp:Content ID="BodyContent" ContentPlaceHolderID="AdminMainContent" runat="server">
     <div class="secondary_header">
 		<% if (sale != null && sale.SaleType == M4_Project.Models.Sales.SaleType.Order)
             { %>
