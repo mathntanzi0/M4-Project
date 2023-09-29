@@ -10,11 +10,15 @@ namespace M4_Project.Admin
     public partial class StaffMember : System.Web.UI.Page
     {
         protected Models.StaffMember staffMember;
+        protected Models.StaffLoginSession loginStaff;
         protected void Page_Load(object sender, EventArgs e)
         {
 
             if (!IsPostBack)
             {
+                loginStaff = Session["LoginStaff"] as Models.StaffLoginSession;
+                if (loginStaff == null)
+                    loginStaff = Models.StaffLoginSession.SetSession();
                 if (Request.QueryString["Member"] != null)
                 {
                     if (!int.TryParse(Request.QueryString["Member"], out int staffID))
@@ -53,6 +57,22 @@ namespace M4_Project.Admin
             string staffID = editButton.CommandArgument;
 
             Response.Redirect("/Admin/AddStaff?Member=" + staffID);
+        }
+        protected void btnActivate_Click(object sender, EventArgs e)
+        {
+            
+            if (int.TryParse(Request.QueryString["Member"], out int staffID))
+            {
+                try
+                {
+                    Models.StaffMember.UpdateStaffStatus(staffID, Models.StaffMemberState.Active);
+                }
+                catch
+                {
+
+                }
+                Response.Redirect("/Admin/StaffMember?Member="+staffID);
+            }
         }
     }
 }

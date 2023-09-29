@@ -15,7 +15,7 @@
 			</div>
 		</div>
 		<div class="items_container">
-			<asp:Repeater ID="ItemRepeater" runat="server">
+			<asp:Repeater ID="ItemRepeater" runat="server" EnableViewState="false">
 				<ItemTemplate>
 					<div class="item_wrapper">
 						<div class="image_holder">

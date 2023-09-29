@@ -10,10 +10,19 @@ namespace M4_Project.Models
     /// </summary>
     public class Address
     {
-        private readonly string addressName;
+        private string addressName;
         private readonly double latitude;
         private readonly double longitude;
 
+
+
+        /// <summary>
+        /// Creates an address with latitude and longitude coordinates.
+        /// </summary>
+        public Address()
+        {
+
+        }
         /// <summary>
         /// Creates an address with latitude and longitude coordinates.
         /// </summary>
@@ -36,21 +45,6 @@ namespace M4_Project.Models
             this.latitude = latitude;
             this.longitude = longitude;
         }
-
-        /// <summary>
-        /// Gets the name of the address.
-        /// </summary>
-        public string AddressName { get => addressName; }
-
-        /// <summary>
-        /// Gets the latitude coordinate of the address.
-        /// </summary>
-        public double Latitude { get => latitude; }
-
-        /// <summary>
-        /// Gets the longitude coordinate of the address.
-        /// </summary>
-        public double Longitude { get => longitude; }
 
         /// <summary>
         /// Checks if given coordinates are within a specified boundary radius.
@@ -82,5 +76,21 @@ namespace M4_Project.Models
         {
             return degree * (Math.PI / 180);
         }
+
+
+        /// <summary>
+        /// Gets the latitude coordinate of the address.
+        /// </summary>
+        public double Latitude { get => latitude; }
+
+        /// <summary>
+        /// Gets the longitude coordinate of the address.
+        /// </summary>
+        public double Longitude { get => longitude; }
+        /// <summary>
+        /// Gets the name of the address.
+        /// </summary>
+        public string AddressName { get => addressName; set => addressName = value; }
+        public string AddressName_Short { get => Utilities.TextManager.ShortString(addressName, 25); }
     }
 }

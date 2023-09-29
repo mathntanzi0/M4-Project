@@ -18,6 +18,16 @@ namespace M4_Project.Models.Sales
         private Address deliveryAddress;
         private Address driverAddress;
 
+
+
+
+        /// <summary>
+        ///     Default constructor for a delivery.
+        /// </summary>
+        public Delivery()
+        {
+            this.deliveryID = -1;
+        }
         /// <summary>
         ///     Default constructor for a delivery.
         /// </summary>
@@ -209,11 +219,14 @@ namespace M4_Project.Models.Sales
             return true;
         }
 
+
+
+
         public int DeliveryID { get => deliveryID; set => deliveryID = value; }
         public int OrderID { get => orderID; set => orderID = value; }
         public int DriverID { get => driverID; set => driverID = value; }
         public decimal DeliveryFee { get => deliveryFee; set => deliveryFee = value; }
-        public Address DeliveryAddress { get => deliveryAddress; }
+        public Address DeliveryAddress { get => deliveryAddress; set => deliveryAddress = value; }
         public Address DriverAddress { get => driverAddress; }
     }
 }

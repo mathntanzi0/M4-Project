@@ -533,6 +533,62 @@ namespace M4_Project.Models.Sales
             }
             return liveOrders;
         }
+        public static List<Order> GetLiveDeliveryOrders()
+        {
+            List<Order> orderDetailsList = new List<Order>();
+
+            string query = @"
+                SELECT
+                [Customer].customer_id,
+                [Customer].first_name,
+                [Customer].last_name,
+                [Customer].phone_number,
+                [Order].order_id,
+                [Delivery].destination_address
+                FROM [Order], [Customer], [Delivery]
+                WHERE [Order].order_id = [Delivery].order_id AND [Customer].customer_id = [Order].customer_id
+                AND [Order].order_state = 'Prepared' AND order_type = 'Delivery'
+                ORDER BY [Order].payment_date ASC, [Order].order_id ASC;";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Customer customer = new Customer()
+                        {
+                            CustomerID = Convert.ToInt32(reader["customer_id"]),
+                            FirstName = reader["first_name"].ToString(),
+                            LastName = reader["last_name"].ToString(),
+                            PhoneNumber = reader["phone_number"].ToString(),
+                        };
+                        Address address = new Address()
+                        {
+                            AddressName = reader["destination_address"].ToString()
+                        };
+                        Delivery delivery = new Delivery
+                        {
+                            DeliveryAddress = address
+                        };
+                        Order orderDetails = new Order
+                        {
+                            Customer = customer,
+                            OrderID = Convert.ToInt32(reader["order_id"]),
+                            Delivery = delivery
+                        };
+                        orderDetailsList.Add(orderDetails);
+                    }
+                }
+                connection.Close();
+            }
+            return orderDetailsList;
+        }
+
         public static ItemSummary GetItemSummary(int itemID)
         {
             int year = DateTime.Now.Year;

@@ -250,22 +250,21 @@ namespace M4_Project.Models
             }
             return staffMembers;
         }
-
-            ///
-            /// <summary>
-            ///     Saves the attributes' values of the StaffMember instance into the database.
-            /// </summary>
-            public void AddStaffMember()
+        ///
+        /// <summary>
+        ///     Saves the attributes' values of the StaffMember instance into the database.
+        /// </summary>
+        public void AddStaffMember()
         {
             string query;
             if (staffImage != null && staffImage.Length > 0)
             {
-               query = "INSERT INTO [Staff] VALUES(@firstName, @lastName, @gender, @payRate, @emailAddress, @phoneNumber, @password, @role, @staffImage, @staffStatus);" +
+               query = "INSERT INTO [Staff] VALUES(@firstName, @lastName, @gender, @payRate, @emailAddress, @phoneNumber, @password, @role, @staffImage, @staffStatus) " +
               "SELECT SCOPE_IDENTITY() AS staff_id;";
             }
             else
             {
-               query = "INSERT INTO [Staff] VALUES(@firstName, @lastName, @gender, @payRate, @emailAddress, @phoneNumber, @password, @role, @staffStatus);" +
+               query = "INSERT INTO [Staff] VALUES(@firstName, @lastName, @gender, @payRate, @emailAddress, @phoneNumber, @password, @role, @staffStatus) " +
               "SELECT SCOPE_IDENTITY() AS staff_id;";
             }
 
@@ -285,7 +284,7 @@ namespace M4_Project.Models
                 if (staffImage != null &&  staffImage.Length > 0)
                     command.Parameters.AddWithValue("@staffImage", staffImage);
                 connection.Open();
-                staffID = (int) command.ExecuteScalar();
+                staffID = Convert.ToInt32(command.ExecuteScalar());
                 connection.Close();
             }
         }
@@ -327,7 +326,6 @@ namespace M4_Project.Models
                 connection.Close();
             }
         }
-
         ///
         /// <summary>
         ///     Delete a staff member using a specific staff identification number.
@@ -344,7 +342,6 @@ namespace M4_Project.Models
                 connection.Close();
             }
         }
-
         public int GetNumberOfBookings()
         {
             string query = "SELECT COUNT(*) " +
@@ -404,7 +401,35 @@ namespace M4_Project.Models
             }
             return roles;
         }
+        public static void UpdateStaffStatus(int staffID, string status)
+        {
+            string query = "UPDATE [Staff] SET [status] = @status WHERE [staff_id] = @staffID";
 
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@staffID", staffID);
+                command.Parameters.AddWithValue("@status", status);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
+        public bool DeleteStaff()
+        {
+            string query = "DELETE FROM [Staff] WHERE [staff_id] = @staffID";
+            int rowsAffected;
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@staffID", staffID);
+
+                connection.Open();
+                rowsAffected = command.ExecuteNonQuery();
+            }
+            return rowsAffected > 0;
+        }
         public int StaffID { get => staffID; set => staffID = value; }
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
@@ -433,7 +458,7 @@ namespace M4_Project.Models
         /// <summary>
         ///     When a staff member is in a Deactivate status, access to the system is denied.
         /// </summary>
-        public readonly static string Deactivate = "Deactivate";
+        public readonly static string Deactivated = "Deactivated";
         /// <summary>
         ///     When a staff member is in an Archive status, they are permanently barred from accessing the system.
         /// </summary>

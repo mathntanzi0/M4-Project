@@ -9,8 +9,6 @@ namespace M4_Project.Models
 {
     public class StaffLoginSession
     {
-        private static StaffLoginSession loginSession;
-
         private int staffID;
         private byte[] staffImage;
         private string role;
@@ -26,15 +24,6 @@ namespace M4_Project.Models
             this.staffID = staffID;
             this.staffImage = staffImage;
             this.role = role;
-        }
-
-        ///
-        /// <summary>
-        ///     Returns a instance of the M4_System.Models.StaffLoginSession class.
-        /// </summary>
-        public static StaffLoginSession GetSession()
-        {
-            return loginSession;
         }
         ///
         /// <summary>
@@ -70,8 +59,19 @@ namespace M4_Project.Models
 
             return loginSession;
         }
-
-
+        public static StaffLoginSession SetSession()
+        {
+            StaffLoginSession loginStaff = HttpContext.Current.Session["LoginStaff"] as Models.StaffLoginSession;
+            if (loginStaff == null)
+            {
+                loginStaff = Models.StaffLoginSession.GetSession(HttpContext.Current.User.Identity.Name);
+                if (loginStaff == null)
+                    HttpContext.Current.Response.Redirect("/Contact");
+                else
+                    HttpContext.Current.Session["LoginStaff"] = loginStaff;
+            }
+            return loginStaff;
+        }
         public int StaffID { get => staffID; set => staffID = value; }
         public byte[] StaffImage { get => staffImage; set => staffImage = value; }
         public string Role { get => role; set => role = value; }

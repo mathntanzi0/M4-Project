@@ -11,34 +11,34 @@ namespace M4_Project.Admin
 {
 
 
-    public partial class StaffMember
+    public partial class Deactivate
     {
 
         /// <summary>
-        /// Image1 control.
+        /// StaffImage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image1;
+        protected global::System.Web.UI.WebControls.Image StaffImage;
 
         /// <summary>
-        /// btnActivate control.
+        /// btnDeactivate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnActivate;
+        protected global::System.Web.UI.WebControls.Button btnDeactivate;
 
         /// <summary>
-        /// EditButton control.
+        /// btnDelete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button EditButton;
+        protected global::System.Web.UI.WebControls.Button btnDelete;
     }
 }

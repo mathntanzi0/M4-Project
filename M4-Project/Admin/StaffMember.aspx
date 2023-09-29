@@ -21,11 +21,23 @@
 				<p><%= staffMember.Role %></p>
 				<p>R <%= staffMember.PayRateN2 %> Hourly</p>
 				<p> <%= staffMember.Gender %></p>
+				<p> <%= staffMember.Status %></p>
 			</div>
 		</div>
+		<% if (loginStaff.StaffID != staffMember.StaffID)
+            {%>
 		<div class="right_button_wrapper">
-			<button class="delete_button">Deactivate</button>
+			<% if (staffMember.Status != M4_Project.Models.StaffMemberState.Deactivated)
+                { %>
+			<a href="/Admin/Deactivate?Member=<%= staffMember.StaffID %>" class="delete_button a_tag_btn">Deactivate</a>
+			<% }
+                else
+                { %>
+				<asp:Button ID="btnActivate" runat="server" CssClass="delete_button" Text="Activate" OnClick="btnActivate_Click" style="background-color: var(--secondary-primary); color:var(--text-color)"/>
+			<% } %>
 		</div>
+		<% } %>
+
 	</div>
 
 	<div class="activities_detail_wrapper">

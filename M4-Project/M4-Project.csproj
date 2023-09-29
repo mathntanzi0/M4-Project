@@ -170,6 +170,10 @@
     <Content Include="Admin\AddStaff.aspx" />
     <Content Include="Admin\Booking.aspx" />
     <Content Include="Admin\Bookings.aspx" />
+    <Content Include="Admin\Content\staff_deactivate_style.css" />
+    <Content Include="Admin\Deactivate.aspx" />
+    <Content Include="Admin\Delivery\Deliver.aspx" />
+    <Content Include="Admin\Delivery\DeliverOrders.aspx" />
     <Content Include="Admin\Event\AssignStaff.aspx" />
     <Content Include="Admin\Event\Staff.aspx" />
     <Content Include="Admin\Content\add_item_style.css" />
@@ -455,6 +459,27 @@
     </Compile>
     <Compile Include="Admin\Bookings.aspx.designer.cs">
       <DependentUpon>Bookings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Deactivate.aspx.cs">
+      <DependentUpon>Deactivate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Deactivate.aspx.designer.cs">
+      <DependentUpon>Deactivate.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Delivery\Deliver.aspx.cs">
+      <DependentUpon>Deliver.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Delivery\Deliver.aspx.designer.cs">
+      <DependentUpon>Deliver.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Delivery\DeliverOrders.aspx.cs">
+      <DependentUpon>DeliverOrders.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Delivery\DeliverOrders.aspx.designer.cs">
+      <DependentUpon>DeliverOrders.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Event\AssignStaff.aspx.cs">
       <DependentUpon>AssignStaff.aspx</DependentUpon>
