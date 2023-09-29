@@ -101,11 +101,35 @@ namespace M4_Project.Models
                 command.ExecuteNonQuery();
             }
         }
+        public void UpdateCustomer()
+        {
+            string query = "UPDATE Customer " +
+                           "SET first_name = @firstName, " +
+                           "    last_name = @lastName, " +
+                           "    email_address = @emailAddress, " +
+                           "    phone_number = @phoneNumber, " +
+                           "    physical_address = @physicalAddress " +
+                           "WHERE customer_id = @customerId";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+
+                command.Parameters.AddWithValue("@customerId", customerID);
+                command.Parameters.AddWithValue("@firstName", firstName);
+                command.Parameters.AddWithValue("@lastName", lastName);
+                command.Parameters.AddWithValue("@emailAddress", emailAddress);
+                command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                command.Parameters.AddWithValue("@physicalAddress", physicalAddress);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
 
         ///<summary>
         /// Removing a customer from the database.
         /// </summary>
-
         public void RemoveCustomer()
         {
             string query = "DELETE FROM Customer WHERE customer_id = @customerID";
@@ -431,8 +455,54 @@ namespace M4_Project.Models
 
             return currentCustomer;
         }
+        public static bool DeleteCustomer(int customerId)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+                {
+                    connection.Open();
+                    using (SqlTransaction transaction = connection.BeginTransaction())
+                    {
+                        try
+                        {
+                            using (SqlCommand cmdDeleteOrders = new SqlCommand("DELETE FROM [Order] WHERE customer_id = @customerID", connection, transaction))
+                            {
+                                cmdDeleteOrders.Parameters.AddWithValue("@customerID", customerId);
+                                cmdDeleteOrders.ExecuteNonQuery();
+                            }
 
+                           
+                            using (SqlCommand cmdDeleteEventBookings = new SqlCommand("DELETE FROM [Event Booking] WHERE customer_id = @customerID", connection, transaction))
+                            {
+                                cmdDeleteEventBookings.Parameters.AddWithValue("@customerID", customerId);
+                                cmdDeleteEventBookings.ExecuteNonQuery();
+                            }
 
+                           
+                            using (SqlCommand cmdDeleteCustomer = new SqlCommand("DELETE FROM [Customer] WHERE customer_id = @customerID", connection, transaction))
+                            {
+                                cmdDeleteCustomer.Parameters.AddWithValue("@customerID", customerId);
+                                cmdDeleteCustomer.ExecuteNonQuery();
+                            }
+
+                            transaction.Commit();
+
+                            return true;
+                        }
+                        catch
+                        {
+                            transaction.Rollback();
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// Getters and Setters
         /// </summary>

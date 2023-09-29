@@ -80,7 +80,9 @@ table .column_with_image .column_left_image{
 	object-fit: cover;
 	border-radius: 50%;
 }
-
+table td .reject_btn {
+	background-color: var(--faint-red);
+}
 table th {
   background-color: #00000008;
 }

@@ -55,7 +55,7 @@
 				<p><%= booking.EventDecorDescription %></p>
 			</div>
 		</div>
-		<button class="left_button green_button">Assign Staff</button>
+		<a href="/Admin/Event/Staff?Event=<%= booking.BookingID %>" class="left_button green_button a_tag_btn">Event Staff</a>
 		<div class="right_button_wrapper">
 			<button class="green_button">Edit</button>
 			<button class="red_button">Delete</button>

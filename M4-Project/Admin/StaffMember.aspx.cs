@@ -13,12 +13,28 @@ namespace M4_Project.Admin
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            if (Request.QueryString["Member"] != null)
+            if (!IsPostBack)
             {
-                if (!int.TryParse(Request.QueryString["Member"], out int staffID))
-                    Response.Redirect("/");
+                if (Request.QueryString["Member"] != null)
+                {
+                    if (!int.TryParse(Request.QueryString["Member"], out int staffID))
+                        Response.Redirect("/");
 
-                staffMember = Models.StaffMember.GetStaffMember(staffID);
+                    staffMember = Models.StaffMember.GetStaffMember(staffID);
+                    if (staffMember == null)
+                        Response.Redirect("/");
+                    else
+                    {
+                        string base64String = Convert.ToBase64String(staffMember.StaffImage);
+                        string imageUrl = "data:image/jpeg;base64," + base64String;
+                        Image1.ImageUrl = imageUrl;
+                        Page.Title = staffMember.FirstName + " " + staffMember.LastName;
+                    }
+                    EditButton.CommandArgument = staffMember.StaffID.ToString();
+                    return;
+                }
+
+                staffMember = Models.StaffMember.GetStaffMember(Context.User.Identity.Name);
                 if (staffMember == null)
                     Response.Redirect("/");
                 else
@@ -28,19 +44,15 @@ namespace M4_Project.Admin
                     Image1.ImageUrl = imageUrl;
                     Page.Title = staffMember.FirstName + " " + staffMember.LastName;
                 }
-                return;
             }
+        }
 
-            staffMember = Models.StaffMember.GetStaffMember(Context.User.Identity.Name);
-            if (staffMember == null)
-                Response.Redirect("/");
-            else
-            {
-                string base64String = Convert.ToBase64String(staffMember.StaffImage);
-                string imageUrl = "data:image/jpeg;base64," + base64String;
-                Image1.ImageUrl = imageUrl;
-                Page.Title = staffMember.FirstName + " " + staffMember.LastName;
-            }
+        protected void EditButton_Click(object sender, EventArgs e)
+        {
+            Button editButton = (Button)sender;
+            string staffID = editButton.CommandArgument;
+
+            Response.Redirect("/Admin/AddStaff?Member=" + staffID);
         }
     }
 }

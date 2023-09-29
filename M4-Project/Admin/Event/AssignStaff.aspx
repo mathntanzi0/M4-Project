@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Staff" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="Staff.aspx.cs" Inherits="M4_Project.Admin.Staff" %>
+﻿<%@ Page Title="Staff" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="AssignStaff.aspx.cs" Inherits="M4_Project.Admin.Event.AssignStaff" %>
 
 <asp:Content ID ="HeadContent" ContentPlaceHolderID="head" runat="server">
 	<link rel="stylesheet" type="text/css" href="/Admin/Content/staff_style.css">
@@ -43,7 +43,7 @@
 						<td><%# Eval("PhoneNumber") %></td>
 						<td><%# Eval("Role") %></td>
 						<td>
-							<asp:Button runat="server" Text="View Details" CommandName="ViewDetails" CommandArgument='<%# Eval("StaffID") %>' CssClass="accept_btn" />
+							<asp:Button runat="server" Text="Assign" CommandName="AssignStaff" CommandArgument='<%# Eval("StaffID") %>' CssClass="accept_btn" />
 						</td>
 					</tr>
 				</ItemTemplate>

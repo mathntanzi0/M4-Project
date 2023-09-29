@@ -170,6 +170,8 @@
     <Content Include="Admin\AddStaff.aspx" />
     <Content Include="Admin\Booking.aspx" />
     <Content Include="Admin\Bookings.aspx" />
+    <Content Include="Admin\Event\AssignStaff.aspx" />
+    <Content Include="Admin\Event\Staff.aspx" />
     <Content Include="Admin\Content\add_item_style.css" />
     <Content Include="Admin\Content\common_admin_style.css" />
     <Content Include="Admin\Content\menu_item_style.css" />
@@ -453,6 +455,20 @@
     </Compile>
     <Compile Include="Admin\Bookings.aspx.designer.cs">
       <DependentUpon>Bookings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Event\AssignStaff.aspx.cs">
+      <DependentUpon>AssignStaff.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Event\AssignStaff.aspx.designer.cs">
+      <DependentUpon>AssignStaff.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Event\Staff.aspx.cs">
+      <DependentUpon>Staff.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Event\Staff.aspx.designer.cs">
+      <DependentUpon>Staff.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>

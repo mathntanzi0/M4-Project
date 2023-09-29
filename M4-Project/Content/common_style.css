@@ -54,7 +54,7 @@ body {
     margin-top: 96px;
 }
 
-button, input[type="submit"] {
+button, input[type="submit"], .a_tag_btn {
     padding: 0.5rem 2.5rem;
     border-radius: 0.5rem;
     box-shadow: var(--card-box-shadow);

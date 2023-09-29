@@ -59,3 +59,8 @@
 	height: 100%;
 	object-fit: cover;
 }
+.inline_buttons {
+	position: fixed;
+	bottom: 2rem;
+	right: 2rem;
+}

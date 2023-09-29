@@ -6,7 +6,14 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="AdminMainContent" runat="server">
     	<div class="secondary_header">
-			<h1>Add Customer</h1>
+            <% if (Request.QueryString["Customer"] != null && int.TryParse(Request.QueryString["Customer"], out int custID1))
+                { %>
+			<h1>Edit Customer</h1>
+            <% }
+                else
+                { %>
+            <h1>Add Customer</h1>
+            <% } %>
 		</div>
 
         <div class="inline_input_fields">
@@ -46,10 +53,21 @@
             </div>
         </div>
 		
+        <div class="inline_buttons">
+		    <asp:Button ID="btnAddCustomer" runat="server" Text="Add Customer" OnClick="btnAddCustomer_Click" style="background-color: var(--secondary-primary)"/>
+            <% if (Request.QueryString["Customer"] != null && int.TryParse(Request.QueryString["Customer"], out int custID2))
+            { %>
+		    <asp:Button ID="btnDeleteCustomer" runat="server" CssClass="delete_button" Text="Delete" OnClick="btnDeleteCustomer_Click"  OnClientClick="return confirmDelete();"/>
+            <% } %>
+        </div>
 
-		<button ID="btnAddCustomer" runat="server" class="primary_button">Add Customer</button>
+
 </asp:Content>
 
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentScripts" runat="server">
-	
+    <script>
+		function confirmDelete() {
+			return confirm("Are you sure you want to delete this customer?");
+        }
+    </script>
 </asp:Content>

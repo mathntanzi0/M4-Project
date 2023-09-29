@@ -40,4 +40,5 @@
 			</div>
 		</div>
 	</div>
+	<asp:Button ID="EditButton" runat="server" Text="Edit" OnClick="EditButton_Click" CommandArgument="<%# staffMember.StaffID %>" CssClass="primary_button"/>
 </asp:Content>

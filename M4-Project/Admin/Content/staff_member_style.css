@@ -2,14 +2,16 @@
   display: flex;
   padding-top: 1rem;
 }
-.staff_image_wrapper{
-  width: 26vw;
-  min-width: 16rem;
+.staff_image_wrapper {
+    --size: 24vw;
+    width: var(--size);
+    height: var(--size);
 }
-.staff_image_wrapper img{
-  width: 100%;
-  border-radius: 2rem;
-  object-fit: cover;
+.staff_image_wrapper img {
+    border-radius: 2rem;
+    width: var(--size);
+    height: var(--size);
+    object-fit: cover;
 }
 .staff_detail{
   display: flex;

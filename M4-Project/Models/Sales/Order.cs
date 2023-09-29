@@ -42,7 +42,6 @@ namespace M4_Project.Models.Sales
             this.customer = customer;
             this.orderType = orderType;
             this.orderStatus = orderStatus;
-            this.staffID = staffID;
         }
         ///
         /// <summary>

@@ -21,6 +21,8 @@ namespace M4_Project.Models
         private string gender;
         private decimal payRate;
         private string emailAddress;
+
+
         private string phoneNumber;
         private byte[] staffImage;
         private string password;
@@ -109,7 +111,7 @@ namespace M4_Project.Models
                     {
                         if (reader.Read())
                         {
-                            return new StaffMember(
+                            StaffMember staffMember = new StaffMember(
                                 (int)reader["staff_id"],
                                 reader["first_name"].ToString(),
                                 reader["last_name"].ToString(),
@@ -122,6 +124,10 @@ namespace M4_Project.Models
                                 reader["role"].ToString(),
                                 reader["status"].ToString()
                             );
+                            if (reader.IsDBNull(reader.GetOrdinal("staff_image")))
+                                staffMember.ImageIsDefault = true;
+
+                            return staffMember;
                         }
                     }
                 }
@@ -183,7 +189,7 @@ namespace M4_Project.Models
                     {
                         if (reader.Read())
                         {
-                            return new StaffMember(
+                            StaffMember staffMember = new StaffMember(
                                 (int)reader["staff_id"],
                                 reader["first_name"].ToString(),
                                 reader["last_name"].ToString(),
@@ -196,22 +202,73 @@ namespace M4_Project.Models
                                 reader["role"].ToString(),
                                 reader["status"].ToString()
                             );
+                            if (reader.IsDBNull(reader.GetOrdinal("staff_image")))
+                                staffMember.ImageIsDefault = true;
+
+                            return staffMember;
                         }
                     }
                 }
             }
             return null;
         }
-
-        ///
-        /// <summary>
-        ///     Saves the attributes' values of the StaffMember instance into the database.
-        /// </summary>
-        public void AddStaffMember()
+        public static List<StaffMember> GetBookingStaff(int bookingID)
         {
-            string query = "INSERT INTO [Staff] VALUES(@firstName, @lastName, @gender, @payRate, @emailAddress, @phoneNumber, @password, @role, @staffImage, @staffStatus);" +
+            List<StaffMember> staffMembers = new List<StaffMember>();
+
+            string query = @"SELECT [Staff].[staff_id], [first_name], [last_name], [email_address], [phone_number], [role], [status], staff_image
+                         FROM [Staff], [Event Staff]
+                         WHERE [Staff].staff_id = [Event Staff].staff_id AND [Event Staff].booking_id = @bookingID";
+
+            using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@bookingID", bookingID);
+
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            StaffMember staffMember = new StaffMember()
+                            {
+                                StaffID = Convert.ToInt32(reader["staff_id"]),
+                                FirstName = reader["first_name"].ToString(),
+                                LastName = reader["last_name"].ToString(),
+                                EmailAddress = reader["email_address"].ToString(),
+                                PhoneNumber = reader["phone_number"].ToString(),
+                                Role = reader["role"].ToString(),
+                                Status = reader["status"].ToString(),
+                                StaffImage = (reader.IsDBNull(reader.GetOrdinal("staff_image"))) ? StaffSearch.GetDefaultImage() : (byte[])reader["staff_image"]
+                            };
+                            staffMembers.Add(staffMember);
+                        }
+                    }
+                }
+            }
+            return staffMembers;
+        }
+
+            ///
+            /// <summary>
+            ///     Saves the attributes' values of the StaffMember instance into the database.
+            /// </summary>
+            public void AddStaffMember()
+        {
+            string query;
+            if (staffImage != null && staffImage.Length > 0)
+            {
+               query = "INSERT INTO [Staff] VALUES(@firstName, @lastName, @gender, @payRate, @emailAddress, @phoneNumber, @password, @role, @staffImage, @staffStatus);" +
               "SELECT SCOPE_IDENTITY() AS staff_id;";
-            
+            }
+            else
+            {
+               query = "INSERT INTO [Staff] VALUES(@firstName, @lastName, @gender, @payRate, @emailAddress, @phoneNumber, @password, @role, @staffStatus);" +
+              "SELECT SCOPE_IDENTITY() AS staff_id;";
+            }
+
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
             {
                 SqlCommand command = new SqlCommand(query, connection);
@@ -223,16 +280,54 @@ namespace M4_Project.Models
                 command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
                 command.Parameters.AddWithValue("@password", password);
                 command.Parameters.AddWithValue("@role", role);
-                command.Parameters.AddWithValue("@staffImage", staffImage);
                 command.Parameters.AddWithValue("@staffStatus", status);
+
+                if (staffImage != null &&  staffImage.Length > 0)
+                    command.Parameters.AddWithValue("@staffImage", staffImage);
                 connection.Open();
-
-                object insertedItemId = command.ExecuteScalar();
-                this.staffID = Convert.ToInt32(insertedItemId);
-
+                staffID = (int) command.ExecuteScalar();
                 connection.Close();
             }
         }
+        public void UpdateStaffMember()
+        {
+            string query;
+            if (staffImage != null &&  staffImage.Length > 0)
+            {
+                query = "UPDATE [Staff] SET [first_name] = @firstName, [last_name] = @lastName, [gender] = @gender, [pay_rate] = @payRate, " +
+                        "[email_address] = @emailAddress, [phone_number] = @phoneNumber, [password] = @password, [role] = @role, " +
+                        "[status] = @staffStatus, [staff_image] = @staffImage WHERE [staff_id] = @staffID;";
+            }
+            else
+            {
+                query = "UPDATE [Staff] SET [first_name] = @firstName, [last_name] = @lastName, [gender] = @gender, [pay_rate] = @payRate, " +
+                        "[email_address] = @emailAddress, [phone_number] = @phoneNumber, [password] = @password, [role] = @role, " +
+                        "[status] = @staffStatus WHERE [staff_id] = @staffID;";
+            }
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@staffID", staffID);
+                command.Parameters.AddWithValue("@firstName", firstName);
+                command.Parameters.AddWithValue("@lastName", lastName);
+                command.Parameters.AddWithValue("@gender", gender);
+                command.Parameters.AddWithValue("@payRate", payRate);
+                command.Parameters.AddWithValue("@emailAddress", emailAddress);
+                command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
+                command.Parameters.AddWithValue("@password", password);
+                command.Parameters.AddWithValue("@role", role);
+                command.Parameters.AddWithValue("@staffStatus", status);
+
+                if (staffImage != null && staffImage.Length > 0)
+                    command.Parameters.AddWithValue("@staffImage", staffImage);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+
         ///
         /// <summary>
         ///     Delete a staff member using a specific staff identification number.
@@ -320,6 +415,7 @@ namespace M4_Project.Models
         public string EmailAddress { get => emailAddress; set => emailAddress = value; }
         public string PhoneNumber { get => phoneNumber; set => phoneNumber = value; }
         public byte[] StaffImage { get => staffImage; set => staffImage = value; }
+        public bool ImageIsDefault { get; set; }
         public string Password { get => password; set => password = value; }
         public string Role { get => role; set => role = value; }
         public string Status { get => status; set => status = value; }
@@ -431,6 +527,9 @@ namespace M4_Project.Models
                             Status = status
                         };
                         staffMembers.Add(staffMember);
+
+                        if (reader.IsDBNull(reader.GetOrdinal("staff_image")))
+                            staffMember.ImageIsDefault = true;
                     }
                 }
             }
@@ -449,7 +548,7 @@ namespace M4_Project.Models
                     return imageData;
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 return new byte[0];
             }

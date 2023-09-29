@@ -471,10 +471,136 @@ namespace M4_Project.Models.Sales
             else
                 return 0;
         }
-        ///
-        /// <summary>
-        ///     Returns a list of event bookings using staff member's identification number.
-        /// </summary>
+        public static List<BookingDuration> GetEventDatesForStaff(int staffID, int year, int month, int day)
+        {
+            List<BookingDuration> eventDates = new List<BookingDuration>();
+
+            string query = @"SELECT [Event Booking].event_date, event_duration
+                         FROM [Event Booking]
+                         INNER JOIN [Event Staff] ON [Event Booking].booking_id = [Event Staff].booking_id
+                         WHERE YEAR([Event Booking].event_date) = @year
+                         AND MONTH([Event Booking].event_date) = @month
+                         AND DAY([Event Booking].event_date) = @day
+                         AND [Event Staff].staff_id = @staffID";
+
+            using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@staffID", staffID);
+                    command.Parameters.AddWithValue("@year", year);
+                    command.Parameters.AddWithValue("@month", month);
+                    command.Parameters.AddWithValue("@day", day);
+
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            BookingDuration bookingDuration = new BookingDuration()
+                            {
+                                EventDate = Convert.ToDateTime(reader["event_date"]),
+                                EventDuration = (TimeSpan) reader["event_duration"]
+                            };
+                            eventDates.Add(bookingDuration);
+                        }
+                    }
+                }
+            }
+            return eventDates;
+        }
+        public static BookingDuration GetEventDate(int bookingID)
+        {
+            DateTime eventDate = DateTime.MinValue;
+            BookingDuration bookingDuration = null;
+
+            string query = "SELECT [Event Booking].event_date, event_duration FROM [Event Booking] WHERE booking_id = @bookingID";
+
+            using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@bookingID", bookingID);
+
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            bookingDuration = new BookingDuration()
+                            {
+                                EventDate = Convert.ToDateTime(reader["event_date"]),
+                                EventDuration = (TimeSpan) reader["event_duration"]
+                            };
+                        }
+                    }
+                }
+            }
+            return bookingDuration;
+        }
+        public class BookingDuration
+        {
+            public DateTime EventDate { get; set; }
+            public TimeSpan EventDuration { get; set; }
+        }
+        public static bool IsStaffAssignedToEvent(int bookingID, int staffID)
+        {
+            bool isAssigned = false;
+
+            string query = "SELECT COUNT(*) FROM [Event Staff] WHERE booking_id = @bookingID AND staff_id = @staffID";
+
+            using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@bookingID", bookingID);
+                    command.Parameters.AddWithValue("@staffID", staffID);
+
+                    connection.Open();
+
+                    int count = Convert.ToInt32(command.ExecuteScalar());
+
+                    if (count > 0)
+                        isAssigned = true;
+                }
+            }
+            return isAssigned;
+        }
+        public static void AddStaffToEvent(int staffID, int bookingID)
+        {
+            string query = "INSERT INTO [Event Staff] (staff_id, booking_id) VALUES (@staffID, @bookingID)";
+            using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@staffID", staffID);
+                    command.Parameters.AddWithValue("@bookingID", bookingID);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    
+                }
+            }
+        }
+        public static void RemoveStaffFromEvent(int staffID, int bookingID)
+        {
+            string query = "DELETE FROM [Event Staff] WHERE staff_id = @staffID AND booking_id = @bookingID";
+
+            using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
+            {
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@staffID", staffID);
+                    command.Parameters.AddWithValue("@bookingID", bookingID);
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+
+                }
+            }
+        }
         public int BookingID { get => bookingID; set => bookingID = value; }
         public string EventAddress { get => eventAddress; set => eventAddress = value; }
         public string EventDecorDescription { get => eventDecorDescription; set => eventDecorDescription = value; }
