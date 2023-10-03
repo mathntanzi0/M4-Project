@@ -23,8 +23,7 @@
 						<asp:Button runat="server" Text="Deliver" CommandName="Deliver" CommandArgument='<%# Eval("OrderID") %>' CssClass="accept_btn" />
 					</div>
 				</ItemTemplate>
-			</asp:Repeater>
-						
+			</asp:Repeater>		
 		<% } %>
 		<% if (liveOrders == null || liveOrders.Count < 1) { %>
 		<div id="empty_box">

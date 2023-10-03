@@ -45,7 +45,7 @@ namespace M4_Project
             if (HttpContext.Current.Session["liveOrder"] == null)
                 return null;
             int orderID = (int)HttpContext.Current.Session["liveOrder"];
-            Models.Sales.Order order = Models.Sales.Order.GetOrder(orderID);
+            Models.Sales.Order order = Models.Sales.Order.GetOrder_Short(orderID);
             if (Models.Sales.OrderState.IsFinalState(order.OrderStatus))
                 HttpContext.Current.Session["liveOrder"] = null;
             if (order == null)

@@ -22,6 +22,8 @@ namespace M4_Project.Models.Sales
         private int staffID;
         private Delivery delivery;
 
+
+
         ///
         /// <summary>
         ///     Initializes a new instance of the M4_System.Models.Sales.Order class.
@@ -242,6 +244,44 @@ namespace M4_Project.Models.Sales
             }
             return null;
         }
+        ///
+        /// <summary>
+        ///     Returns an order with a specific order identification.
+        /// </summary>
+        public static Order GetOrder_Short(int orderID)
+        {
+            string query = "SELECT TOP (1) customer_id, order_id, order_state, order_type, payment_amount, payment_date, staff_id FROM [Order] WHERE (order_id = @orderID);";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@orderID", orderID);
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        Order order = null;
+                        order = new Order
+                        {
+                            OrderID = (int)reader["order_id"],
+                            OrderType = reader["order_type"].ToString(),
+                            OrderStatus = reader["order_state"].ToString(),
+                            StaffID = (int)reader["staff_id"]
+                        };
+                        int customerID;
+                        if (int.TryParse(reader["customer_id"].ToString(), out customerID))
+                            order.Customer = Customer.GetCustomer(customerID);
+
+                        order.PaymentDate = (DateTime)reader["payment_date"];
+                        order.PaymentAmount = (decimal)reader["payment_amount"];
+                        return order;
+                    }
+                }
+            }
+            return null;
+        }
         /// <summary>
         ///     Retrieves the ID of a live order for a customer, if one exists.
         /// </summary>
@@ -342,74 +382,6 @@ namespace M4_Project.Models.Sales
                 }
                 return itemLines;
             }
-        }
-        ///
-        /// <summary>
-        ///     Returns a list of orders.
-        /// </summary>
-        public static List<Order> GetOrders(int page, int maxListSize)
-        {
-            return null;
-        }
-        ///
-        /// <summary>
-        ///     Returns a list of orders with similar customer name or same customer name.
-        /// </summary>
-        public static List<Order> GetOrders(int page, int maxListSize, string customerName, string orderType)
-        {
-
-            List<Order> orders = new List<Order>();
-
-            SqlCommand command = new SqlCommand();
-            if (string.IsNullOrEmpty(customerName) && string.IsNullOrEmpty(orderType))
-            {
-                string query = "SELECT [Customer].first_name, [Customer].last_name, order_id, order_type, order_state, payment_date, payment_amount " +
-                    "FROM[Customer], [Order] " +
-                    "WHERE[Customer].customer_id = [Order].customer_id " +
-                    "ORDER BY[Order].payment_date DESC, [Order].order_id DESC " +
-                    "OFFSET @startRow ROWS " +
-                    "FETCH NEXT @MaxListSize ROWS ONLY; ";
-                command.CommandText = query;
-            }
-            else
-            {
-                string query = "SELECT [Customer].first_name, [Customer].last_name, order_id, order_type, order_state, payment_date, payment_amount " +
-                    "FROM[Customer], [Order] " +
-                    "WHERE[Customer].customer_id = [Order].customer_id " +
-                    "AND [Customer].first_name + ' ' + [Customer].last_name LIKE '%'+@searchValue+'%' " +
-                    "AND order_type Like '%'+@orderType+'%' " +
-                    "ORDER BY[Order].payment_date DESC, [Order].order_id DESC " +
-                    "OFFSET @startRow ROWS " +
-                    "FETCH NEXT @MaxListSize ROWS ONLY; ";
-                command.CommandText = query;
-                command.Parameters.AddWithValue("@searchValue", customerName);
-                command.Parameters.AddWithValue("@orderType", orderType);
-            }
-
-            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
-            {
-                command.Parameters.AddWithValue("@startRow", page);
-                command.Parameters.AddWithValue("@MaxListSize", maxListSize);
-                command.Connection = connection;
-                connection.Open();
-
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        Order order = new Order(
-                            (int)reader["order_id"],
-                            new Customer((string)reader["first_name"], (string)reader["last_name"]),
-                            reader["order_type"].ToString(),
-                            reader["order_state"].ToString(),
-                            (DateTime)reader["payment_date"],
-                            (decimal)reader["payment_amount"]
-                        );
-                        orders.Add(order);
-                    }
-                }
-            }
-            return orders;
         }
         public static List<Order> GetPendingOrders()
         {
@@ -663,6 +635,11 @@ namespace M4_Project.Models.Sales
                 }
             }
         }
+
+
+
+
+
         public int OrderID { get => orderID; set => orderID = value; }
         public Customer Customer { get => customer; set => customer = value; }
         public string CustomerName { get => (customer != null) ? customer.FirstName + " " + customer.LastName : "none"; }
@@ -672,6 +649,10 @@ namespace M4_Project.Models.Sales
         public override int SaleType => Sales.SaleType.Order;
         public Delivery Delivery { get => delivery; set => delivery = value; }
     }
+
+
+
+
     /// <summary>
     ///     Enumerates Potential Order Types.
     /// </summary>
@@ -690,6 +671,10 @@ namespace M4_Project.Models.Sales
         /// </summary>
         public readonly static string InStore = "In-Store";
     }
+
+
+
+
     /// <summary>
     ///     Enumerates Potential Order States.
     /// </summary>

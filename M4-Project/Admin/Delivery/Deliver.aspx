@@ -11,10 +11,10 @@
   	<div id="map"></div>
     <div class="address_details_wrapper">
   			<h3>Customer Details</h3>
-  			<h4>Name: Sam Surname</h4>
-  			<h4>phone number: +0 00 000 0000</h4>
-  			<h4>Email: email@example.com</h4>
-  			<h4>Location: No street, City, Postal code, County</h4>
+  			<h4>Name: <%= order.Customer.FirstName %></h4>
+  			<h4>Phone number: <%= order.Customer.PhoneNumber %></h4>
+  			<h4>Email: <%= order.Customer.EmailAddress %></h4>
+  			<h4>Location: <%= order.Delivery.DeliveryAddress.AddressName %></h4>
   		</div>
 </asp:Content>
 
@@ -24,13 +24,14 @@
           let marker;
           let dirver;
 
-          let storeAddress = { lat: -29.62131879702845, lng: 30.394956658547798 };
-          let selectedLocation = { lat: -29.62136476715044, lng: 30.395960753346802 };
+          let driverLocation = { lat: <%= M4_Project.Models.BusinessRules.Address.centerLatitude %>, lng: <%= M4_Project.Models.BusinessRules.Address.centerLongitude %> };
+          let selectedLocation = { lat: <%= order.Delivery.DeliveryAddress.Latitude %>, lng: <%= order.Delivery.DeliveryAddress.Longitude %> };
+
           async function initMap() {
               const { Map } = await google.maps.importLibrary("maps");
               const initialLatLng = selectedLocation;
               map = new Map(document.getElementById("map"), {
-                  center: storeAddress,
+                  center: driverLocation,
                   zoom: 18,
                   streetViewControl: false,
                   mapTypeControl: false,
@@ -49,7 +50,7 @@
                   scaledSize: new google.maps.Size(50, 50)
               };
               dirver = new google.maps.Marker({
-                  position: storeAddress,
+                  position: driverLocation,
                   map: map,
                   title: 'Dirver',
                   icon: image,
@@ -93,6 +94,8 @@
               dirver.setPosition(newPosition);
               map.setCenter(newPosition);
               selectedLocation = newPosition;
+              driverLocation.lat = newLat;
+              driverLocation.lng = newLng;
           }
 
           const darkModeStyles = [
@@ -175,6 +178,23 @@
                   stylers: [{ color: "#17263c" }],
               },
           ];
+
+          function updateDriverLocation() {
+              $.ajax({
+                  type: "POST",
+                  url: "Deliver.aspx/UpdateDriverLocation",
+                  data: JSON.stringify({ latitude: driverLocation.lat, longitude: driverLocation.lng }),
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+                  success: function (data) {
+
+                  },
+                  error: function (error) {
+                      console.error("An error occurred: " + error.responseText);
+                  }
+              });
+          }
+          setInterval(updateDriverLocation, 10000);
       </script>
 
     <script async

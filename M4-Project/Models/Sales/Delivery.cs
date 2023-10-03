@@ -121,6 +121,7 @@ namespace M4_Project.Models.Sales
                             deliveryFee: (decimal)reader["delivery_fee"],
                             deliveryAddress: deliveryAddress
                         );
+                        delivery.DriverID = (int)reader["driver_id"];
                         return delivery;
                     }
                 }
@@ -227,6 +228,6 @@ namespace M4_Project.Models.Sales
         public int DriverID { get => driverID; set => driverID = value; }
         public decimal DeliveryFee { get => deliveryFee; set => deliveryFee = value; }
         public Address DeliveryAddress { get => deliveryAddress; set => deliveryAddress = value; }
-        public Address DriverAddress { get => driverAddress; }
+        public Address DriverAddress { get => driverAddress; set => deliveryAddress = value; }
     }
 }
