@@ -263,6 +263,8 @@
     <Content Include="Customer\Orders.aspx" />
     <Content Include="Customer\Profile.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="FAQpageaspx.aspx" />
+    <Content Include="Content\FAQStyle.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -716,6 +718,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FAQpageaspx.aspx.cs">
+      <DependentUpon>FAQpageaspx.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FAQpageaspx.aspx.designer.cs">
+      <DependentUpon>FAQpageaspx.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
