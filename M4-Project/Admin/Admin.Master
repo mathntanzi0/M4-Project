@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="~/Content/Components/header_style.css">
 	
 	<link rel="icon" type="png" href="~/Assets/logo.png">
+
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -190,7 +191,14 @@
             var isDarkModeNow = document.body.classList.contains("dark-mode");
             var xhr = new XMLHttpRequest();
             xhr.open("GET", "/Admin/UpdateDarkModeSession.aspx?isDarkMode=" + isDarkModeNow, true);
-            xhr.send();
+			xhr.send();
+			xhr.onreadystatechange = function () {
+				if (xhr.readyState === XMLHttpRequest.DONE) {
+					if (xhr.status === 200) {
+						location.reload();
+					}
+				}
+			}
 		}
 
         function showSlideMenu() {

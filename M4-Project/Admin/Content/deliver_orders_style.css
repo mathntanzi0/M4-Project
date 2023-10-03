@@ -1,0 +1,28 @@
+.order_wrapper{
+	--item-wrapper-width: 94vw;
+	width: var(--item-wrapper-width);
+	box-shadow: var(--card-box-shadow);
+	display: block;
+	margin: auto;
+	margin-bottom: 2rem;
+	padding: 1rem 0;
+}
+.order_wrapper h2, .order_wrapper div p{
+	padding: 0 1rem;
+}
+.order_wrapper div p{
+	font-weight: 500;
+	font-size: 1.125rem;
+	padding-bottom: 0.75rem;
+}
+.order_wrapper h2{
+	font-size: 1.35rem;
+	padding-bottom: 1.75rem;
+}
+.order_wrapper input[type="submit"]{
+	display: block;
+	margin: 1rem 1rem 0.5rem 0;
+	margin-left: auto;
+	color: var(--text-color);
+	background-color: var(--secondary-primary);
+}

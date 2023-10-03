@@ -170,6 +170,7 @@
     <Content Include="Admin\AddStaff.aspx" />
     <Content Include="Admin\Booking.aspx" />
     <Content Include="Admin\Bookings.aspx" />
+    <Content Include="Admin\Content\deliver_orders_style.css" />
     <Content Include="Admin\Content\staff_deactivate_style.css" />
     <Content Include="Admin\Deactivate.aspx" />
     <Content Include="Admin\Delivery\Deliver.aspx" />
