@@ -751,7 +751,7 @@ namespace M4_Project.Models.Sales
             else if (orderStatus == Unsuccessful)
                 return "#D7263D";
             else if (orderStatus == OnTheWay)
-                return "#2E294E";
+                return "#E6E49F";
             else if (orderStatus == Collected)
                 return "green";
             else if (orderStatus == Delivered)
