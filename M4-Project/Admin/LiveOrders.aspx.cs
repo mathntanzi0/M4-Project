@@ -39,6 +39,8 @@ namespace M4_Project.Admin
                 int orderID = Convert.ToInt32(e.CommandArgument);
                 string newOrderStatus = (e.CommandName == "Accept") ? Models.Sales.OrderState.Preparing : Models.Sales.OrderState.Rejected;
                 Models.Sales.Order.ChangeStatus(orderID, newOrderStatus);
+                Models.StaffLoginSession loginSession = Session["loginStaff"] as Models.StaffLoginSession;
+                Models.StaffMember.SetOrderStaff(orderID, loginSession.StaffID);
                 BindOrders();
             }
             if (e.CommandName == "View")

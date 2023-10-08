@@ -22,7 +22,7 @@ namespace M4_Project
                 Response.Redirect("/");
 
             order = Models.Sales.Order.GetOrder(orderID);
-            if (order == null)
+            if (order == null || order.OrderStatus == Models.Sales.OrderState.Pending)
             {
                 Session["liveOrder"] = null;
                 Response.Redirect("/");
@@ -42,14 +42,15 @@ namespace M4_Project
         }
         public static bool[] GetCardActivation()
         {
-            if (HttpContext.Current.Session["liveOrder"] == null)
-                return null;
+            if (HttpContext.Current.Session["liveOrder"] == null) 
+                return  new bool[] {true, true, true, true};
+
             int orderID = (int)HttpContext.Current.Session["liveOrder"];
             Models.Sales.Order order = Models.Sales.Order.GetOrder_Short(orderID);
-            if (Models.Sales.OrderState.IsFinalState(order.OrderStatus))
-                HttpContext.Current.Session["liveOrder"] = null;
             if (order == null)
                 return null;
+            if (Models.Sales.OrderState.IsFinalState(order.OrderStatus))
+                HttpContext.Current.Session["liveOrder"] = null;
 
             bool[] activation = { false, false, false, false };
             int activationEnd;

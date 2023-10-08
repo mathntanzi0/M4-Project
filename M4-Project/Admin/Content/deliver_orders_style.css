@@ -26,3 +26,52 @@
 	color: var(--text-color);
 	background-color: var(--secondary-primary);
 }
+#empty_box {
+	text-align: left;
+}
+
+#empty_box {
+	margin: 4rem;
+	margin-top: 3rem;
+}
+
+#empty_box h3 {
+	font-size: 38px;
+	font-weight: 700;
+	font-family: "RobotoC";
+	text-transform: uppercase;
+	font-family: "AdihausDIN",sans-serif;
+}
+
+#empty_box p {
+	font-size: 18px;
+	line-height: 1.4;
+	margin-top: 60px;
+	margin-bottom: 82px;
+}
+
+#empty_box div {
+	border-radius: 0;
+	line-height: 50px;
+	min-height: 50px;
+	padding: 0 21px;
+	margin: 10px 0;
+	text-align: left;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition: transform 0.2s;
+	white-space: nowrap;
+	min-width: 168px;
+	max-width: 500px;
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 2px;
+	font-family: "AdihausDIN",sans-serif;
+	color: var(--special-text-color);
+	background-color: var(--special-btn-color);
+}
+
+#empty_box div:hover {
+	color: var(--text-color);
+	background-color: var(--secondary-primary);
+}

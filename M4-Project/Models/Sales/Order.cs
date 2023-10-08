@@ -383,6 +383,21 @@ namespace M4_Project.Models.Sales
                 return itemLines;
             }
         }
+        public static void SetStaffMember(int orderID, int staffID)
+        {
+            string query = "UPDATE [Order] SET staff_id = @StaffID WHERE order_id = @OrderID";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@StaffID", staffID);
+                command.Parameters.AddWithValue("@OrderID", orderID);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
         public static List<Order> GetPendingOrders()
         {
             List<Order> pendingOrders = new List<Order>();

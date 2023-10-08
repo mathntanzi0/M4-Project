@@ -90,7 +90,7 @@ namespace M4_Project
             cartCookie.Expires = DateTime.Now.AddDays(-1);
             HttpContext.Current.Response.Cookies.Add(cartCookie);
 
-            Response.Redirect("/Customer/Orders");
+            Response.Redirect("/Processing");
         }
         private void ProcessBooking(Models.Sales.Booking booking)
         {

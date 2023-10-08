@@ -287,6 +287,7 @@
     <Content Include="Menu.aspx" />
     <Content Include="MenuItem.aspx" />
     <Content Include="OrderPending.aspx" />
+    <Content Include="Processing.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -317,6 +318,7 @@
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="SelectAddress.aspx" />
     <Content Include="Site.Master" />
+    <Content Include="Spinner V2.html" />
     <Content Include="TrackDriver.aspx" />
     <Content Include="TrackOrder.aspx" />
     <Content Include="ViewSwitcher.ascx" />
@@ -789,6 +791,13 @@
     </Compile>
     <Compile Include="OrderPending.aspx.designer.cs">
       <DependentUpon>OrderPending.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Processing.aspx.cs">
+      <DependentUpon>Processing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Processing.aspx.designer.cs">
+      <DependentUpon>Processing.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelectAddress.aspx.cs">

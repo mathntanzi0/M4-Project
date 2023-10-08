@@ -121,7 +121,7 @@ namespace M4_Project.Models.Sales
                             deliveryFee: (decimal)reader["delivery_fee"],
                             deliveryAddress: deliveryAddress
                         );
-                        delivery.DriverID = (int)reader["driver_id"];
+                        delivery.driverID = (reader.IsDBNull(reader.GetOrdinal("driver_id"))) ? 0 : (int) reader["driver_id"];
                         return delivery;
                     }
                 }

@@ -10,12 +10,14 @@
 	</div>
   	<div id="map"></div>
     <div class="address_details_wrapper">
-  			<h3>Customer Details</h3>
-  			<h4>Name: <%= order.Customer.FirstName %></h4>
-  			<h4>Phone number: <%= order.Customer.PhoneNumber %></h4>
-  			<h4>Email: <%= order.Customer.EmailAddress %></h4>
-  			<h4>Location: <%= order.Delivery.DeliveryAddress.AddressName %></h4>
-  		</div>
+  		<h3>Customer Details</h3>
+  		<h4>Name: <%= order.Customer.FirstName %></h4>
+  		<h4>Phone number: <%= order.Customer.PhoneNumber %></h4>
+  		<h4>Email: <%= order.Customer.EmailAddress %></h4>
+  		<h4>Location: <%= order.Delivery.DeliveryAddress.AddressName %></h4>
+  	</div>
+
+    <asp:Button ID="btnDelivered" runat="server" Text="Delivered" OnClick="btnDelivered_Click" CssClass="mainBtn" />
 </asp:Content>
 
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentScripts" runat="server">

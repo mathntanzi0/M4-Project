@@ -32,3 +32,9 @@
 .address_details_wrapper{
 	padding-bottom: 2rem;
 }
+.mainBtn {
+	display: block;
+	margin: auto;
+	margin-bottom:2rem;
+	background-color: var(--secondary-primary);
+}

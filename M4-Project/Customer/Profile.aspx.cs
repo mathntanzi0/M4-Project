@@ -11,7 +11,10 @@ namespace M4_Project.Customer
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (User.IsInRole("Admin"))
+            {
+                Response.Redirect("/Admin");
+            }
         }
         protected void ValidatePhysicalAddress(object source, ServerValidateEventArgs args)
         {

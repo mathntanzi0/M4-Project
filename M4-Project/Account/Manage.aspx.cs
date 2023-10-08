@@ -35,6 +35,7 @@ namespace M4_Project.Customer
 
         protected void Page_Load()
         {
+            Response.Redirect("/Customer");
             var manager = Context.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
             HasPhoneNumber = String.IsNullOrEmpty(manager.GetPhoneNumber(User.Identity.GetUserId()));

@@ -1,8 +1,12 @@
 ﻿<%@ Page Title="Manage Password" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ManagePassword.aspx.cs" Inherits="M4_Project.Customer.ManagePassword" %>
 
+<asp:Content ID ="HeadContent" ContentPlaceHolderID="head" runat="server">
+	<link rel="stylesheet" type="text/css" href="/Content/login.css">
+</asp:Content>
+
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %>.</h2>
-    <div class="form-horizontal">
+    <div>
         <section id="passwordForm">
             <asp:PlaceHolder runat="server" ID="setPassword" Visible="false">
                 <p>

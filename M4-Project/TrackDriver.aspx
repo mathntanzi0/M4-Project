@@ -25,7 +25,7 @@
 		let dirver;
 
         let driverLocation = { lat: <%= M4_Project.Models.BusinessRules.Address.centerLatitude %>, lng: <%= M4_Project.Models.BusinessRules.Address.centerLongitude %> };
-        let selectedLocation = { lat: <%= delivery.DeliveryAddress.Latitude %>, lng: <%= delivery.DeliveryAddress.Longitude %> };
+        let selectedLocation = { lat: <%= order.Delivery.DeliveryAddress.Latitude %>, lng: <%= order.Delivery.DeliveryAddress.Longitude %> };
 		async function initMap() {
 			const { Map } = await google.maps.importLibrary("maps");
 			const initialLatLng = selectedLocation;
@@ -76,6 +76,10 @@
                         var driverLatitude = parseFloat(locationParts[0]);
                         var driverLongitude = parseFloat(locationParts[1]);
 
+						if (driverLatitude == 1000)
+						{
+							location.replace("/TrackOrder");
+						}
                         updateMarkerPosition(driverLatitude, driverLongitude);
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
@@ -83,8 +87,13 @@
 					}
 				});
             });
-		}
-		  setInterval(getDriverLocation, 10000)
+		  }
+
+
+		  <% if (!M4_Project.Models.Sales.OrderState.IsFinalState(order.OrderStatus))
+          { %>
+		  setInterval(getDriverLocation, 5000);
+		  <% } %>
       </script>
 		<script async
     	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRXvY67uo2SVzezWtxsQeqmgh4IRkA7Ag&callback=initMap">
