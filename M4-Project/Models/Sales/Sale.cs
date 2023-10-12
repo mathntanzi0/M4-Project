@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Web;
 
 namespace M4_Project.Models.Sales
@@ -21,6 +24,14 @@ namespace M4_Project.Models.Sales
         private List<ItemLine> itemLines;
         private Dictionary<int, int> cart;
 
+
+
+
+        ///
+        /// <summary>
+        ///     Saves the Sales to the database.
+        /// </summary>
+        public abstract void RecordSell();
         ///
         /// <summary>
         ///     Adds M4_System.Models.Sells.ItemLine to the itemLines list.
@@ -37,13 +48,26 @@ namespace M4_Project.Models.Sales
             cart.Add(ItemLines[index].ItemID, index);
             return AddItemError.NoError;
         }
-        ///
         /// <summary>
-        ///     Saves the Sales to the database.
+        ///     Attaches images to an AlternateView for use in an email.
         /// </summary>
-        public abstract void RecordSell();
+        /// <param name="htmlView">The AlternateView to which the images will be attached.</param>
+        protected void AttachImages(ref AlternateView htmlView)
+        {
+            for (int i = 0; i < itemLines.Count; i++)
+            {
+                ItemLine itemLine = itemLines[i];
+                byte[] imageBytes = itemLine.Image;
 
-        
+                LinkedResource itemImage = new LinkedResource(new MemoryStream(imageBytes), MediaTypeNames.Image.Jpeg);
+                itemImage.ContentId = "item_line" + itemLine.ItemID;
+                htmlView.LinkedResources.Add(itemImage);
+            }
+        }
+
+
+
+
         private string SellTypeTitle { get; set; }
         private string SubTitle { get; set; }
         public int SellID { get => sellID; set => sellID = value; }
@@ -57,7 +81,6 @@ namespace M4_Project.Models.Sales
         public List<ItemLine> ItemLines { get => itemLines; set => itemLines = value; }
         public Dictionary<int, int> Cart { get => cart; set => cart = value; }
         public abstract int SaleType { get; }
-
     }
     public static class AddItemError
     {

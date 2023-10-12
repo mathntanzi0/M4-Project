@@ -96,7 +96,13 @@ namespace M4_Project.Admin
             if (!Models.Sales.OrderState.IsValidState(selectedStatus))
                 Response.Redirect("/");
 
-            Models.Sales.Order.ChangeStatus(orderID, selectedStatus);
+            if (Models.Sales.Order.ChangeStatus(orderID, selectedStatus) && selectedStatus == Models.Sales.OrderState.Preparing)
+            {
+                Models.Sales.Order order = Models.Sales.Order.GetOrder(orderID);
+                order.Delivery = Models.Sales.Delivery.GetDelivery(orderID);
+                order.SendEmail();
+            }
+
             Models.StaffLoginSession loginSession = Session["loginStaff"] as Models.StaffLoginSession;
             Models.StaffMember.SetOrderStaff(orderID, loginSession.StaffID);
 

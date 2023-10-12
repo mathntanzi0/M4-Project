@@ -3,7 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using System.Web;
 
@@ -188,10 +191,10 @@ namespace M4_Project.Models.Sales
         /// <summary>
         ///     Change the status of an order on the database using the order identification as parameter.
         /// </summary>
-        public static void ChangeStatus(int orderID, string orderStatus)
+        public static bool ChangeStatus(int orderID, string orderStatus)
         {
             if (!OrderState.IsValidState(orderStatus))
-                return;
+                return false;
 
             string query = "UPDATE [Order] SET [order_state] = @order_state WHERE[order_id] = @orderID";
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
@@ -202,6 +205,7 @@ namespace M4_Project.Models.Sales
                 connection.Open();
                 command.ExecuteNonQuery();
             }
+            return true;
         }
         ///
         /// <summary>
@@ -575,7 +579,6 @@ namespace M4_Project.Models.Sales
             }
             return orderDetailsList;
         }
-
         public static ItemSummary GetItemSummary(int itemID)
         {
             int year = DateTime.Now.Year;
@@ -650,8 +653,114 @@ namespace M4_Project.Models.Sales
                 }
             }
         }
+        public bool SendEmail()
+        {
+            string emailBody = GetEmailBody();
+
+            AlternateView htmlView = AlternateView.CreateAlternateViewFromString(emailBody, null, MediaTypeNames.Text.Html);
+
+            byte[] imageBytes = Utilities.Images.GetImage("~/Assets/logo.png");
+            LinkedResource itemImage = new LinkedResource(new MemoryStream(imageBytes), MediaTypeNames.Image.Jpeg);
+            itemImage.ContentId = "logo";
+            htmlView.LinkedResources.Add(itemImage);
+            AttachImages(ref htmlView);
+
+            try
+            {
+                //Emails.SendMail("Order", emailBody, customer.EmailAddress, htmlView);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }      
+        private string GetEmailBody()
+        {
+            StringBuilder emailBodyBuilder = new StringBuilder();
 
 
+            emailBodyBuilder.AppendLine(@"
+            <html>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Email Template</title>
+            </head>
+            <body style='font-family: Arial, sans-serif; background-color: #fff; margin: 0; padding: 0;'>
+                <div style='background-color: #283217; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align: center;'>
+                    <img src='cid:logo' alt='Logo' style='width: 100%; max-width: 124px; height: auto; margin-bottom: 15px;'>
+                    <h1 style='color: #fff; font-weight: 700;'>Friends & Family</h1>
+                </div>");
+
+
+            emailBodyBuilder.AppendLine($@"
+            <div style='background - color: #ffffff; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align: left;'>
+                <div>
+                    <h2> Hello {customer.FullName}!</h2>
+                    <p> We have reacived your order, and our chefs are turning up the heat to craft something extraordinary just for you! </p>
+                </div>");
+
+
+            emailBodyBuilder.AppendLine($@"
+                <div>
+                    <h2>Order Summary</h2>
+                    <p>Order number: #{orderID}</p>
+                    <p>Payment date: {PaymentDate.ToString("dd MMMM yyyy HH:mm")}</p>
+                    <p>Payment type: {PaymentMethod}</p>");
+            if (orderType == Sales.OrderType.Delivery)
+                emailBodyBuilder.AppendLine($@"<p><a href='https://www.google.com/maps?q={delivery.DeliveryAddress.Latitude},{delivery.DeliveryAddress.Longitude}' style='color: #007bff; text-decoration: none;'>Delivery Address: {delivery.DeliveryAddress.AddressName} </a></p>");
+            emailBodyBuilder.AppendLine(@"
+                </div> 
+            </div>
+            <div style='background-color: #ffffff; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align: left;'>");
+
+
+
+            foreach (Sales.ItemLine itemLine in ItemLines)
+            {
+                emailBodyBuilder.AppendLine($@"
+                <div>
+                    <img src='cid:item_line{itemLine.ItemID}' alt='{itemLine.ItemName}' style='max-width: 100%;'>
+                    <p style = 'margin:0; margin-top: 8px;' > {itemLine.ItemName} </p>
+                    <p style = 'margin:0;'>Price: R {itemLine.ItemCostN2}</p>
+                    <p style = 'margin:0;'>Qty: {itemLine.ItemQuantity}</p>
+                    <p style = 'margin:0; margin-bottom: 32px;'>Amount: R {itemLine.TotalSubCostN2}</p>
+                </div>");
+            }
+
+            emailBodyBuilder.AppendLine($@"</div>
+            <div style='background-color: #ffffff; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align:left;'>
+                <p>Sub Total: R {TotalAmountDueN2}</p>
+                <p>Tip: R {TipN2} </p>");
+                
+            
+
+            if (orderType == Sales.OrderType.Delivery)
+            {
+                emailBodyBuilder.AppendLine($@"
+                <p>Delivery Fee: R {BusinessRules.Delivery.DeliveryFee.ToString("N2")}</p>
+                <p style='font-size: 22px; font-weight: bold;'>Total: R {(PaymentAmount + delivery.DeliveryFee + Tip).ToString("N2")}</p>
+            </div>");
+            } else
+            {
+                emailBodyBuilder.AppendLine($@"
+                <p style='font-size: 22px; font-weight: bold;'>Total: R {(PaymentAmount + Tip).ToString("N2")}</p>
+            </div>");
+            }
+
+            emailBodyBuilder.AppendLine(@"
+            <div style='margin-top: 40px; color: #fff; background-color: #283217; padding: 10px; text-align: center;'>
+                <h2 style = 'margin-bottom: 16px; font-size: 16px; color: #fff;'> Have any queries? Please reply to this email </h2>
+                <p style = 'font-size: 12px; color: #fff;'> 2023 Friends & Family.All rights reserved. <br/> 10th floor, 323 Cornland, Foreshore, KwaZulu-Natal.</p>
+                <p style = 'font-size: 12px; color: #fff;'> Friends & Family(Pty) Ltd, Reg 2002 / 02020 / 08 <br/> VAT number: 4343 4834 438.</ p >   
+            </div> ");
+
+            emailBodyBuilder.AppendLine(@"</body>");
+            emailBodyBuilder.AppendLine(@"</html>");
+
+            return emailBodyBuilder.ToString();
+        }
 
 
 
