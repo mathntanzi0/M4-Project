@@ -99,19 +99,22 @@ body{
   display: inline-block;
   margin-top: 12px;
 }
-.right-side .button input[type="button"]{
-  color: #fff;
-  font-size: 18px;
-  outline: none;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  background: black;
-  cursor: pointer;
-  transition: all 0.3s ease;
+
+.right-side .button .custom-button {
+    color: #fff;
+    font-size: 18px;
+    outline: none;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background: black;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
-.button input[type="button"]:hover{
-  background: #5029bc;
+
+.custom-button:hover {
+    background: #5029bc;
+    cursor: pointer;
 }
 
 @media (max-width: 950px) {
