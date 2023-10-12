@@ -82,8 +82,8 @@ namespace M4_Project.Models.BusinessRules
         /// <summary>
         ///     Business Location
         /// </summary>
-        public static readonly double centerLatitude = 0.0;
-        public static readonly double centerLongitude = 0.0;
+        public static readonly double centerLatitude = -29.621091867599112;
+        public static readonly double centerLongitude = 30.394936263745304;
     }
     public static class Delivery
     {

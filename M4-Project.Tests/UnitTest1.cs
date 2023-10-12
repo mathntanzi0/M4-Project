@@ -9,6 +9,20 @@ namespace M4_Project.Tests
         [TestMethod]
         public void TestMethod1()
         {
+            ///<summary>
+            /// Email sending test.
+            ///</summary>
+            
+            try
+            {
+                M4_Project.Models.Emails.SendMail("Hello Testing", "Unit testing", "ntanzi033@gmail.com");
+                //M4_Project.Models.Emails.SendTest();
+                Console.WriteLine("Passed");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
 }

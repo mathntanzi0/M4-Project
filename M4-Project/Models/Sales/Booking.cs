@@ -644,7 +644,6 @@ namespace M4_Project.Models.Sales
         ///     When the booking is rejected or declined by the business.
         /// </summary>
         public readonly static string Rejected = "Rejected";
-
         /// <summary>
         ///     Checks if the given state is a final state in the sales process.
         /// </summary>

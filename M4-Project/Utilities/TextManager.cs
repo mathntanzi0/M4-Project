@@ -23,7 +23,7 @@ namespace M4_Project.Utilities
         /// </summary>
         public static string ShortString(string text, int shortSize)
         {
-            if (shortSize > (text.Length + 3))
+            if (string.IsNullOrEmpty(text) || shortSize > (text.Length + 3))
                 return text;
 
             return text.Substring(0, shortSize - 3) + "...";

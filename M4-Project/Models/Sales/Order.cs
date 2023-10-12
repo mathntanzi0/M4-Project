@@ -3,7 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using System.Web;
 
@@ -21,6 +24,8 @@ namespace M4_Project.Models.Sales
         private string orderStatus;
         private int staffID;
         private Delivery delivery;
+
+
 
         ///
         /// <summary>
@@ -186,10 +191,10 @@ namespace M4_Project.Models.Sales
         /// <summary>
         ///     Change the status of an order on the database using the order identification as parameter.
         /// </summary>
-        public static void ChangeStatus(int orderID, string orderStatus)
+        public static bool ChangeStatus(int orderID, string orderStatus)
         {
             if (!OrderState.IsValidState(orderStatus))
-                return;
+                return false;
 
             string query = "UPDATE [Order] SET [order_state] = @order_state WHERE[order_id] = @orderID";
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
@@ -200,6 +205,7 @@ namespace M4_Project.Models.Sales
                 connection.Open();
                 command.ExecuteNonQuery();
             }
+            return true;
         }
         ///
         /// <summary>
@@ -236,6 +242,44 @@ namespace M4_Project.Models.Sales
                         order.PaymentMethod = reader["payment_method"].ToString();
                         order.Tip = (decimal)reader["tip_amount"];
                         order.ItemLines = GetOrderLines(orderID);
+                        return order;
+                    }
+                }
+            }
+            return null;
+        }
+        ///
+        /// <summary>
+        ///     Returns an order with a specific order identification.
+        /// </summary>
+        public static Order GetOrder_Short(int orderID)
+        {
+            string query = "SELECT TOP (1) customer_id, order_id, order_state, order_type, payment_amount, payment_date, staff_id FROM [Order] WHERE (order_id = @orderID);";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@orderID", orderID);
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        Order order = null;
+                        order = new Order
+                        {
+                            OrderID = (int)reader["order_id"],
+                            OrderType = reader["order_type"].ToString(),
+                            OrderStatus = reader["order_state"].ToString(),
+                            StaffID = (int)reader["staff_id"]
+                        };
+                        int customerID;
+                        if (int.TryParse(reader["customer_id"].ToString(), out customerID))
+                            order.Customer = Customer.GetCustomer(customerID);
+
+                        order.PaymentDate = (DateTime)reader["payment_date"];
+                        order.PaymentAmount = (decimal)reader["payment_amount"];
                         return order;
                     }
                 }
@@ -343,73 +387,20 @@ namespace M4_Project.Models.Sales
                 return itemLines;
             }
         }
-        ///
-        /// <summary>
-        ///     Returns a list of orders.
-        /// </summary>
-        public static List<Order> GetOrders(int page, int maxListSize)
+        public static void SetStaffMember(int orderID, int staffID)
         {
-            return null;
-        }
-        ///
-        /// <summary>
-        ///     Returns a list of orders with similar customer name or same customer name.
-        /// </summary>
-        public static List<Order> GetOrders(int page, int maxListSize, string customerName, string orderType)
-        {
-
-            List<Order> orders = new List<Order>();
-
-            SqlCommand command = new SqlCommand();
-            if (string.IsNullOrEmpty(customerName) && string.IsNullOrEmpty(orderType))
-            {
-                string query = "SELECT [Customer].first_name, [Customer].last_name, order_id, order_type, order_state, payment_date, payment_amount " +
-                    "FROM[Customer], [Order] " +
-                    "WHERE[Customer].customer_id = [Order].customer_id " +
-                    "ORDER BY[Order].payment_date DESC, [Order].order_id DESC " +
-                    "OFFSET @startRow ROWS " +
-                    "FETCH NEXT @MaxListSize ROWS ONLY; ";
-                command.CommandText = query;
-            }
-            else
-            {
-                string query = "SELECT [Customer].first_name, [Customer].last_name, order_id, order_type, order_state, payment_date, payment_amount " +
-                    "FROM[Customer], [Order] " +
-                    "WHERE[Customer].customer_id = [Order].customer_id " +
-                    "AND [Customer].first_name + ' ' + [Customer].last_name LIKE '%'+@searchValue+'%' " +
-                    "AND order_type Like '%'+@orderType+'%' " +
-                    "ORDER BY[Order].payment_date DESC, [Order].order_id DESC " +
-                    "OFFSET @startRow ROWS " +
-                    "FETCH NEXT @MaxListSize ROWS ONLY; ";
-                command.CommandText = query;
-                command.Parameters.AddWithValue("@searchValue", customerName);
-                command.Parameters.AddWithValue("@orderType", orderType);
-            }
+            string query = "UPDATE [Order] SET staff_id = @StaffID WHERE order_id = @OrderID";
 
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
             {
-                command.Parameters.AddWithValue("@startRow", page);
-                command.Parameters.AddWithValue("@MaxListSize", maxListSize);
-                command.Connection = connection;
-                connection.Open();
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@StaffID", staffID);
+                command.Parameters.AddWithValue("@OrderID", orderID);
 
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        Order order = new Order(
-                            (int)reader["order_id"],
-                            new Customer((string)reader["first_name"], (string)reader["last_name"]),
-                            reader["order_type"].ToString(),
-                            reader["order_state"].ToString(),
-                            (DateTime)reader["payment_date"],
-                            (decimal)reader["payment_amount"]
-                        );
-                        orders.Add(order);
-                    }
-                }
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
             }
-            return orders;
         }
         public static List<Order> GetPendingOrders()
         {
@@ -588,7 +579,6 @@ namespace M4_Project.Models.Sales
             }
             return orderDetailsList;
         }
-
         public static ItemSummary GetItemSummary(int itemID)
         {
             int year = DateTime.Now.Year;
@@ -663,6 +653,117 @@ namespace M4_Project.Models.Sales
                 }
             }
         }
+        public bool SendEmail()
+        {
+            string emailBody = GetEmailBody();
+
+            AlternateView htmlView = AlternateView.CreateAlternateViewFromString(emailBody, null, MediaTypeNames.Text.Html);
+
+            byte[] imageBytes = Utilities.Images.GetImage("~/Assets/logo.png");
+            LinkedResource itemImage = new LinkedResource(new MemoryStream(imageBytes), MediaTypeNames.Image.Jpeg);
+            itemImage.ContentId = "logo";
+            htmlView.LinkedResources.Add(itemImage);
+            AttachImages(ref htmlView);
+
+            try
+            {
+                //Emails.SendMail("Order", emailBody, customer.EmailAddress, htmlView);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }      
+        private string GetEmailBody()
+        {
+            StringBuilder emailBodyBuilder = new StringBuilder();
+
+
+            emailBodyBuilder.AppendLine(@"
+            <html>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Email Template</title>
+            </head>
+            <body style='font-family: Arial, sans-serif; background-color: #fff; margin: 0; padding: 0;'>
+                <div style='background-color: #283217; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align: center;'>
+                    <img src='cid:logo' alt='Logo' style='width: 100%; max-width: 124px; height: auto; margin-bottom: 15px;'>
+                    <h1 style='color: #fff; font-weight: 700;'>Friends & Family</h1>
+                </div>");
+
+
+            emailBodyBuilder.AppendLine($@"
+            <div style='background - color: #ffffff; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align: left;'>
+                <div>
+                    <h2> Hello {customer.FullName}!</h2>
+                    <p> We have reacived your order, and our chefs are turning up the heat to craft something extraordinary just for you! </p>
+                </div>");
+
+
+            emailBodyBuilder.AppendLine($@"
+                <div>
+                    <h2>Order Summary</h2>
+                    <p>Order number: #{orderID}</p>
+                    <p>Payment date: {PaymentDate.ToString("dd MMMM yyyy HH:mm")}</p>
+                    <p>Payment type: {PaymentMethod}</p>");
+            if (orderType == Sales.OrderType.Delivery)
+                emailBodyBuilder.AppendLine($@"<p><a href='https://www.google.com/maps?q={delivery.DeliveryAddress.Latitude},{delivery.DeliveryAddress.Longitude}' style='color: #007bff; text-decoration: none;'>Delivery Address: {delivery.DeliveryAddress.AddressName} </a></p>");
+            emailBodyBuilder.AppendLine(@"
+                </div> 
+            </div>
+            <div style='background-color: #ffffff; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align: left;'>");
+
+
+
+            foreach (Sales.ItemLine itemLine in ItemLines)
+            {
+                emailBodyBuilder.AppendLine($@"
+                <div>
+                    <img src='cid:item_line{itemLine.ItemID}' alt='{itemLine.ItemName}' style='max-width: 100%;'>
+                    <p style = 'margin:0; margin-top: 8px;' > {itemLine.ItemName} </p>
+                    <p style = 'margin:0;'>Price: R {itemLine.ItemCostN2}</p>
+                    <p style = 'margin:0;'>Qty: {itemLine.ItemQuantity}</p>
+                    <p style = 'margin:0; margin-bottom: 32px;'>Amount: R {itemLine.TotalSubCostN2}</p>
+                </div>");
+            }
+
+            emailBodyBuilder.AppendLine($@"</div>
+            <div style='background-color: #ffffff; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align:left;'>
+                <p>Sub Total: R {TotalAmountDueN2}</p>
+                <p>Tip: R {TipN2} </p>");
+                
+            
+
+            if (orderType == Sales.OrderType.Delivery)
+            {
+                emailBodyBuilder.AppendLine($@"
+                <p>Delivery Fee: R {BusinessRules.Delivery.DeliveryFee.ToString("N2")}</p>
+                <p style='font-size: 22px; font-weight: bold;'>Total: R {(PaymentAmount + delivery.DeliveryFee + Tip).ToString("N2")}</p>
+            </div>");
+            } else
+            {
+                emailBodyBuilder.AppendLine($@"
+                <p style='font-size: 22px; font-weight: bold;'>Total: R {(PaymentAmount + Tip).ToString("N2")}</p>
+            </div>");
+            }
+
+            emailBodyBuilder.AppendLine(@"
+            <div style='margin-top: 40px; color: #fff; background-color: #283217; padding: 10px; text-align: center;'>
+                <h2 style = 'margin-bottom: 16px; font-size: 16px; color: #fff;'> Have any queries? Please reply to this email </h2>
+                <p style = 'font-size: 12px; color: #fff;'> 2023 Friends & Family.All rights reserved. <br/> 10th floor, 323 Cornland, Foreshore, KwaZulu-Natal.</p>
+                <p style = 'font-size: 12px; color: #fff;'> Friends & Family(Pty) Ltd, Reg 2002 / 02020 / 08 <br/> VAT number: 4343 4834 438.</ p >   
+            </div> ");
+
+            emailBodyBuilder.AppendLine(@"</body>");
+            emailBodyBuilder.AppendLine(@"</html>");
+
+            return emailBodyBuilder.ToString();
+        }
+
+
+
         public int OrderID { get => orderID; set => orderID = value; }
         public Customer Customer { get => customer; set => customer = value; }
         public string CustomerName { get => (customer != null) ? customer.FirstName + " " + customer.LastName : "none"; }
@@ -672,6 +773,10 @@ namespace M4_Project.Models.Sales
         public override int SaleType => Sales.SaleType.Order;
         public Delivery Delivery { get => delivery; set => delivery = value; }
     }
+
+
+
+
     /// <summary>
     ///     Enumerates Potential Order Types.
     /// </summary>
@@ -690,6 +795,10 @@ namespace M4_Project.Models.Sales
         /// </summary>
         public readonly static string InStore = "In-Store";
     }
+
+
+
+
     /// <summary>
     ///     Enumerates Potential Order States.
     /// </summary>
@@ -766,7 +875,7 @@ namespace M4_Project.Models.Sales
             else if (orderStatus == Unsuccessful)
                 return "#D7263D";
             else if (orderStatus == OnTheWay)
-                return "#2E294E";
+                return "#E6E49F";
             else if (orderStatus == Collected)
                 return "green";
             else if (orderStatus == Delivered)

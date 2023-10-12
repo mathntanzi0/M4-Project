@@ -152,8 +152,8 @@
 				else
 					state_cards[i].classList.remove("in_progress");
 			}
-        }
-        setInterval(getActivation, 10000);
+		}
+		setInterval(getActivation, 5000);
 
     </script>
 </asp:Content>

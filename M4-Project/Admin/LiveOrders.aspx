@@ -26,6 +26,7 @@
 			    <th>Order Type</th>
 			    <th>Payment</th>
 			    <th></th>
+			    <th></th>
 			  </tr>
 			  <asp:Repeater ID="OrderRepeater" runat="server" OnItemCommand="NewOrderRepeater_ItemCommand">
 				<ItemTemplate>
@@ -35,10 +36,11 @@
 						<td><%# Eval("OrderType") %></td>
 						<td><%# Eval("PaymentAmount", "R {0:F2}") %></td>
 						<td>
-							<asp:Button runat="server" Text="View" CommandName="View" CommandArgument='<%# Eval("OrderID") %>' CssClass="accept_btn" />
-							<br />
 							<asp:Button runat="server" Text="Accept" CommandName="Accept" CommandArgument='<%# Eval("OrderID") %>' CssClass="accept_btn" />
 							<asp:Button runat="server" Text="Reject" CommandName="Reject" CommandArgument='<%# Eval("OrderID") %>' CssClass="reject_btn" />
+						</td>
+						<td>
+							<asp:Button runat="server" Text="View" CommandName="View" CommandArgument='<%# Eval("OrderID") %>' CssClass="accept_btn" />
 						</td>
 					</tr>
 				</ItemTemplate>

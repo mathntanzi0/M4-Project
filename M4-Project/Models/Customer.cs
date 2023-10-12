@@ -77,7 +77,6 @@ namespace M4_Project.Models
             this.physicalAddress = physicalAddress;
             this.emailAddress = emailAddress;
         }
-
         ///<summary>
         /// Add Customer to the database.
         /// </summary>
@@ -126,7 +125,6 @@ namespace M4_Project.Models
                 command.ExecuteNonQuery();
             }
         }
-
         ///<summary>
         /// Removing a customer from the database.
         /// </summary>
@@ -162,7 +160,6 @@ namespace M4_Project.Models
 
             }
         }
-
         /// <summary>
         /// Update Last Name
         /// </summary>
@@ -503,9 +500,10 @@ namespace M4_Project.Models
                 return false;
             }
         }
-        /// <summary>
-        /// Getters and Setters
-        /// </summary>
+
+
+
+
         public int CustomerID { get => customerID; set => customerID = value; }
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }

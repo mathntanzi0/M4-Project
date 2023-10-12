@@ -21,13 +21,14 @@ namespace M4_Project.Models
         private string gender;
         private decimal payRate;
         private string emailAddress;
-
-
         private string phoneNumber;
         private byte[] staffImage;
         private string password;
         private string role;
         private string status;
+
+
+
 
         ///
         /// <summary>
@@ -134,8 +135,7 @@ namespace M4_Project.Models
             }
             return null;
         }
-
-        public static StaffMember GetStaffMember_short(int staffID)
+        public static StaffMember GetStaffMember_Short(int staffID)
         {
             StaffMember staffMember = null;
 
@@ -430,6 +430,28 @@ namespace M4_Project.Models
             }
             return rowsAffected > 0;
         }
+        public static void SetOrderStaff(int orderID, int staffID)
+        {
+            string query = "UPDATE [Order] SET staff_id = @StaffID WHERE order_id = @OrderID";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@StaffID", staffID);
+                command.Parameters.AddWithValue("@OrderID", orderID);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+
+
+
+
+
+
+
         public int StaffID { get => staffID; set => staffID = value; }
         public string FirstName { get => firstName; set => firstName = value; }
         public string LastName { get => lastName; set => lastName = value; }
@@ -560,7 +582,6 @@ namespace M4_Project.Models
             }
             this.StaffMembers = staffMembers;
         }
-
         public static byte[] GetDefaultImage()
         {
             string defaultImagePath = HttpContext.Current.Server.MapPath("~/Assets/account_circle.png");
@@ -578,7 +599,6 @@ namespace M4_Project.Models
                 return new byte[0];
             }
         }
-
         private int RowCount(StringBuilder whereClause)
         {
             int rowCount = 0;

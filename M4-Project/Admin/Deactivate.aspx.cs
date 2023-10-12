@@ -29,7 +29,7 @@ namespace M4_Project.Admin
             int staffID = 0;
             if (Request.QueryString["Member"] == null || !int.TryParse(Request.QueryString["Member"], out staffID))
                 Response.Redirect("/Admin/Staff");
-            staffMember = Models.StaffMember.GetStaffMember_short(staffID);
+            staffMember = Models.StaffMember.GetStaffMember_Short(staffID);
             if (staffMember == null)
                 Response.Redirect("/Admin/Staff");
             Models.StaffMember.UpdateStaffStatus(staffID, Models.StaffMemberState.Deactivated);
@@ -41,7 +41,7 @@ namespace M4_Project.Admin
             int staffID = 0;
             if (Request.QueryString["Member"] == null || !int.TryParse(Request.QueryString["Member"], out staffID))
                 Response.Redirect("/Admin/Staff");
-            staffMember = Models.StaffMember.GetStaffMember_short(staffID);
+            staffMember = Models.StaffMember.GetStaffMember_Short(staffID);
             if (staffMember == null)
                 Response.Redirect("/Admin/Staff");
 

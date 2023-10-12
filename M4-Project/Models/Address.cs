@@ -91,6 +91,6 @@ namespace M4_Project.Models
         /// Gets the name of the address.
         /// </summary>
         public string AddressName { get => addressName; set => addressName = value; }
-        public string AddressName_Short { get => Utilities.TextManager.ShortString(addressName, 25); }
+        public string AddressName_Short { get => Utilities.TextManager.ShortString(addressName, 128); }
     }
 }

@@ -2,9 +2,6 @@
 
 <asp:Content ID ="HeadContent" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" type="text/css" href="/Content/address_style.css">
-	<script async
-    	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRXvY67uo2SVzezWtxsQeqmgh4IRkA7Ag&callback=initMap">
-	</script>
 </asp:Content>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -13,10 +10,9 @@
 	</div>
   	<div class="address_details_wrapper">
   		<h3>Dirver Details</h3>
-  		<h4>Name: Sam Surname</h4>
-  		<h4>Phone number: +0 00 000 0000</h4>
-  		<h4>WhatsApp: +0 00 000 0000</h4>
-  		<h4>Email: email@example.com</h4>
+  		<h4>Name: <%= driver.FullName %></h4>
+  		<h4>Phone number & WhatsApp: <%= driver.PhoneNumber %></h4>
+  		<h4>Email: <%= driver.EmailAddress %></h4>
   	</div>
   	<div id="map"></div>
 </asp:Content>
@@ -28,13 +24,13 @@
 		let marker;
 		let dirver;
 
-		let storeAddress = { lat: -29.62131879702845, lng: 30.394956658547798 };
-		let selectedLocation = { lat: -29.62136476715044, lng: 30.395960753346802 };
+        let driverLocation = { lat: <%= M4_Project.Models.BusinessRules.Address.centerLatitude %>, lng: <%= M4_Project.Models.BusinessRules.Address.centerLongitude %> };
+        let selectedLocation = { lat: <%= order.Delivery.DeliveryAddress.Latitude %>, lng: <%= order.Delivery.DeliveryAddress.Longitude %> };
 		async function initMap() {
 			const { Map } = await google.maps.importLibrary("maps");
 			const initialLatLng = selectedLocation;
 			map = new Map(document.getElementById("map"), {
-			center: storeAddress,
+            center: driverLocation,
 			zoom: 18,
 			streetViewControl: false,
 			mapTypeControl: false,
@@ -50,29 +46,12 @@
 				scaledSize: new google.maps.Size(50, 50)
 			};
 			dirver = new google.maps.Marker({
-			position: storeAddress,
+            position: driverLocation,
 			map: map,
 			title: 'Dirver',
 			icon: image,
 			});
 		}
-	
-
-  		const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay))
-
-		const repeatedGreetings = async () => {
-			await sleep(2000)
-			updateMarkerPosition(-29.62131879702845, 30.395056658547798);
-			await sleep(2000)
-			updateMarkerPosition(-29.62131879702845, 30.395156658547798);
-			await sleep(2000)
-			updateMarkerPosition(-29.62131879702845, 30.395256658547798);
-			await sleep(2000)
-			updateMarkerPosition(-29.62131879702845, 30.395356658547798);
-			await sleep(2000)
-			getDriverLocation();
-		}
-		repeatedGreetings();
 
 		function updateMarkerPosition(newLat, newLng) {
 			const newPosition = new google.maps.LatLng(newLat, newLng);
@@ -80,8 +59,9 @@
 			map.setCenter(newPosition);
 			selectedLocation = newPosition;
 		}
-		let orderID = 200;
+		let orderID = <%= orderID  %>;
 		function getDriverLocation() {
+			console.log(orderID);
             $(document).ready(function () {  
 				$.ajax({
 					type: "POST",
@@ -96,6 +76,10 @@
                         var driverLatitude = parseFloat(locationParts[0]);
                         var driverLongitude = parseFloat(locationParts[1]);
 
+						if (driverLatitude == 1000)
+						{
+							location.replace("/TrackOrder");
+						}
                         updateMarkerPosition(driverLatitude, driverLongitude);
 					},
 					error: function (xhr, ajaxOptions, thrownError) {
@@ -103,6 +87,15 @@
 					}
 				});
             });
-        }
+		  }
+
+
+		  <% if (!M4_Project.Models.Sales.OrderState.IsFinalState(order.OrderStatus))
+          { %>
+		  setInterval(getDriverLocation, 5000);
+		  <% } %>
       </script>
+		<script async
+    	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRXvY67uo2SVzezWtxsQeqmgh4IRkA7Ag&callback=initMap">
+	</script>
 </asp:Content>

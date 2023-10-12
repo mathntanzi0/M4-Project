@@ -63,7 +63,7 @@
 				<label>Delivery Fee: R <%= M4_Project.Models.BusinessRules.Delivery.DeliveryFee.ToString("N2")%></label>
 			</div>
 			<div class="summary_line_wrapper">
-				<label><a href="/SelectAddress">Update address</a></label>
+				<label><a href="/SelectAddress" style="color:teal">Update address</a></label>
 			</div>
 			<% }
                 else if (sale.SaleType == M4_Project.Models.Sales.SaleType.EventBooking)
@@ -87,7 +87,7 @@
 					<label>Duration: <%= ((M4_Project.Models.Sales.Booking)sale).EventDuration.ToString(@"hh\:mm")%></label>
 				</div>
 				<div class="summary_line_wrapper">
-					<label><a href="/MakeBooking?ReturnUrl=/Checkout">Update booking details</a></label>
+					<label><a href="/MakeBooking?ReturnUrl=/Checkout" style="color:teal">Update booking details</a></label>
 				</div>
 			<% } %>
 			<br>

@@ -19,8 +19,7 @@ namespace M4_Project
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             M4_Project.Models.MenuItem.SetMenuCategories();
             //RoleActions roleActions = new RoleActions();
-            //roleActions.AddRole("Admin"); //run once only
-            //roleActions.AddUsertoRole("Admin", "amal@email.com", "Am4l321@");
+            //roleActions.AddUsertoRole("Admin", "thivar@email.com", "Th1v4r321@");
         }
     }
 }

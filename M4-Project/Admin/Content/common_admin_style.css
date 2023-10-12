@@ -1,16 +1,18 @@
 ﻿.nav_icon_container img {
     width: 35px;
-    height: 100%;
+    height: 35px;
     float: right;
     display: table-cell;
     vertical-align: bottom;
     margin: 0 16px;
     border-radius:50%;
+    object-fit:cover;
 }
 .nav_icon_options img {
     width: 35px;
-    height: 100%;
+    height: 35px;
     margin: 0 16px;
     fill: var(--icon-color);
     border-radius: 50%;
+    object-fit: cover;
 }

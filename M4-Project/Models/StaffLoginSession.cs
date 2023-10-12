@@ -50,7 +50,7 @@ namespace M4_Project.Models
                     {  
                         loginSession = new StaffLoginSession(
                             (int)reader["staff_id"],
-                            (byte[])reader["staff_image"],
+                            (reader.IsDBNull(reader.GetOrdinal("staff_image"))) ? StaffSearch.GetDefaultImage() : (byte[])reader["staff_image"],
                             (string)reader["role"]
                         );
                     }
@@ -72,6 +72,50 @@ namespace M4_Project.Models
             }
             return loginStaff;
         }
+
+        public static bool AccountExist(string email)
+        {
+            string query = "SELECT COUNT(*) FROM [Staff] WHERE email_address = @Email AND [password] = @Password";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@Password", passToken);
+
+                connection.Open();
+
+                int count = (int)command.ExecuteScalar();
+
+                connection.Close();
+
+                return count > 0;
+            }
+        }
+        public static readonly string passToken = "M4-System";
+        public static void UpdatePassword(string email, string newPassword)
+        {
+
+            if (!AccountExist(email))
+                return;
+
+
+            string query = "UPDATE [Staff] SET [password] = @NewPassword WHERE email_address = @Email;";
+
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@Email", email);
+                command.Parameters.AddWithValue("@NewPassword", -1);
+
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+            RoleActions roleActions = new RoleActions();
+            roleActions.AddUsertoRole("Admin", email, newPassword);
+        }
+
         public int StaffID { get => staffID; set => staffID = value; }
         public byte[] StaffImage { get => staffImage; set => staffImage = value; }
         public string Role { get => role; set => role = value; }
