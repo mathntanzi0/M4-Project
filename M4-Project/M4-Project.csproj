@@ -378,6 +378,9 @@
     <Content Include="SelectAddress.aspx" />
     <Content Include="Site.Master" />
     <Content Include="Spinner V2.html" />
+    <Content Include="Terms and conditions.aspx" />
+    <Content Include="Scripts\terms_Script.js" />
+    <Content Include="Content\terms_style.css" />
     <Content Include="TrackDriver.aspx" />
     <Content Include="TrackOrder.aspx" />
     <Content Include="ViewSwitcher.ascx" />
@@ -875,6 +878,13 @@
       <DependentUpon>Site.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="Terms and conditions.aspx.cs">
+      <DependentUpon>Terms and conditions.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Terms and conditions.aspx.designer.cs">
+      <DependentUpon>Terms and conditions.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TrackDriver.aspx.cs">
       <DependentUpon>TrackDriver.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
