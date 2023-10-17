@@ -1,15 +1,11 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="FAQpageaspx.aspx.cs" Inherits="M4_Project.FAQpageaspx" %>
+﻿<%@ Page Title="Frequently Asked Questions" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FAQpageaspx.aspx.cs" Inherits="M4_Project.FAQpageaspx" %>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>Frequently Asked Questions</title>
-    <!--<meta name="viewport" content="width=device"-->
+    <asp:Content ID="HeadContent" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="Content/FAQStyle.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body>
+</asp:Content>
+
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="wrapper">
         <p>Need help?</p>
         <h1>Frequently Asked Questions</h1>
@@ -176,5 +172,5 @@
             });
         }
     </script>
-</body>
-</html>
+</asp:Content>
+
