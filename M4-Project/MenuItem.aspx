@@ -53,41 +53,19 @@
 	<div class="promo_items_wrapper">
 		<header>Related Products</header>
 		<div class="promo_items">
-			<div class="item">
-				<div class="image_holder"><img src="../assets/temp/eggs.jpg"></div>
-				<div class="promo_item_detail">
-					<h2>Name</h2>
-					<h3>R 80.50</h3>
-				</div>
-			</div>
-			<div class="item">
-				<div class="image_holder"><img src="../assets/temp/eggs.jpg"></div>
-				<div class="promo_item_detail">
-					<h2>Name</h2>
-					<h3>R 80.50</h3>
-				</div>
-			</div>
-			<div class="item">
-				<div class="image_holder"><img src="../assets/temp/eggs.jpg"></div>
-				<div class="promo_item_detail">
-					<h2>Name</h2>
-					<h3>R 80.50</h3>
-				</div>
-			</div>
-			<div class="item">
-				<div class="image_holder"><img src="../assets/temp/eggs.jpg"></div>
-				<div class="promo_item_detail">
-					<h2>Name</h2>
-					<h3>R 80.50</h3>
-				</div>
-			</div>
-			<div class="item">
-				<div class="image_holder"><img src="../assets/temp/eggs.jpg"></div>
-				<div class="promo_item_detail">
-					<h2>Name</h2>
-					<h3>R 80.50</h3>
-				</div>
-			</div>
+			<asp:Repeater runat="server" ID="PromoRepeater" EnableViewState="false">
+				<ItemTemplate>
+					<a href="MenuItem?Item=<%# Eval("ItemID") %>">
+						<div class="item">
+							<div class="image_holder"><img src="<%# "data:image/jpeg;base64," + Convert.ToBase64String((byte[])Eval("ItemImage")) %>"></div>
+							<div class="promo_item_detail">
+								<h2><%# Eval("ItemName") %></h2>
+								<h3> R <%# Eval("ItemPriceN2") %></h3>
+							</div>
+						</div>
+					</a>
+				</ItemTemplate>
+			</asp:Repeater>
 		</div>
 	</div>
 

@@ -48,6 +48,13 @@ namespace M4_Project
                     }
                 }
             }
+            if (!IsPostBack)
+            {
+                List<Models.MenuItem> menuItems = new List<Models.MenuItem>();
+                menuItems = Models.MenuItem.GetRandomItems(6);
+                PromoRepeater.DataSource = menuItems;
+                PromoRepeater.DataBind();
+            }
         }
         private void LoadItemQuantityOptions()
         {

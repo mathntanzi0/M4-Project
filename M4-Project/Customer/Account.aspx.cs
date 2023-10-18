@@ -18,5 +18,11 @@ namespace M4_Project.Customer
                 currentCustomer = Models.Customer.SetSession();
             
         }
+
+        protected void Logout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Response.Redirect("Login.aspx");
+        }
     }
 }

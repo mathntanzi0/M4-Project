@@ -24,6 +24,13 @@ namespace M4_Project
 
                 TotalCost = CalculateTotalCost(reversedItemLines);
             }
+            if (!IsPostBack)
+            {
+                List<Models.MenuItem> menuItems = new List<Models.MenuItem>();
+                menuItems = Models.MenuItem.GetRandomItems(6);
+                PromoRepeater.DataSource = menuItems;
+                PromoRepeater.DataBind();
+            }
         }
 
         private decimal CalculateTotalCost(List<Models.Sales.ItemLine> itemLines)

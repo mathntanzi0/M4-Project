@@ -11,7 +11,13 @@ namespace M4_Project
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                List<Models.MenuItem> menuItems = new List<Models.MenuItem>();
+                menuItems = Models.MenuItem.GetRandomItems(6);
+                PromoRepeater.DataSource = menuItems;
+                PromoRepeater.DataBind();
+            }
         }
     }
 }

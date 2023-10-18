@@ -94,10 +94,15 @@
   .item_image_wrapper{
     margin: 1rem auto;
     width: 90%;
+    height: auto;
   }
-  .bottom_details_wrapper{
+.item_image_wrapper img{
+    width:100%;
+    height:auto;
+}
+.bottom_details_wrapper {
     position: static;
-  }
+}
 }
 .instructions_wrapper{
   margin: 0 1.175rem;

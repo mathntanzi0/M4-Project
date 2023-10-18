@@ -653,6 +653,8 @@ namespace M4_Project.Models.Sales
                 }
             }
         }
+
+
         public bool SendEmail()
         {
             string emailBody = GetEmailBody();
