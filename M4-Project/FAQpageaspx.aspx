@@ -13,10 +13,10 @@
             Booking
         </div>
         <div class="faq">
-            <button class="accordion">
+            <div class="accordion">
                 How to change the event booking details?
                 <i class="fa-solid fa-chevron-down"></i>
-            </button>
+            </div>
             <div class="pannel">
                 <p>
                     Its is what and what even
@@ -26,10 +26,10 @@
         </div>
 
         <div class="faq">
-            <button class="accordion">
+            <div class="accordion">
                 How to cancel event booking?
                 <i class="fa-solid fa-chevron-down"></i>
-            </button>
+            </div>
             <div class="pannel">
                 <p>
                     Its is what and what even
@@ -39,10 +39,10 @@
         </div>
 
         <div class="faq">
-            <button class="accordion">
+            <div class="accordion">
                 Will I get a refund?
                 <i class="fa-solid fa-chevron-down"></i>
-            </button>
+            </div>
             <div class="pannel">
                 <p>
                     Its is what and what even
@@ -56,10 +56,10 @@
         </div>
 
         <div class="faq">
-            <button class="accordion">
+            <div class="accordion">
                 How to change the order?
                 <i class="fa-solid fa-chevron-down"></i>
-            </button>
+            </div>
             <div class="pannel">
                 <p>
                     Its is what and what even
@@ -69,10 +69,10 @@
         </div>
 
         <div class="faq">
-            <button class="accordion">
+            <div class="accordion">
                 How to cancel an order?
                 <i class="fa-solid fa-chevron-down"></i>
-            </button>
+            </div>
             <div class="pannel">
                 <p>
                     Its is what and what even
@@ -82,10 +82,10 @@
         </div>
 
         <div class="faq">
-            <button class="accordion">
+            <div class="accordion">
                 Will I get a refund?
                 <i class="fa-solid fa-chevron-down"></i>
-            </button>
+            </div>
             <div class="pannel">
                 <p>
                     Its is what and what even
@@ -95,10 +95,10 @@
         </div>
 
         <div class="faq">
-            <button class="accordion">
+            <div class="accordion">
                 I cant find my adress for delivery?
                 <i class="fa-solid fa-chevron-down"></i>
-            </button>
+            </div>
             <div class="pannel">
                 <p>
                     Its is what and what even
@@ -112,10 +112,10 @@
         </div>
 
         <div class="faq">
-            <button class="accordion">
+            <div class="accordion">
                 How to delete my account?
                 <i class="fa-solid fa-chevron-down"></i>
-            </button>
+            </div>
             <div class="pannel">
                 <p>
                     Go to the top right corner of your screen and click on your surname
@@ -125,10 +125,10 @@
         </div>
 
         <div class="faq">
-            <button class="accordion">
+            <div class="accordion">
                 What happens to my personal information?
                 <i class="fa-solid fa-chevron-down"></i>
-            </button>
+            </div>
             <div class="pannel">
                 <p>
                     Its is what and what even
@@ -138,16 +138,17 @@
         </div>
 
         <div class="faq">
-            <button class="accordion">
+            <div class="accordion">
                 Can I update my details?
                 <i class="fa-solid fa-chevron-down"></i>
-            </button>
+            </div>
             <div class="pannel">
                 <p>
                     Its is what and what even
                     that comes in the middle of that.
                 </p>
             </div>
+            <hr />
         </div>
     </div>
 

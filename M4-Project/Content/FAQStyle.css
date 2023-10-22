@@ -23,20 +23,21 @@
     letter-spacing: 3px;
 }
 
-.accordion{
-    background-color:white;
-    color:rgb(0,0,0,0.8);
-    cursor:pointer;
-    font-size:1.2rem;
-    width:100%;
+.accordion {
+    background-color: white;
+    color: rgb(0,0,0,0.8);
+    cursor: pointer;
+    font-size: 1.2rem;
+    width: 100%;
     padding: 2rem 2.5rem;
-    border:none;
-    outline:none;
-    transition:0.5s;
-    display:flex;
+    border: none;
+    outline: none;
+    transition: 0.5s;
+    display: flex;
     justify-content: space-between;
-    align-items:center;
-    font-weight:bold;
+    align-items: center;
+    font-weight: bold;
+    
 }
 
 .accordion i {
@@ -70,8 +71,9 @@
 }
 
 .faq {
-    border:1px solid rgba(0,0,0,0.2);
-    margin: 10px 0;
+    border: 1px solid rgba(0,0,0,0.2);
+    
+    box-shadow: rgba(0,0,0,0.1) 10px 10px;
 }
 
 .faq.active{
