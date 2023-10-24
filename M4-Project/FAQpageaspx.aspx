@@ -148,6 +148,7 @@
                     that comes in the middle of that.
                 </p>
             </div>
+            <hr />
         </div>
     </div>
 
