@@ -182,16 +182,13 @@
   	 			    <li><a href="/About">about us</a></li>
   	 			    <li><a href="/Contact">contact us</a></li>
   	 			    <li><a href="/Terms and conditions">Terms and Conditions</a></li>
-  	 			    <li><a href="#">our services</a></li>
   	 		    </ul>
   	 	    </div>
   	 	    <div class="footer-col">
   	 		    <h4>get help</h4>
   	 		    <ul>
-  	 			    <li><a href="/FAQpageaspx">FAQ</a></li>
-  	 			    <li><a href="#">shipping</a></li>
+  	 			    <li><a href="/FAQ">FAQ</a></li>
   	 			    <li><a href="#">refunds</a></li>
-  	 			    <li><a href="#">order status</a></li>
   	 		    </ul>
   	 	    </div>
   	 	    <div class="footer-col">

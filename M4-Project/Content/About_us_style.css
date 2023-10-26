@@ -2,148 +2,6 @@
     background-color: #dde7df;
 }
 
-html{
-    scroll-behavior: smooth;
-}
-
-section{
-    width: 100%;
-    height: 100vh;
-}
-
-section nav{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    position: fixed;
-    right: 0;
-    left: 0;
-    background: white;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    z-index: 1000;
-}
-
-section nav ul{
-    list-style: none;
-}
-
-section nav ul li{
-    display: inline-block;
-    margin: 0 15px;
-}
-
-section nav ul li a{
-    text-decoration: none;
-    color: #000;
-    font-weight: 500;
-    font-size: 17px;
-    transition: 0.1s;
-}
-
-section nav ul li a::after{
-    content: '';
-    width: 0;
-    height: 2px;
-    background: #fac031;
-    display: block;
-    transition: 0.2s linear;
-}
-
-section nav ul li a:hover::after{
-    width: 100%;
-}
-
-section nav ul li a:hover{
-    color: #fac031;
-}
-
-section nav .icon i{
-    font-size: 18px;
-    color: #000;
-    margin: 0 5px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-section nav .icon i:hover{
-    color: #fac031;
-}
-
-section .main{
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    position: relative;
-    top: 130px;
-}
-
-    section .main .men_text h1{
-        font-size: 60px;
-        position: relative;
-        top: -90px;
-        left: 20px;
-    }
-
-    section .main .main_image img{
-        width: 700px;
-        position: relative;
-        left: 70px;
-    }
-
-
-
-section .main .men_text h1 span{
-    margin-left: 15px;
-    color: #fac031;
-    font-family: mv boli;
-    line-height: 22px;
-    font-size: 70px;
-}
-
-section .main .main_image img{
-    width: 700px;
-    position: relative;
-    left: 70px;
-}
-
-section p{
-    width: 650px;
-    text-align: justify;
-    position: relative;
-    left: 123px;
-    bottom: 120px;
-    line-height: 22px;
-}
-
-section .main_btn{
-    background: #fac031;
-    position: relative;
-    left: 123px;
-    bottom: 30px;
-    width: 150px;
-    cursor: pointer;
-    padding: 12px 25px;
-}
-
-section .main_btn a{
-    color: #fff;
-    margin-right: 5px;
-    text-decoration: none;
-}
-
-section .main_btn i{
-    color: #fff;
-    transition: 0.3s;
-}
-
-section .main_btn:hover i{
-    transform: translateX(7px);
-}
-
-
-
-/*About*/
-
 .about{
     width: 100%;
     height: 100vh;
@@ -197,21 +55,12 @@ section .main_btn:hover i{
 }
 
 /*Team*/
-.Why_Us h3{
-    position:absolute;
-    left:670px;
-    top: 700px;
-    font-family: mv boli;
-}
 .Why_Us h1{
-    position: absolute;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 42px;
+    font-size: 2rem;
     margin-bottom: 30px;
-    top: 630px;
-    left: 648px;
 }
 
 .Why_Us h1 span{
@@ -219,27 +68,33 @@ section .main_btn:hover i{
     margin-left: 15px;
     font-family: mv boli;
 }
+.text {
+    max-width: 1536px;
+    margin: 1rem;
+}
+.text h3 {
+    font-family: mv boli;
+    font-size: 2rem;
+}
 .text p {
-    position: absolute;
-    top: 750px;
-    left: 343px;
     font-family: var(--font-gsans);
+    font-size: 1.3rem;
 }
 
 .team{
     width: 100%;
-    height: 90vh;
     background-image: url(assets/bg1);
     background-size: cover;
     background-position: center;
+    margin: 3rem 0;
 }
 
-.team h1{
+.team h1 {
     display: flex;
+    font-size: 2rem;
     align-items: center;
     justify-content: center;
-    font-size: 55px;
-    margin-bottom: 30px;
+    margin: 0.175rem;
 }
 
 .team h1 span{
@@ -260,27 +115,34 @@ section .main_btn:hover i{
     bottom: 15px;
 }
 
-.team .team_box{
-    width: 95%;
+.team .team_box {
+    width: 98%;
     margin: 0 auto;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    top: 13%;
+    flex-wrap: wrap; /* Allow flex items to wrap to the next line */
+    justify-content: space-between;
 }
-
 .team .team_box .profile{
-    width: 320px;
-    height: 320px;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
-    margin: 0 15px;
+    margin: 2rem 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     box-shadow: 0 0 8px rgba(0,0,0,0.5);
     transition: 0.4s;
+}
+.team .team_box .profile:nth-child(2n) {
+    margin-right: 0; /* Remove right margin for every second item */
+}
+
+@media only screen and (max-width: 768px) {
+    .team .team_box {
+        flex: 0 0 calc(100% - 20px); /* Full width for profiles on screens with a maximum width of 768px */
+        justify-content: center;
+    }
 }
 
 .team .team_box .profile:hover{

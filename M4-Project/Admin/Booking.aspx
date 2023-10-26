@@ -57,8 +57,7 @@
 		</div>
 		<a href="/Admin/Event/Staff?Event=<%= booking.BookingID %>" class="left_button green_button a_tag_btn">Event Staff</a>
 		<div class="right_button_wrapper">
-			<button class="green_button">Edit</button>
-			<button class="red_button">Delete</button>
+			<button class="green_button">Update Event Details</button>
 		</div>
 </asp:Content>
 

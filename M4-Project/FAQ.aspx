@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Frequently Asked Questions" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FAQpageaspx.aspx.cs" Inherits="M4_Project.FAQpageaspx" %>
+﻿<%@ Page Title="Frequently Asked Questions" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="FAQ.aspx.cs" Inherits="M4_Project.FAQpageaspx" %>
 
     <asp:Content ID="HeadContent" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="Content/FAQStyle.css" />

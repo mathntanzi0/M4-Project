@@ -322,7 +322,7 @@
     <Content Include="Customer\Orders.aspx" />
     <Content Include="Customer\Profile.aspx" />
     <Content Include="Default.aspx" />
-    <Content Include="FAQpageaspx.aspx" />
+    <Content Include="FAQ.aspx" />
     <Content Include="Content\FAQStyle.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -340,6 +340,7 @@
     <Content Include="Admin\Web.config" />
     <Content Include="Customer\Web.config" />
     <Content Include="Gmail\client_secret.json" />
+    <None Include="Properties\PublishProfiles\IST-Pmb-Group-6 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Login.aspx" />
     <Content Include="MakeBooking.aspx" />
@@ -791,12 +792,12 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="FAQpageaspx.aspx.cs">
-      <DependentUpon>FAQpageaspx.aspx</DependentUpon>
+    <Compile Include="FAQ.aspx.cs">
+      <DependentUpon>FAQ.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="FAQpageaspx.aspx.designer.cs">
-      <DependentUpon>FAQpageaspx.aspx</DependentUpon>
+    <Compile Include="FAQ.aspx.designer.cs">
+      <DependentUpon>FAQ.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -77,7 +77,6 @@
 						<ul>
 							<li><a href="/Admin/Orders">Orders</a></li>
 							<li><a href="/Admin/LiveOrders">Live Orders</a></li>
-							<li><a href="/Admin/Deliveries">Deliveries</a></li>
 						</ul>
 					</li>
 					<li><a class="outer_a" href="/Admin/Bookings">Bookings</a></li>
@@ -89,8 +88,9 @@
 							<li><a href="/Admin/POS/Customer">Add Customer</a></li>
 						</ul>
 					</li>
-					<li><a class="outer_a" href="/Admin/Staff">Staff</a>
+					<li><a class="outer_a" href="#">Staff</a>
 						<ul>
+							<li><a href="/Admin/Staff">Staff</a></li>
 							<li><a href="/Admin/AddStaff">Add Member</a></li>
 						</ul>
 					</li>
