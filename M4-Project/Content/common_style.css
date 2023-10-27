@@ -139,3 +139,24 @@ button, input[type="submit"], .a_tag_btn {
     border-radius:0.5rem;
     padding: 0.1rem 1.175rem;
 }
+.primary_button_unfixed {
+    background-color: var(--secondary-primary);
+    width: 75%;
+    max-width: 300px;
+    display: block;
+    margin: auto;
+    padding: 0.65rem;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 600px) {
+    .primary_button_unfixed {
+        max-width: unset;
+        width: unset;
+        margin: unset;
+        padding: 0.65rem 6rem;
+        margin-left: auto;
+        margin-bottom: 1rem;
+        margin-right: 1.175rem;
+    }
+}

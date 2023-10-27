@@ -36,11 +36,12 @@
       font-size: 1rem;
     }
 .navigation {
-    width: 600px;
+    width: 589px;
     display: block;
     margin: 0 auto;
     height: 100%;
     display: flex;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -200,7 +201,7 @@
     .nav_option_wrapper h3{
       font-size: 1rem;
     }
-    @media (max-width: 965px) {
+    @media (max-width: 1004px) {
       .navigation{
         display: none;
       }

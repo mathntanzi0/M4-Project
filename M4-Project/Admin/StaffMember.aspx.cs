@@ -17,10 +17,14 @@ namespace M4_Project.Admin
             if (!IsPostBack)
             {
                 loginStaff = Session["LoginStaff"] as Models.StaffLoginSession;
+
                 if (loginStaff == null)
                     loginStaff = Models.StaffLoginSession.SetSession();
                 if (Request.QueryString["Member"] != null)
                 {
+                    if (!loginStaff.IsManagerOrSupervisor())
+                        Response.Redirect("/Admin");
+
                     if (!int.TryParse(Request.QueryString["Member"], out int staffID))
                         Response.Redirect("/");
 
@@ -55,6 +59,11 @@ namespace M4_Project.Admin
         {
             Button editButton = (Button)sender;
             string staffID = editButton.CommandArgument;
+
+            Models.StaffLoginSession loginStaff = Session["LoginStaff"] as Models.StaffLoginSession;
+
+            if (string.IsNullOrEmpty(staffID))
+                staffID = loginStaff.StaffID.ToString();
 
             Response.Redirect("/Admin/AddStaff?Member=" + staffID);
         }

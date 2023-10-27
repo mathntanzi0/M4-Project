@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using M4_Project.Models;
+using Microsoft.AspNet.Identity;
 
 namespace M4_Project.Customer
 {
@@ -24,5 +26,19 @@ namespace M4_Project.Customer
             Session.Clear();
             Response.Redirect("Login.aspx");
         }
+
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
+            authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session["Customer"] = null;
+            Response.Redirect("~/");
+        }
+
+        protected void btnDeleteAccount_Click(object sender, EventArgs e)
+        {
+            
+        }
+
     }
 }

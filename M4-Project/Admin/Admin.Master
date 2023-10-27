@@ -54,10 +54,10 @@
 							<path d="m388-80-20-126q-19-7-40-19t-37-25l-118 54-93-164 108-79q-2-9-2.5-20.5T185-480q0-9 .5-20.5T188-521L80-600l93-164 118 54q16-13 37-25t40-18l20-127h184l20 126q19 7 40.5 18.5T669-710l118-54 93 164-108 77q2 10 2.5 21.5t.5 21.5q0 10-.5 21t-2.5 21l108 78-93 164-118-54q-16 13-36.5 25.5T592-206L572-80H388Zm92-270q54 0 92-38t38-92q0-54-38-92t-92-38q-54 0-92 38t-38 92q0 54 38 92t92 38Zm0-60q-29 0-49.5-20.5T410-480q0-29 20.5-49.5T480-550q29 0 49.5 20.5T550-480q0 29-20.5 49.5T480-410Zm0-70Zm-44 340h88l14-112q33-8 62.5-25t53.5-41l106 46 40-72-94-69q4-17 6.5-33.5T715-480q0-17-2-33.5t-7-33.5l94-69-40-72-106 46q-23-26-52-43.5T538-708l-14-112h-88l-14 112q-34 7-63.5 24T306-642l-106-46-40 72 94 69q-4 17-6.5 33.5T245-480q0 17 2.5 33.5T254-413l-94 69 40 72 106-46q24 24 53.5 41t62.5 25l14 112Z"/>
 						</svg>
 					</a>
-					<a class="theme_button" onclick="changeTheme()"><svg class = "dark_mode_icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#500000"><rect fill="none" height="24" width="24"/>
+					<a class="theme_button" onclick="changeThemeRequest()"><svg class = "dark_mode_icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#500000"><rect fill="none" height="24" width="24"/>
 						<path d="M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36c-0.98,1.37-2.58,2.26-4.4,2.26 c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"/>
 					</svg></a>
-					<a href="StaffMember">
+					<a href="/Admin/StaffMember">
 						<% if (loginStaff.StaffImage == null) { %>
 						<svg class="account_icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
 							<path class ="account_icon_shape" d="M222-255q63-44 125-67.5T480-346q71 0 133.5 23.5T739-255q44-54 62.5-109T820-480q0-145-97.5-242.5T480-820q-145 0-242.5 97.5T140-480q0 61 19 116t63 109Zm257.814-195Q422-450 382.5-489.686q-39.5-39.686-39.5-97.5t39.686-97.314q39.686-39.5 97.5-39.5t97.314 39.686q39.5 39.686 39.5 97.5T577.314-489.5q-39.686 39.5-97.5 39.5Zm.654 370Q398-80 325-111.5q-73-31.5-127.5-86t-86-127.266Q80-397.532 80-480.266T111.5-635.5q31.5-72.5 86-127t127.266-86q72.766-31.5 155.5-31.5T635.5-848.5q72.5 31.5 127 86t86 127.032q31.5 72.532 31.5 155T848.5-325q-31.5 73-86 127.5t-127.032 86q-72.532 31.5-155 31.5ZM480-140q55 0 107.5-16T691-212q-51-36-104-55t-107-19q-54 0-107 19t-104 55q51 40 103.5 56T480-140Zm0-370q34 0 55.5-21.5T557-587q0-34-21.5-55.5T480-664q-34 0-55.5 21.5T403-587q0 34 21.5 55.5T480-510Zm0-77Zm0 374Z"/>
@@ -70,32 +70,39 @@
 					</div>
 				</div>
 
+				<% if (!loginStaff.IsDriver())
+                    { %>
 				<div class= "navigation">
-				<ul>
-					<li><a class="outer_a" href="/Admin/Menu">Menu</a></li>
-					<li><a class="outer_a" href="#">Orders</a>
-						<ul>
-							<li><a href="/Admin/Orders">Orders</a></li>
-							<li><a href="/Admin/LiveOrders">Live Orders</a></li>
-						</ul>
-					</li>
-					<li><a class="outer_a" href="/Admin/Bookings">Bookings</a></li>
-					<li><a class="outer_a" href="/Admin/POS">POS</a>
-						<ul>
-							<li><a href="/Admin/POS/Menu">Menu</a></li>
-							<li><a href="/Admin/POS/Cart">Cart</a></li>
-							<li><a href="/Admin/POS/Customers">Customers</a></li>
-							<li><a href="/Admin/POS/Customer">Add Customer</a></li>
-						</ul>
-					</li>
-					<li><a class="outer_a" href="#">Staff</a>
-						<ul>
-							<li><a href="/Admin/Staff">Staff</a></li>
-							<li><a href="/Admin/AddStaff">Add Member</a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
+					<ul>
+						<li><a class="outer_a" href="/Admin/Menu">Menu</a></li>
+						<li><a class="outer_a" href="#">Orders</a>
+							<ul>
+								<li><a href="/Admin/Orders">Orders</a></li>
+								<li><a href="/Admin/LiveOrders">Live Orders</a></li>
+							</ul>
+						</li>
+						<li><a class="outer_a" href="/Admin/Bookings">Bookings</a></li>
+						<li><a class="outer_a" href="/Admin/POS">POS</a>
+							<ul>
+								<li><a href="/Admin/POS/Menu">Menu</a></li>
+								<li><a href="/Admin/POS/Cart">Cart</a></li>
+								<li><a href="/Admin/POS/Customers">Customers</a></li>
+								<li><a href="/Admin/POS/Customer">Add Customer</a></li>
+							</ul>
+						</li>
+						<% if (loginStaff.IsManagerOrSupervisor())
+                            { %>
+						<li><a class="outer_a" href="#">Staff</a>
+							<ul>
+								<li><a href="/Admin/Staff">Staff</a></li>
+								<li><a href="/Admin/AddStaff">Add Member</a></li>
+							</ul>
+						</li>
+						<% } %>
+
+					</ul>
+				</div>
+				<%} %>
 			</div>
 		</div>
 		<div id="slide_menu" class="slide_navigation">
@@ -148,7 +155,7 @@
 					<span>Account</span>
 				</a>
 				<a>
-					<svg class="theme_button" onclick="changeTheme()" class = "dark_mode_icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#500000"><rect fill="none" height="24" width="24"/>
+					<svg class="theme_button" onclick="changeThemeRequest()" class = "dark_mode_icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24px" viewBox="0 0 24 24" width="24px" fill="#500000"><rect fill="none" height="24" width="24"/>
 					<path d="M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36c-0.98,1.37-2.58,2.26-4.4,2.26 c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"/>
 					</svg>
 					<span>Theme</span>
@@ -179,27 +186,27 @@
 
         var isDarkMode = <%= Session["DarkModeEnabled"] != null && Session["DarkModeEnabled"].ToString().ToLower() == "true" ? "true" : "false" %>;
 
-		function changeTheme() {
-			document.body.classList.toggle("dark-mode");
-			theme_buttons.forEach(function(theme_button) {
-				if (document.body.classList.contains("dark-mode")){
-					theme_button.innerHTML = sun;
-				} else {
-					theme_button.innerHTML = moon;
-				}
-			});
+
+        theme_buttons.forEach(function (theme_button) {
+            if (document.body.classList.contains("dark-mode")) {
+                theme_button.innerHTML = sun;
+            } else {
+                theme_button.innerHTML = moon;
+            }
+        });
+		function changeThemeRequest() {
             var isDarkModeNow = document.body.classList.contains("dark-mode");
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "/Admin/UpdateDarkModeSession.aspx?isDarkMode=" + isDarkModeNow, true);
-			xhr.send();
-			xhr.onreadystatechange = function () {
-				if (xhr.readyState === XMLHttpRequest.DONE) {
-					if (xhr.status === 200) {
-						location.reload();
-					}
-				}
-			}
-		}
+            xhr.open("GET", "/Admin/UpdateDarkModeSession.aspx?isDarkMode=" + !isDarkModeNow, true);
+            xhr.send();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        location.reload();
+                    }
+                }
+            }
+        }
 
         function showSlideMenu() {
             var menu = document.getElementById("slide_menu");

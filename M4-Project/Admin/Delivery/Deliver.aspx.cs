@@ -12,9 +12,10 @@ namespace M4_Project.Admin.Delivery
     public partial class Deliver : System.Web.UI.Page
     {
         protected Models.Sales.Order order;
+        public static readonly string title = "Delivering";
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            Title = title;
             if (!IsPostBack)
             {
                 if (Session["Delivery"] == null && HttpContext.Current.Request.Cookies["Delivery"] != null)

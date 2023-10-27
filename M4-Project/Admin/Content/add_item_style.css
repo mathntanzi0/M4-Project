@@ -64,3 +64,21 @@
 	bottom: 2rem;
 	right: 2rem;
 }
+@media(max-width:700px) {
+	.input_field {
+		display: block;
+		width: 90vw;
+	}
+
+	.input_item_right {
+		margin-left: 0;
+	}
+
+	.input_item_category input, .input_item_category select {
+		width: calc(60% - 2px);
+	}
+	.item_image_wrapper{
+		display:block;
+		margin: auto;
+	}
+}

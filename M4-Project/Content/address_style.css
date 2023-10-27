@@ -38,3 +38,13 @@
 	margin-bottom:2rem;
 	background-color: var(--secondary-primary);
 }
+@media (max-width: 768px){
+	.secondary_header input[type=text] {
+		width: 90vw;
+	}
+	.header_input {
+		display:block;
+		margin: 0;
+		margin-bottom: 2rem;
+	}
+}

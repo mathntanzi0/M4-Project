@@ -40,6 +40,7 @@
 
 	</div>
 
+	<% if (!loginStaff.IsDriver()){ %>
 	<div class="activities_detail_wrapper">
 		<h2>Activities</h2>
 		<p>Number of Orders managed: <%= staffMember.GetNumberOfOrders() %></p>
@@ -52,5 +53,6 @@
 			</div>
 		</div>
 	</div>
+	<% } %>
 	<asp:Button ID="EditButton" runat="server" Text="Edit" OnClick="EditButton_Click" CommandArgument="<%# staffMember.StaffID %>" CssClass="primary_button"/>
 </asp:Content>

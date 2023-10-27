@@ -13,8 +13,8 @@
 
 		<div class="section_content">
 			<h2 class="section_header">Having an event?</h2>
-			<p class="section_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-			<a href="MakeBooking"><div class="section_action">Make Booking</div></a>
+			<p class="section_description">Embark on a seamless event planning journey with us. From conceptualization to execution, we're here to turn your vision into a memorable reality. Let's make your event extraordinary together!</p>
+			<a href="/MakeBooking"><div class="section_action">Make Booking</div></a>
 		</div>
 	</div>
 
@@ -24,21 +24,22 @@
 		</div>
 
 		<div class="section_content">
-			<h2 class="section_header">Lorem Ipsum</h2>
-			<p class="section_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-			<button class="section_action">Make Booking</button>
+			<h2 class="section_header">What we offer?</h2>
+			<p class="section_description">Experience a seamless blend of culinary excellence and impeccable service with our offering of catering staff and delectable food. From expertly crafted dishes to a professional team dedicated to ensuring your event's success, we bring a harmonious balance that elevates every occasion.</p>
+			<a href="/MakeBooking" class="a_tag_btn section_action">Make Booking</a>
+
 		</div>
 	</div>
 
-	<div class="section">
+	<div class="section right_section">
 		<div class="image_holder">
 			<img src="assets/event_catering_1.jpg">
 		</div>
 
 		<div class="section_content">
-			<h2 class="section_header">Lorem Ipsum</h2>
-			<p class="section_description">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-			<button class="section_action">Make Booking</button>
+			<h2 class="section_header">Have any questions?</h2>
+			<p class="section_description">Curious minds, we're here for you! Whether you have inquiries about our services, event planning, or anything in between, feel free to ask on the <a style="color:teal;" href="/Contact">Contact us</a> page or view the FAQs by clicking the button below</p>
+			<a href="/FAQ" class="a_tag_btn section_action">FAQs</a>
 		</div>
 	</div>
 

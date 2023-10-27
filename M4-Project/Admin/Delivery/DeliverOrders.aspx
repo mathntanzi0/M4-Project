@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Live Delivery Orders" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="DeliverOrders.aspx.cs" Inherits="M4_Project.Admin.Delivery.DeliverOrders" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="DeliverOrders.aspx.cs" Inherits="M4_Project.Admin.Delivery.DeliverOrders" %>
 
 <asp:Content ID ="HeadContent" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" type="text/css" href="/Admin/Content/deliver_orders_style.css">
@@ -35,5 +35,10 @@
 </asp:Content>
 
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentScripts" runat="server">
-	
+	<script>
+        setInterval(function () {
+            location.reload();
+        }, 7000);
+
+    </script>
 </asp:Content>

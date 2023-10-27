@@ -12,7 +12,7 @@
         </div>
     </div>
     <div id="map"></div>
-    <button class="primary_button" onclick="pickAddress_Click()">Pick Address</button>
+    <button class="primary_button_unfixed" onclick="pickAddress_Click()">Pick Address</button>
 </asp:Content>
 
 <asp:Content ID="ScriptHolder" ContentPlaceHolderID="ContentScripts" runat="server">

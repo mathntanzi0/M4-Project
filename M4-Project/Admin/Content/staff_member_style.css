@@ -58,3 +58,20 @@
   border-radius: 0.5rem;
   margin-right: 1rem;
 }
+
+@media(max-width:800px){
+    .staff_detail_wrpper{
+        display:block;
+    }
+    .staff_image_wrapper {
+        --size: 75vw;
+        width: var(--size);
+        height: var(--size);
+        display: block;
+        margin: 1rem auto;
+    }
+    .staff_detail {
+
+        min-height:0;
+    }
+}

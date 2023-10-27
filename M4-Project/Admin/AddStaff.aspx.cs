@@ -20,10 +20,13 @@ namespace M4_Project.Admin
                 ListItem item = new ListItem("New Role", "newOption");
                 ddlStaffRole.Items.Add(item);
 
+                Models.StaffLoginSession loginStaff = Session["LoginStaff"] as Models.StaffLoginSession;
                 if (Request.QueryString["Member"] != null)
                 {
                     if (int.TryParse(Request.QueryString["Member"], out int staffID))
                     {
+                        if (!loginStaff.IsManagerOrSupervisor() && loginStaff.StaffID != staffID)
+                            Response.Redirect("/Admin");
                         Models.StaffMember staffMember = Models.StaffMember.GetStaffMember(staffID);
                         if (staffMember != null)
                         {
@@ -47,6 +50,8 @@ namespace M4_Project.Admin
                         }
                     }
                 }
+                else if (loginStaff == null || !loginStaff.IsManagerOrSupervisor())
+                    Response.Redirect("/Admin");
             }
         }
         protected void btnAddStaff_Click(object sender, EventArgs e)

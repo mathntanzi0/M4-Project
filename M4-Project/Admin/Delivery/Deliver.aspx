@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Live Delivery Orders" Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="Deliver.aspx.cs" Inherits="M4_Project.Admin.Delivery.Deliver" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="Deliver.aspx.cs" Inherits="M4_Project.Admin.Delivery.Deliver" %>
 
 <asp:Content ID ="HeadContent" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" type="text/css" href="/Content/address_style.css">

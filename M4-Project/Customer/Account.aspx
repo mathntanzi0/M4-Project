@@ -75,8 +75,9 @@
 				</h3>
 			</div>
 
-			<button class="delete_btn" style="background-color:var(--red)">Logout</button>
-			<button style="background-color:var(--secondary-primary)">Delete Account</button>
+			<asp:Button ID="btnLogout" runat="server" CssClass="delete_btn" Text="Logout" OnClick="btnLogout_Click" style="background-color:var(--red)" />
+			<asp:Button ID="btnDeleteAccount" runat="server" Text="Delete Account" OnClick="btnDeleteAccount_Click" style="background-color:var(--secondary-primary)" />
+
 
 		</div>
 </asp:Content>

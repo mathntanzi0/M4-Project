@@ -26,6 +26,8 @@ namespace M4_Project.Admin
                 else
                     Session["LoginStaff"] = loginStaff;
             }
+            if (loginStaff.IsDriver() && (Page.Title != Delivery.DeliverOrders.title && Page.Title != Delivery.Deliver.title && !DriverViewablePage()))
+                Response.Redirect("/Admin/Delivery/DeliverOrders");
 
             if (loginStaff.StaffImage != null)
             {
@@ -35,5 +37,13 @@ namespace M4_Project.Admin
                 Image2.ImageUrl = imageUrl;
             }
         }
+        private bool DriverViewablePage()
+        {
+            string targetPageURL = "/Admin/StaffMember";
+            string targetPageURL1 = "/Admin/AddStaff";
+            return Request.Url.AbsolutePath.Equals(targetPageURL, StringComparison.OrdinalIgnoreCase) || Request.Url.AbsolutePath.Equals(targetPageURL1, StringComparison.OrdinalIgnoreCase);
+        }
+
+
     }
 }

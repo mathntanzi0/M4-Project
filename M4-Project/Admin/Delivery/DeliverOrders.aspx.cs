@@ -10,9 +10,11 @@ namespace M4_Project.Admin.Delivery
 {
     public partial class DeliverOrders : System.Web.UI.Page
     {
+        public static readonly string title = "Live Delivery Orders";
         protected List<Models.Sales.Order> liveOrders;
         protected void Page_Load(object sender, EventArgs e)
         {
+            Title = title;
             if (!IsPostBack)
             {
                 if (Session["Delivery"] != null || HttpContext.Current.Request.Cookies["Delivery"] != null)

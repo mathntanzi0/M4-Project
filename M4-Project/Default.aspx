@@ -27,23 +27,11 @@
 		<div class="section_content">
 			<h2 class="section_header">Chicken Pie</h2>
 			<p class="section_description">Indulge in the savory delight of our mouthwatering Chicken Pie! Made with tender, succulent chicken, and a rich, flavorful gravy, our Chicken Pie is the ultimate comfort food. Baked to golden perfection with a flaky, buttery crust, every bite is a warm and satisfying experience.</p>
-			<button class="section_action">Order Now</button>
+			<a href="/Menu" class="a_tag_btn section_action">Order Now</a>
 		</div>
 	</div>
 
 	<div class="section right_section">
-		<div class="image_holder">
-			<img src="assets/temp/oreo.jpg">
-		</div>
-
-		<div class="section_content">
-			<h2 class="section_header">Oreo Shake</h2>
-			<p class="section_description">Indulge in the creamy delight of our Oreo Shake – a rich blend of velvety ice cream and the irresistible crunch of Oreo cookies.</p>
-			<button class="section_action">Order Now</button>
-		</div>
-	</div>
-
-	<div class="section">
 		<div class="image_holder">
 			<img src="assets/event_catering.jpg">
 		</div>
@@ -52,9 +40,23 @@
 			<h2 class="section_header">Are you having a wedding?</h2>
 			<p class="section_description">Let our service transform your special day into an unforgettable wedding experience. 
 				Book our catering services to add a touch of culinary elegance and create cherished memories for you and your guests.</p>
-			<button class="section_action">Make Booking</button>
+			<a href="/MakeBooking" class="a_tag_btn section_action">Make Booking</a>
 		</div>
 	</div>
+
+	<div class="section">
+		<div class="image_holder">
+			<img src="assets/temp/oreo.jpg">
+		</div>
+
+		<div class="section_content">
+			<h2 class="section_header">Oreo Shake</h2>
+			<p class="section_description">Indulge in the creamy delight of our Oreo Shake – a rich blend of velvety ice cream and the irresistible crunch of Oreo cookies.</p>
+			<a href="/Menu" class="a_tag_btn section_action">Order Now</a>
+		</div>
+	</div>
+
+	
 
 	<br /><br />
 

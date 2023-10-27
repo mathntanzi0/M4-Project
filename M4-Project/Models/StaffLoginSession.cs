@@ -72,7 +72,6 @@ namespace M4_Project.Models
             }
             return loginStaff;
         }
-
         public static bool AccountExist(string email)
         {
             string query = "SELECT COUNT(*) FROM [Staff] WHERE email_address = @Email AND [password] = @Password";
@@ -114,6 +113,14 @@ namespace M4_Project.Models
             }
             RoleActions roleActions = new RoleActions();
             roleActions.AddUsertoRole("Admin", email, newPassword);
+        }
+        public bool IsManagerOrSupervisor()
+        {
+            return StaffRole.IsManager(role) || StaffRole.IsSupervisor(role);
+        }
+        public bool IsDriver()
+        {
+            return StaffRole.IsDriver(role);
         }
 
         public int StaffID { get => staffID; set => staffID = value; }

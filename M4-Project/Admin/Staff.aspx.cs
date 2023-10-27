@@ -16,6 +16,10 @@ namespace M4_Project.Admin
         protected int maxPage = 1;
         protected void Page_Load(object sender, EventArgs e)
         {
+            Models.StaffLoginSession loginStaff = Session["LoginStaff"] as Models.StaffLoginSession;
+            if (!loginStaff.IsManagerOrSupervisor())
+                Response.Redirect("/Admin");
+
             if (!IsPostBack)
             {
                 staff = GetStaff();

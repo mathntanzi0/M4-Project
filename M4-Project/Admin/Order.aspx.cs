@@ -52,7 +52,7 @@ namespace M4_Project.Admin
                 Models.Sales.OrderState.Rejected,
                 Models.Sales.OrderState.Delivered,
                 Models.Sales.OrderState.Unsuccessful
-            };
+                };
 
                 foreach (string status in orderStatuses)
                 {
