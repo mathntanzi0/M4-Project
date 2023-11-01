@@ -158,7 +158,10 @@ namespace M4_Project.Admin
             {
                 member.StaffID = staffID;
                 member.UpdateStaffMember();
-            } else 
+                if (member.EmailAddress == HttpContext.Current.User.Identity.Name)
+                    Response.Redirect("/Admin/StaffMember");
+            }
+            else 
                 member.AddStaffMember();
 
             Response.Redirect("/Admin/StaffMember?Member="+member.StaffID);

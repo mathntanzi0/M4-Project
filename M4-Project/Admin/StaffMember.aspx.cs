@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -67,6 +68,7 @@ namespace M4_Project.Admin
 
             Response.Redirect("/Admin/AddStaff?Member=" + staffID);
         }
+
         protected void btnActivate_Click(object sender, EventArgs e)
         {
             
@@ -82,6 +84,12 @@ namespace M4_Project.Admin
                 }
                 Response.Redirect("/Admin/StaffMember?Member="+staffID);
             }
+        }
+
+        protected void LogoutButton_Click(object sender, EventArgs e)
+        {
+            Context.GetOwinContext().Authentication.SignOut(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ApplicationCookie);
+            Response.Redirect("/Account/Login");
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Admin/Admin.Master" AutoEventWireup="true" CodeBehind="StaffMember.aspx.cs" Inherits="M4_Project.Admin.StaffMember"%>
 
 <asp:Content ID ="HeadContent" ContentPlaceHolderID="head" runat="server">
-    <link rel="stylesheet" type="text/css" href="Content/staff_member_style.css">
+    <link rel="stylesheet" type="text/css" href="/Admin/Content/staff_member_style.css">
 </asp:Content>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="AdminMainContent" runat="server">
@@ -26,7 +26,7 @@
 		</div>
 		<% if (loginStaff.StaffID != staffMember.StaffID)
             {%>
-		<div class="right_button_wrapper">
+		<div class="right_top_button_wrapper">
 			<% if (staffMember.Status != M4_Project.Models.StaffMemberState.Deactivated)
                 { %>
 			<a href="/Admin/Deactivate?Member=<%= staffMember.StaffID %>" class="delete_button a_tag_btn">Deactivate</a>
@@ -54,5 +54,9 @@
 		</div>
 	</div>
 	<% } %>
-	<asp:Button ID="EditButton" runat="server" Text="Edit" OnClick="EditButton_Click" CommandArgument="<%# staffMember.StaffID %>" CssClass="primary_button"/>
+
+	<div style="padding-bottom: 1.175rem;" class="right_button_wrapper">
+		<asp:Button ID="EditButton" runat="server" Text="Edit" OnClick="EditButton_Click" CommandArgument="<%# staffMember.StaffID %>" CssClass="green_button"/>
+		<asp:Button ID="LogoutButton" runat="server" Text="Logout" OnClick="LogoutButton_Click" CssClass="red_button"/>
+	</div>
 </asp:Content>

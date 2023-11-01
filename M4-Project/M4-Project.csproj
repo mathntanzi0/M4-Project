@@ -313,6 +313,7 @@
     <Content Include="Content\SignupStyle.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Customer\Account.aspx" />
+    <Content Include="Customer\AccountDeleted.aspx" />
     <Content Include="Customer\Booking.aspx" />
     <Content Include="Customer\Bookings.aspx" />
     <Content Include="Customer\Content\account_style.css" />
@@ -321,6 +322,7 @@
     <Content Include="Customer\Order.aspx" />
     <Content Include="Customer\Orders.aspx" />
     <Content Include="Customer\Profile.aspx" />
+    <Content Include="Customer\Update.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="FAQ.aspx" />
     <Content Include="Content\FAQStyle.css" />
@@ -743,6 +745,13 @@
     <Compile Include="Customer\Account.aspx.designer.cs">
       <DependentUpon>Account.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Customer\AccountDeleted.aspx.cs">
+      <DependentUpon>AccountDeleted.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\AccountDeleted.aspx.designer.cs">
+      <DependentUpon>AccountDeleted.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Customer\Booking.aspx.cs">
       <DependentUpon>Booking.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -784,6 +793,13 @@
     </Compile>
     <Compile Include="Customer\Profile.aspx.designer.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Customer\Update.aspx.cs">
+      <DependentUpon>Update.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Customer\Update.aspx.designer.cs">
+      <DependentUpon>Update.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -849,6 +865,7 @@
     <Compile Include="Models\Sales\SaleType.cs" />
     <Compile Include="Models\StaffLoginSession.cs" />
     <Compile Include="Models\StaffMember.cs" />
+    <Compile Include="Models\System.cs" />
     <Compile Include="OrderPending.aspx.cs">
       <DependentUpon>OrderPending.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

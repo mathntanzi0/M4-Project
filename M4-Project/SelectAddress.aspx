@@ -37,7 +37,7 @@
                 map: map,
                 title: 'Your location'
             });
-            autocompleteAddress(initialLatLng);
+            autocompleteAddress(initialLatLng, SetCustomerAddress);
 
             google.maps.event.addListener(map, 'center_changed', function () {
                 const newCenter = map.getCenter();
@@ -47,7 +47,7 @@
 
         let autocomplete;
 
-        function autocompleteAddress(initialLatLng) {
+        function autocompleteAddress(initialLatLng, callback) {
             const center = initialLatLng;
             const defaultBounds = {
                 north: center.lat + 0.1,
@@ -64,6 +64,10 @@
             };
             autocomplete = new google.maps.places.Autocomplete(input, options);
             autocomplete.addListener('place_changed', onPlaceChanged);
+
+            if (callback) {
+                callback();
+            }
         }
 
         function onPlaceChanged() {
@@ -111,6 +115,26 @@
                 }
             });
         }
+        function onGoogleMapsLoad() {
+            initMap();
+        }
+        function SetCustomerAddress() {
+            var addressValue = "<%= customer.PhysicalAddress %>";
+            var inputField = document.getElementById("autocomplete_address");
+            inputField.value = addressValue;
+            var geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode({ address: addressValue }, function (results, status) {
+                if (status === google.maps.GeocoderStatus.OK && results.length > 0) {
+                    var location = results[0].geometry.location;
+                    updateMarkerPosition(location.lat(), location.lng());
+                } else {
+                    console.error('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+
+
     </script>
-      <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRXvY67uo2SVzezWtxsQeqmgh4IRkA7Ag&libraries=places&callback=initMap"></script>
+      <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRXvY67uo2SVzezWtxsQeqmgh4IRkA7Ag&libraries=places&callback=onGoogleMapsLoad"></script>
 </asp:Content>

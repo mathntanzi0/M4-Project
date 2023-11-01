@@ -32,6 +32,7 @@ namespace M4_Project.Models
         public Customer()
         {
             customerID = -1;
+            physicalAddress = "";
         }
         ///<summary>
         /// Initializing a new class instance of the customer.
@@ -463,28 +464,20 @@ namespace M4_Project.Models
                     {
                         try
                         {
-                            using (SqlCommand cmdDeleteOrders = new SqlCommand("DELETE FROM [Order] WHERE customer_id = @customerID", connection, transaction))
-                            {
-                                cmdDeleteOrders.Parameters.AddWithValue("@customerID", customerId);
-                                cmdDeleteOrders.ExecuteNonQuery();
-                            }
+                            string query = "UPDATE [GroupPmb6].[dbo].[Customer] " +
+                                           "SET [first_name] = 'deleted', " +
+                                           "[last_name] = '', " +
+                                           "[phone_number] = '', " +
+                                           "[physical_address] = '', " +
+                                           "[password] = '' " +
+                                           "WHERE [customer_id] = @customerID";
 
-                           
-                            using (SqlCommand cmdDeleteEventBookings = new SqlCommand("DELETE FROM [Event Booking] WHERE customer_id = @customerID", connection, transaction))
-                            {
-                                cmdDeleteEventBookings.Parameters.AddWithValue("@customerID", customerId);
-                                cmdDeleteEventBookings.ExecuteNonQuery();
-                            }
-
-                           
-                            using (SqlCommand cmdDeleteCustomer = new SqlCommand("DELETE FROM [Customer] WHERE customer_id = @customerID", connection, transaction))
+                            using (SqlCommand cmdDeleteCustomer = new SqlCommand(query, connection, transaction))
                             {
                                 cmdDeleteCustomer.Parameters.AddWithValue("@customerID", customerId);
                                 cmdDeleteCustomer.ExecuteNonQuery();
                             }
-
                             transaction.Commit();
-
                             return true;
                         }
                         catch
@@ -500,8 +493,36 @@ namespace M4_Project.Models
                 return false;
             }
         }
+        public static void UpdateDetails(string firstName, string lastName, string phoneNumber, string physicalAddress, int customerId)
+        {
+            string updateQuery = "UPDATE [Customer] " +
+                                 "SET first_name = @FirstName, last_name = @LastName, " +
+                                 "phone_number = @PhoneNumber, physical_address = @PhysicalAddress " +
+                                 "WHERE customer_id = @CustomerId";
 
+            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(updateQuery, connection))
+                {
+                    cmd.Parameters.AddWithValue("@FirstName", firstName);
+                    cmd.Parameters.AddWithValue("@LastName", lastName);
+                    cmd.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+                    cmd.Parameters.AddWithValue("@PhysicalAddress", physicalAddress);
+                    cmd.Parameters.AddWithValue("@CustomerId", customerId);
 
+                    try
+                    {
+                        connection.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception ex)
+                    {
+                        connection.Close();
+                        // Handle the exception, e.g., log or display an error message
+                    }
+                }
+            }
+        }
 
 
         public int CustomerID { get => customerID; set => customerID = value; }

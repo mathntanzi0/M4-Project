@@ -85,4 +85,25 @@
             }
         }
     </script>
+        <script>
+            let initialLatLng = { lat: <%= M4_Project.Models.BusinessRules.Address.centerLatitude %>, lng: <%= M4_Project.Models.BusinessRules.Address.centerLongitude %> };
+
+    let autocomplete;
+
+    function autocompleteAddress() {
+        const input = document.getElementById('<%= PhysicalAddress.ClientID %>');
+                const options = {
+                    componentRestrictions: { country: "ZA" },
+                    fields: ["address_components", "geometry", "icon", "name"],
+                    strictBounds: false,
+                };
+                autocomplete = new google.maps.places.Autocomplete(input, options);
+
+                autocomplete.addListener('place_changed', function () {
+                    const place = autocomplete.getPlace();
+                    console.log(place);
+                });
+            }
+        </script>
+    <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRXvY67uo2SVzezWtxsQeqmgh4IRkA7Ag&libraries=places&callback=autocompleteAddress"></script>
 </asp:Content>

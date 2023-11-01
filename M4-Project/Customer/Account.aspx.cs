@@ -21,12 +21,6 @@ namespace M4_Project.Customer
             
         }
 
-        protected void Logout_Click(object sender, EventArgs e)
-        {
-            Session.Clear();
-            Response.Redirect("Login.aspx");
-        }
-
         protected void btnLogout_Click(object sender, EventArgs e)
         {
             var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
@@ -37,7 +31,16 @@ namespace M4_Project.Customer
 
         protected void btnDeleteAccount_Click(object sender, EventArgs e)
         {
-            
+            currentCustomer = Session["Customer"] as Models.Customer;
+            if (currentCustomer == null)
+                return;
+
+
+            Models.Customer.DeleteCustomer(currentCustomer.CustomerID);
+            var authenticationManager = HttpContext.Current.GetOwinContext().Authentication;
+            authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session["Customer"] = null;
+            Response.Redirect("~/");
         }
 
     }

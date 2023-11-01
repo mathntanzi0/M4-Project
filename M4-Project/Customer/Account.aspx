@@ -43,29 +43,31 @@
 			<h3>Your account details</h3>
 
 			<div class="details_holder">
+				<h3><%= currentCustomer.EmailAddress %></h3>
 				<h3>
 					<%= currentCustomer.FirstName + " " + currentCustomer.LastName %>
-					<span style="vertical-align: middle;">
-						<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-200h56l345-345-56-56-345 345v56Zm572-403L602-771l56-56q23-23 56.5-23t56.5 23l56 56q23 23 24 55.5T829-660l-57 57Zm-58 59L290-120H120v-170l424-424 170 170Zm-141-29-28-28 56 56-28-28Z"/></svg>
-					</span>
+					<a href="/Customer/Update">
+						<span style="vertical-align: middle;">
+							<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-200h56l345-345-56-56-345 345v56Zm572-403L602-771l56-56q23-23 56.5-23t56.5 23l56 56q23 23 24 55.5T829-660l-57 57Zm-58 59L290-120H120v-170l424-424 170 170Zm-141-29-28-28 56 56-28-28Z"/></svg>
+						</span>
+					</a>
 				</h3>
-				<h3>
-					<%= currentCustomer.EmailAddress %>
-					<span style="vertical-align: middle;">
-						<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-200h56l345-345-56-56-345 345v56Zm572-403L602-771l56-56q23-23 56.5-23t56.5 23l56 56q23 23 24 55.5T829-660l-57 57Zm-58 59L290-120H120v-170l424-424 170 170Zm-141-29-28-28 56 56-28-28Z"/></svg>
-					</span>
-				</h3>
+
 				<h3>
 					<%= currentCustomer.PhoneNumber %>
-					<span style="vertical-align: middle;">
-						<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-200h56l345-345-56-56-345 345v56Zm572-403L602-771l56-56q23-23 56.5-23t56.5 23l56 56q23 23 24 55.5T829-660l-57 57Zm-58 59L290-120H120v-170l424-424 170 170Zm-141-29-28-28 56 56-28-28Z"/></svg>
-					</span>
+					<a href="/Customer/Update">
+						<span style="vertical-align: middle;">
+							<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-200h56l345-345-56-56-345 345v56Zm572-403L602-771l56-56q23-23 56.5-23t56.5 23l56 56q23 23 24 55.5T829-660l-57 57Zm-58 59L290-120H120v-170l424-424 170 170Zm-141-29-28-28 56 56-28-28Z"/></svg>
+						</span>
+					</a>
 				</h3>
 				<h3>
 					<%= currentCustomer.PhysicalAddress %>
-					<span style="vertical-align: middle;">
-						<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-200h56l345-345-56-56-345 345v56Zm572-403L602-771l56-56q23-23 56.5-23t56.5 23l56 56q23 23 24 55.5T829-660l-57 57Zm-58 59L290-120H120v-170l424-424 170 170Zm-141-29-28-28 56 56-28-28Z"/></svg>
-					</span>
+					<a href="/Customer/Update">
+						<span style="vertical-align: middle;">
+							<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M200-200h56l345-345-56-56-345 345v56Zm572-403L602-771l56-56q23-23 56.5-23t56.5 23l56 56q23 23 24 55.5T829-660l-57 57Zm-58 59L290-120H120v-170l424-424 170 170Zm-141-29-28-28 56 56-28-28Z"/></svg>
+						</span>
+					</a>
 				</h3>
 				<h3>
 					Password
@@ -75,9 +77,20 @@
 				</h3>
 			</div>
 
-			<asp:Button ID="btnLogout" runat="server" CssClass="delete_btn" Text="Logout" OnClick="btnLogout_Click" style="background-color:var(--red)" />
-			<asp:Button ID="btnDeleteAccount" runat="server" Text="Delete Account" OnClick="btnDeleteAccount_Click" style="background-color:var(--secondary-primary)" />
-
-
+			<asp:Button ID="btnLogout" runat="server" Text="Logout" OnClick="btnLogout_Click" style="background-color:var(--secondary-primary);" />
+			<asp:Button ID="btnDeleteAccount" runat="server" Text="Delete Account" OnClick="btnDeleteAccount_Click" style="background-color:var(--red); color:white; font-weight:bold" OnClientClick="return ConfirmDelete()" />
 		</div>
+</asp:Content>
+
+<asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentScripts" runat="server">
+	<script>
+		function ConfirmDelete() {
+            var firstConfirmation = confirm("All information will be lost, Are you sure you want to continue?");
+            if (firstConfirmation) {
+                var secondConfirmation = confirm("This action is irreversible. Are you absolutely sure?");
+                return secondConfirmation;
+            }
+            return false;
+        }
+    </script>
 </asp:Content>

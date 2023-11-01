@@ -11,6 +11,11 @@ namespace M4_Project.Customer
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Models.Customer currentCustomer = Session["Customer"] as Models.Customer;
+            if (currentCustomer != null)
+                Response.Redirect("/Customer/Account");
+
+
             if (User.IsInRole("Admin"))
             {
                 Response.Redirect("/Admin");

@@ -69,17 +69,6 @@
 	width: 1.175rem;
 	height: 1.175rem;
 }
-.delete_btn{
-	width: 10rem;
-	background-color: #b00020;
-	text-align: center;
-	display: block;
-	margin: auto;
-	font-weight: 700;
-	color: white;
-	padding: 0.5rem;
-	border-radius: 1rem;
-}
 
 @media (min-width: 870px){
 	.data_holder{

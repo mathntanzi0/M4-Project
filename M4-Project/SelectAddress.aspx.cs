@@ -10,11 +10,16 @@ namespace M4_Project
 {
     public partial class SelectAddress : System.Web.UI.Page
     {
+        protected Models.Customer customer;
         protected double latitude = -29.621091867599112;
         protected double longitude = 30.394936263745304;
         protected void Page_Load(object sender, EventArgs e)
         {
             Models.Sales.Order sale = HttpContext.Current.Session["sale"] as Models.Sales.Order;
+
+            customer = Session["Customer"] as Models.Customer;
+            if (customer == null)
+                customer = new Models.Customer();
 
             if (sale != null)
             {
