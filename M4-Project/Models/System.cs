@@ -16,7 +16,7 @@ namespace M4_Project.Models
                 {
                     connection.Open();
 
-                    string query = "INSERT INTO [ErrorLog] (ErrorMessage, StackTrace, LogTime) " +
+                    string query = "INSERT INTO [ErrorLog] (error_message, stack_trace, log_time) " +
                                    "VALUES (@ErrorMessage, @StackTrace, @LogTime)";
 
                     using (SqlCommand cmdLogError = new SqlCommand(query, connection))
