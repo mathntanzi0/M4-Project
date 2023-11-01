@@ -6,7 +6,7 @@ using System.Web;
 
 namespace M4_Project.Models
 {
-    public class System
+    public class SystemUtilities
     {
         public static void LogError(Exception ex)
         {

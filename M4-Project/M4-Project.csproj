@@ -865,7 +865,7 @@
     <Compile Include="Models\Sales\SaleType.cs" />
     <Compile Include="Models\StaffLoginSession.cs" />
     <Compile Include="Models\StaffMember.cs" />
-    <Compile Include="Models\System.cs" />
+    <Compile Include="Models\SystemUtilities.cs" />
     <Compile Include="OrderPending.aspx.cs">
       <DependentUpon>OrderPending.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
