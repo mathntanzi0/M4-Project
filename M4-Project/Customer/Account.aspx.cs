@@ -18,6 +18,10 @@ namespace M4_Project.Customer
             currentCustomer = Session["Customer"] as Models.Customer;
             if (currentCustomer == null)
                 currentCustomer = Models.Customer.SetSession();
+            if (currentCustomer.FirstName == "deleted")
+                Response.Redirect("/Customer/AccountDeleted");
+
+            
             
         }
 

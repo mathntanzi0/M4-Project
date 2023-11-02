@@ -441,6 +441,12 @@ namespace M4_Project.Models
             else
                 HttpContext.Current.Response.Redirect("/Customer/Profile");
 
+            if (currentCustomer.FirstName == "deleted")
+            {
+                HttpContext.Current.Response.Redirect("/Customer/AccountDeleted");
+                return null;
+            }
+
             return currentCustomer;
         }
         public static Customer SetSession(string ReturnUrl)

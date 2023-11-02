@@ -669,7 +669,7 @@ namespace M4_Project.Models.Sales
 
             try
             {
-                //Emails.SendMail("Order", emailBody, customer.EmailAddress, htmlView);
+                Emails.SendMail("Order", emailBody, customer.EmailAddress, htmlView);
                 return true;
             }
             catch
@@ -690,7 +690,7 @@ namespace M4_Project.Models.Sales
                 <title>Email Template</title>
             </head>
             <body style='font-family: Arial, sans-serif; background-color: #fff; margin: 0; padding: 0;'>
-                <div style='background-color: #283217; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align: center;'>
+                <div style='background-color: #dde7df; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align: center;'>
                     <img src='cid:logo' alt='Logo' style='width: 100%; max-width: 124px; height: auto; margin-bottom: 15px;'>
                     <h1 style='color: #fff; font-weight: 700;'>Friends & Family</h1>
                 </div>");
@@ -747,12 +747,12 @@ namespace M4_Project.Models.Sales
             } else
             {
                 emailBodyBuilder.AppendLine($@"
-                <p style='font-size: 22px; font-weight: bold;'>Total: R {(PaymentAmount + Tip).ToString("N2")}</p>
+                <p style='font-size: 26px; font-weight: bold;'>Total: R {(PaymentAmount + Tip).ToString("N2")}</p>
             </div>");
             }
 
             emailBodyBuilder.AppendLine(@"
-            <div style='margin-top: 40px; color: #fff; background-color: #283217; padding: 10px; text-align: center;'>
+            <div style='margin-top: 40px; color: #555555; background-color: #dde7df; padding: 10px; text-align: center;'>
                 <h2 style = 'margin-bottom: 16px; font-size: 16px; color: #fff;'> Have any queries? Please reply to this email </h2>
                 <p style = 'font-size: 12px; color: #fff;'> 2023 Friends & Family.All rights reserved. <br/> 10th floor, 323 Cornland, Foreshore, KwaZulu-Natal.</p>
                 <p style = 'font-size: 12px; color: #fff;'> Friends & Family(Pty) Ltd, Reg 2002 / 02020 / 08 <br/> VAT number: 4343 4834 438.</ p >   

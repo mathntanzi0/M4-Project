@@ -51,25 +51,5 @@ namespace M4_Project.Models
             client.Credentials = new NetworkCredential(senderEmail, senderPassword);
             client.Send(mail);
         }
-
-        /*
-             System.Net.Mail.SmtpException: Failure sending mail. ---> System.Net.WebException: Unable to connect to the remote server ---> System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 64.233.166.108:587
-               at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)
-               at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
-               --- End of inner exception stack trace ---
-               at System.Net.ServicePoint.GetConnection(PooledStream PooledStream, Object owner, Boolean async, IPAddress& address, Socket& abortSocket, Socket& abortSocket6)
-               at System.Net.PooledStream.Activate(Object owningObject, Boolean async, GeneralAsyncDelegate asyncCallback)
-               at System.Net.PooledStream.Activate(Object owningObject, GeneralAsyncDelegate asyncCallback)
-               at System.Net.ConnectionPool.GetConnection(Object owningObject, GeneralAsyncDelegate asyncCallback, Int32 creationTimeout)
-               at System.Net.Mail.SmtpConnection.GetConnection(ServicePoint servicePoint)
-               at System.Net.Mail.SmtpTransport.GetConnection(ServicePoint servicePoint)
-               at System.Net.Mail.SmtpClient.GetConnection()
-               at System.Net.Mail.SmtpClient.Send(MailMessage message)
-               --- End of inner exception stack trace ---
-               at System.Net.Mail.SmtpClient.Send(MailMessage message)
-               at M4_Project.Models.Emails.SendMail(String emailSubject, String emailBody, String receiverEmail) in D:\ISTN Project\M4-Project\M4-Project\Models\Emails.cs:line 52
-               at M4_Project.Tests.UnitTest1.TestMethod1() in D:\ISTN Project\M4-Project\M4-Project.Tests\UnitTest1.cs:line 18
-         */
-
     }
 }

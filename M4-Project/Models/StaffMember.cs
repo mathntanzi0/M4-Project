@@ -4,6 +4,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using System.Web;
 
@@ -294,13 +296,13 @@ namespace M4_Project.Models
             if (staffImage != null &&  staffImage.Length > 0)
             {
                 query = "UPDATE [Staff] SET [first_name] = @firstName, [last_name] = @lastName, [gender] = @gender, [pay_rate] = @payRate, " +
-                        "[email_address] = @emailAddress, [phone_number] = @phoneNumber, [password] = @password, [role] = @role, " +
+                        "[phone_number] = @phoneNumber, [password] = @password, [role] = @role, " +
                         "[status] = @staffStatus, [staff_image] = @staffImage WHERE [staff_id] = @staffID;";
             }
             else
             {
                 query = "UPDATE [Staff] SET [first_name] = @firstName, [last_name] = @lastName, [gender] = @gender, [pay_rate] = @payRate, " +
-                        "[email_address] = @emailAddress, [phone_number] = @phoneNumber, [password] = @password, [role] = @role, " +
+                        "[phone_number] = @phoneNumber, [password] = @password, [role] = @role, " +
                         "[status] = @staffStatus WHERE [staff_id] = @staffID;";
             }
 
@@ -312,7 +314,6 @@ namespace M4_Project.Models
                 command.Parameters.AddWithValue("@lastName", lastName);
                 command.Parameters.AddWithValue("@gender", gender);
                 command.Parameters.AddWithValue("@payRate", payRate);
-                command.Parameters.AddWithValue("@emailAddress", emailAddress);
                 command.Parameters.AddWithValue("@phoneNumber", phoneNumber);
                 command.Parameters.AddWithValue("@password", password);
                 command.Parameters.AddWithValue("@role", role);
@@ -446,6 +447,57 @@ namespace M4_Project.Models
             }
         }
 
+        public bool SendEmail()
+        {
+            string emailBody = GetEmailBody();
+
+            AlternateView htmlView = AlternateView.CreateAlternateViewFromString(emailBody, null, MediaTypeNames.Text.Html);
+
+            byte[] imageBytes = Utilities.Images.GetImage("~/Assets/logo.png");
+            LinkedResource itemImage = new LinkedResource(new MemoryStream(imageBytes), MediaTypeNames.Image.Jpeg);
+            itemImage.ContentId = "logo";
+            htmlView.LinkedResources.Add(itemImage);
+
+            try
+            {
+                Emails.SendMail("Verify Email Address", emailBody, emailAddress, htmlView);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public string GetEmailBody()
+        {
+            StringBuilder emailBodyBuilder = new StringBuilder();
+            HttpRequest request = HttpContext.Current.Request;
+            string baseUrl = $"{request.Url.Scheme}://{request.Url.Authority}";
+            string url = $"{baseUrl}/Account/Password?Email={emailAddress}";
+            return $@"
+            <html lang='en'>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Email Template</title>
+            </head>
+            <body style='font-family: Arial, sans-serif; margin: 0; padding: 8px; text-align: center;'>
+
+                <div style='background-color: #496970; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); padding: 20px; margin: 60px auto; max-width: 400px;'>
+
+                    <img src='cid:logo' alt='Logo' style='width: 124px; height: auto;'>
+
+                    <h2 style='color: #fff; font-weight: bold;'>Friends & Family</h2>
+
+                    <p style='color: #fff; line-height: 1.6; padding:24px 0;'>Welcome to the team {firstName+" "+lastName}! Before accessing the administrative system, please ensure to verify your email. Thank you.</p>
+
+                    <a href='{url}' style='display: inline-block; margin-top: 20px; padding: 10px 32px; background-color: #262626; color: #fff; text-decoration: none; border-radius: 8px;'>Verify Email</a>
+
+                </div>
+
+            </body>
+            </html>";
+        }
 
 
 

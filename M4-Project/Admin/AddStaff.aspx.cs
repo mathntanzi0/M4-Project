@@ -161,8 +161,11 @@ namespace M4_Project.Admin
                 if (member.EmailAddress == HttpContext.Current.User.Identity.Name)
                     Response.Redirect("/Admin/StaffMember");
             }
-            else 
+            else
+            {
                 member.AddStaffMember();
+                member.SendEmail();
+            }
 
             Response.Redirect("/Admin/StaffMember?Member="+member.StaffID);
         }

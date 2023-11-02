@@ -1,16 +1,14 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Terms and conditions.aspx.cs" Inherits="M4_Project.Terms_and_conditions" %>
+﻿<%@ Page Language="C#" Title="Terms and Condition" AutoEventWireup="true" MasterPageFile="~/Site.Master" CodeBehind="Terms and conditions.aspx.cs" Inherits="M4_Project.Terms_and_conditions" %>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Terms and Condition Section Tabs In HTML CSS and Javascript</title>
-    <link rel="stylesheet" type="text/css" href="Content/terms_style.css">
-</head>
-<body>
+<asp:Content ID ="HeadContent" ContentPlaceHolderID="head" runat="server">
+    <link rel="stylesheet" type="text/css" href="/Content/terms_style.css">
+</asp:Content>
 
+<asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="wrapper flex_align_justify">
         <div class="tc_wrap">
             <div class="tabs_list">
+                    <h2>Terms & Conditions</h2>
                 <ul>
                     <li data-tc="tab_item_1" class="active">Terms of use</li>
                     <li data-tc="tab_item_2">Intellectual property rights</li>
@@ -20,9 +18,6 @@
                 </ul>
             </div>
             <div class="tabs_content">
-                <div class="tab_head">
-                    <h2>Terms & Conditions</h2>
-                </div>
                 <div class="tab_body">
                     <div class="tab_item tab_item_1">
                         <h3>Terms of use</h3>
@@ -47,19 +42,11 @@
                         <p>Disputes arising in connection with this website terms shall be subject to exclusive jurisdiction of the South African courts</p>
                     </div>
                 </div>
-                <div class="tab_foot flex_align_justify">
-                    <button class="decline">
-                        Decline
-                    </button>
-                    <button class="agree">
-                        Agree
-                    </button>
-                </div>
             </div>
         </div>
     </div>
+</asp:Content>
 
+<asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentScripts" runat="server">
     <script type="text/javascript" src="Scripts/terms_Script.js"></script>
-
-</body>
-</html>
+</asp:Content>

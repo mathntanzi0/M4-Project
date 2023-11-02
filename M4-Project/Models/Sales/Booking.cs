@@ -136,6 +136,41 @@ namespace M4_Project.Models.Sales
                 }
             }
         }
+
+        public static void Update(int bookingID, string address, DateTime date, TimeSpan duration, string decorDescription)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = "UPDATE [Event Booking] " +
+                                   "SET [event_address] = @Address, " +
+                                   "[event_date] = @EventDate, " +
+                                   "[event_duration] = @EventDuration, " +
+                                   "[event_setting] = @DecorDescription " +
+                                   "WHERE [booking_id] = @BookingID";
+
+                    using (SqlCommand cmdUpdateEvent = new SqlCommand(query, connection))
+                    {
+                        cmdUpdateEvent.Parameters.AddWithValue("@BookingID", bookingID);
+                        cmdUpdateEvent.Parameters.AddWithValue("@Address", address);
+                        cmdUpdateEvent.Parameters.AddWithValue("@EventDate", date);
+                        cmdUpdateEvent.Parameters.AddWithValue("@EventDuration", duration);
+                        cmdUpdateEvent.Parameters.AddWithValue("@DecorDescription", decorDescription);
+
+                        cmdUpdateEvent.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception, e.g., log or display an error message
+            }
+        }
+
+
         ///
         /// <summary>
         ///     Change the status of an event booking on the database.
@@ -313,7 +348,6 @@ namespace M4_Project.Models.Sales
                 {
                     while (reader.Read())
                     {
-                        //Customer customer, DateTime eventDate, decimal paymentAmount, string bookingStatus
                         Booking booking = new Booking(
                             (int) reader["booking_id"],
                             new Customer(reader["first_name"].ToString(), reader["last_name"].ToString()),
@@ -683,6 +717,22 @@ namespace M4_Project.Models.Sales
                 return "#D7263D";
             else
                 return "#000000";
+        }
+        public static string GetCorrectState(string status, DateTime eventDate, TimeSpan duration)
+        {
+            if (eventDate > DateTime.Now)
+                return status;
+
+            if (Pending == status)
+                return Rejected;
+            DateTime dateTime = eventDate;
+
+            if (UpComing == status && DateTime.Now < (dateTime.Add(duration)))
+                return InProgress;
+            else if (UpComing == status)
+                return Completed;
+            else
+                return status;
         }
     }
 }
