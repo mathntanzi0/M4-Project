@@ -35,7 +35,7 @@
 				  <ItemTemplate>
 					<tr>
 						<td class="column_with_image">
-							<img class="column_left_image" src="<%# "data:image/jpeg;base64," + Convert.ToBase64String((byte[])Eval("StaffImage")) %>" alt="<%# Eval("FullName") %>">
+							<asp:Image runat="server" CssClass="column_left_image" ImageUrl='<%# "data:image/jpeg;base64," + Convert.ToBase64String((byte[])Eval("StaffImage")) %>' AlternateText='<%# Eval("FullName") %>' EnableViewState="false" />
 							<%# Eval("FirstName") %>
 						</td>
 						<td>#<%# Eval("StaffID") %></td>

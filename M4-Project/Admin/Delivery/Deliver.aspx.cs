@@ -79,6 +79,21 @@ namespace M4_Project.Admin.Delivery
             HttpContext.Current.Response.Cookies.Add(cookie);
             Response.Redirect("DeliverOrders");
         }
+        protected void btnUnsuccessful_Click(object sender, EventArgs e)
+        {
+            if (Session["Delivery"] == null)
+            {
+                Response.Redirect("/");
+                return;
+            }
 
+            order = Session["Delivery"] as Models.Sales.Order;
+            order.ChangeStatus(Models.Sales.OrderState.Unsuccessful);
+            Session["Delivery"] = null;
+            HttpCookie cookie = new HttpCookie("Delivery");
+            cookie.Expires = DateTime.Now.AddDays(-1);
+            HttpContext.Current.Response.Cookies.Add(cookie);
+            Response.Redirect("DeliverOrders");
+        }
     }
 }

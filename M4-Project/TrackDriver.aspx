@@ -48,7 +48,7 @@
 			dirver = new google.maps.Marker({
             position: driverLocation,
 			map: map,
-			title: 'Dirver',
+			title: 'Driver',
 			icon: image,
 			});
 		}

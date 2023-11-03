@@ -8,7 +8,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="AdminMainContent" runat="server">
     	<div class="item_details_wrapper">
 			<div class="item_image_wrapper">
-				<asp:Image ID="Image1" runat="server"/>
+				<asp:Image ID="Image1" runat="server" EnableViewState="false"/>
 			</div>
 			<div class="item_details">
 				<h1><%: menuItem.ItemName %></h1>
@@ -23,7 +23,10 @@
 			</div>
 
 		</div>
-
+		<asp:DropDownList ID="category_list" runat="server">
+			<asp:ListItem Text="Available" Value="Available" />
+			<asp:ListItem Text="Unavailable" Value="Unavailable" />
+		</asp:DropDownList>
 		<div class="analytic_data_wrapper">
 			<h1>Summary</h1>
 			<div class="text_details_wrapper">

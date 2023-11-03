@@ -130,9 +130,9 @@
 
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentScripts" runat="server">
 	<script>
-        $(document).ready(function () {
-            $(".update_form_div, .overlay").hide();
+        $(".update_form_div, .overlay").hide();
 
+        $(document).ready(function () {
             function showDivs() {
                 $(".update_form_div, .overlay").show();
             }

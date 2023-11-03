@@ -119,7 +119,7 @@
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentScripts" runat="server">
 	<script>
 
-		let activation = [true, true, false, false];
+		let activation = [true, false, false, false];
         var state_cards = document.getElementsByClassName("order_progress_line");
 
 		getActivation();
@@ -131,10 +131,10 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (response) {
-					activation = response.d; // Set the activation array from the server response
+					activation = response.d;
+					if (activation.length == 1)
+                        window.location.replace("Customer/Order?Order=<%= order.OrderID%>");
                     setCards();
-                    console.log("Activation values retrieved successfully.");
-                    console.log(activation); // You can now use the activation array in your code
                 },
                 error: function (error) {
                     console.error("Error retrieving activation values: " + error.responseText);

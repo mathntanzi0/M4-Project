@@ -7,9 +7,9 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="AdminMainContent" runat="server">
     <div class="staff_detail_wrpper">
 		<div class="staff_image_wrapper">
-			<asp:Image ID="Image1" runat="server"/>			
+			<asp:Image ID="Image1" runat="server" EnableViewState="false"/>			
 		</div>
-		<div class="staff_detail">
+		<div class="staff_detail">s
 			<div class="upper_details">
 				<h1><%= staffMember.FirstName + " " + staffMember.LastName %></h1>
 				<p>#<%= staffMember.StaffID %></p>

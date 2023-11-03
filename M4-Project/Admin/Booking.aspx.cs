@@ -13,32 +13,32 @@ namespace M4_Project.Admin
         protected Models.Sales.Booking booking;
         protected void Page_Load(object sender, EventArgs e)
         {
+            datePicker.Attributes["min"] = DateTime.Now.ToString("yyyy-MM-dd");
+            datePicker.Attributes["max"] = Models.BusinessRules.Booking.MaxEventDate.ToString("yyyy-MM-dd");
+            if (Request.QueryString["Event"] == null)
+                Response.Redirect("/");
+
+            if (!int.TryParse(Request.QueryString["Event"], out int bookingID))
+                Response.Redirect("/");
+
+            booking = Models.Sales.Booking.GetBooking(bookingID, true);
+            if (booking == null)
+                Response.Redirect("/");
+
+            customer = booking.Customer;
+
+            ItemRepeater.DataSource = booking.ItemLines;
+            ItemRepeater.DataBind();
+
+            txtAddress.Value = booking.EventAddress;
+            txtDecorDescription.Value = booking.EventDecorDescription;
+            datePicker.Value = booking.EventDate.ToString("yyyy-MM-dd");
+            ddlDuration.Value = booking.EventDuration.ToString(@"hh\:mm");
+            ddlTimeHour.Value = booking.EventDate.Hour.ToString();
+            ddlTimeMin.Value = (booking.EventDate.Minute != 0) ? booking.EventDate.Minute.ToString() : "00";
+
             if (!IsPostBack)
             {
-                datePicker.Attributes["min"] = DateTime.Now.ToString("yyyy-MM-dd");
-                datePicker.Attributes["max"] = Models.BusinessRules.Booking.MaxEventDate.ToString("yyyy-MM-dd");
-                if (Request.QueryString["Event"] == null)
-                    Response.Redirect("/");
-
-                if (!int.TryParse(Request.QueryString["Event"], out int bookingID))
-                    Response.Redirect("/");
-
-                booking = Models.Sales.Booking.GetBooking(bookingID);
-                if (booking == null)
-                    Response.Redirect("/");
-
-                customer = booking.Customer;
-
-                ItemRepeater.DataSource = booking.ItemLines;
-                ItemRepeater.DataBind();
-
-                txtAddress.Value = booking.EventAddress;
-                txtDecorDescription.Value = booking.EventDecorDescription;
-                datePicker.Value = booking.EventDate.ToString("yyyy-MM-dd");
-                ddlDuration.Value = booking.EventDuration.ToString(@"hh\:mm");
-                ddlTimeHour.Value = booking.EventDate.Hour.ToString();
-                ddlTimeMin.Value = (booking.EventDate.Minute != 0) ? booking.EventDate.Minute.ToString() : "00";
-
                 if (Models.Sales.BookingState.IsFinalState(booking.BookingStatus))
                 {
                     ListItem item = new ListItem(booking.BookingStatus);
@@ -51,30 +51,31 @@ namespace M4_Project.Admin
                     select_event_status.Items.Add(item);
                     if (booking.BookingStatus == Models.Sales.BookingState.Completed)
                     {
-                        ListItem item1 = new ListItem(Models.Sales.BookingState.Canceled);
+                        ListItem item1 = new ListItem(Models.Sales.BookingState.Canceled, booking.BookingID + "|" + Models.Sales.BookingState.Canceled);
                         select_event_status.Items.Add(item1);
+
                     }
                     else
                     {
-                        ListItem item1 = new ListItem(Models.Sales.BookingState.Completed);
+                        ListItem item1 = new ListItem(Models.Sales.BookingState.Completed, booking.BookingID + "|" + Models.Sales.BookingState.Completed);
                         select_event_status.Items.Add(item1);
                     }
                     return;
                 }
                 string[] eventStatuses = {
-                    Models.Sales.BookingState.UpComing,
-                    Models.Sales.BookingState.InProgress,
-                    Models.Sales.BookingState.Completed,
-                    Models.Sales.BookingState.Canceled,
-                    Models.Sales.BookingState.Rejected
-                };
+                Models.Sales.BookingState.UpComing,
+                Models.Sales.BookingState.InProgress,
+                Models.Sales.BookingState.Completed,
+                Models.Sales.BookingState.Canceled,
+                Models.Sales.BookingState.Rejected
+            };
 
                 foreach (string status in eventStatuses)
                 {
                     ListItem item = new ListItem(status, booking.BookingID + "|" + status);
                     select_event_status.Items.Add(item);
                 }
-                
+
                 foreach (ListItem item in select_event_status.Items)
                 {
                     if (item.Text == booking.BookingStatus)
@@ -85,8 +86,6 @@ namespace M4_Project.Admin
                         break;
                     }
                 }
-
-
             }
         }
         protected void SelectEventStatus_SelectedIndexChanged(object sender, EventArgs e)
@@ -116,8 +115,9 @@ namespace M4_Project.Admin
             if (!Models.Sales.BookingState.IsValidState(selectedStatus) && selectedStatus == Models.Sales.BookingState.Pending)
                 Response.Redirect("/");
 
-            Models.Sales.Booking.ChangeStatus(bookingID, selectedStatus);
-            Response.Redirect("/Admin/Booking?Event=" + bookingID);
+            Models.Sales.Booking booking = Models.Sales.Booking.GetBooking(bookingID, true);
+            booking.ChangeStatus(selectedStatus);
+            //Response.Redirect("/Admin/Booking?Event=" + bookingID);
         }
 
         protected void btnEdit_Click(object sender, EventArgs e)

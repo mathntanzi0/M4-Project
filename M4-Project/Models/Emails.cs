@@ -26,11 +26,13 @@ namespace M4_Project.Models
             mail.Body = emailBody;
             mail.AlternateViews.Add(htmlView);
 
-            SmtpClient client = new SmtpClient(smtpServer, smtpPort);
-            client.EnableSsl = true;
-            client.UseDefaultCredentials = false;
-            client.Credentials = new NetworkCredential(senderEmail, senderPassword);
-            client.Send(mail);
+            using (SmtpClient client = new SmtpClient(smtpServer, smtpPort))
+            {
+                client.EnableSsl = true;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential(senderEmail, senderPassword);
+                client.Send(mail);
+            }
         }
         /// <summary>
         /// Sends a plain text email.

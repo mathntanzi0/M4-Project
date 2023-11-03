@@ -669,7 +669,7 @@ namespace M4_Project.Models.Sales
 
             try
             {
-                Emails.SendMail("Order", emailBody, customer.EmailAddress, htmlView);
+                Emails.SendMail("Order Confirmation", emailBody, customer.EmailAddress, htmlView);
                 return true;
             }
             catch
@@ -687,7 +687,7 @@ namespace M4_Project.Models.Sales
             <head>
                 <meta charset='UTF-8'>
                 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-                <title>Email Template</title>
+                <title>Order Email</title>
             </head>
             <body style='font-family: Arial, sans-serif; background-color: #fff; margin: 0; padding: 0;'>
                 <div style='background-color: #dde7df; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align: center;'>
@@ -742,7 +742,7 @@ namespace M4_Project.Models.Sales
             {
                 emailBodyBuilder.AppendLine($@"
                 <p>Delivery Fee: R {BusinessRules.Delivery.DeliveryFee.ToString("N2")}</p>
-                <p style='font-size: 22px; font-weight: bold;'>Total: R {(PaymentAmount + delivery.DeliveryFee + Tip).ToString("N2")}</p>
+                <p style='font-size: 26px; font-weight: bold;'>Total: R {(PaymentAmount + delivery.DeliveryFee + Tip).ToString("N2")}</p>
             </div>");
             } else
             {
