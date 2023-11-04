@@ -45,7 +45,6 @@ namespace M4_Project.Models
             this.latitude = latitude;
             this.longitude = longitude;
         }
-
         /// <summary>
         /// Checks if given coordinates are within a specified boundary radius.
         /// </summary>
@@ -71,18 +70,19 @@ namespace M4_Project.Models
 
             return distance <= boundaryRadiusKm;
         }
-
+        /// <summary>
+        /// Converts degrees to radians.
+        /// </summary>
+        /// <param name="degree">Angle in degrees.</param>
+        /// <returns>Equivalent angle in radians.</returns>
         private static double DegreeToRadian(double degree)
         {
             return degree * (Math.PI / 180);
         }
-
-
         /// <summary>
         /// Gets the latitude coordinate of the address.
         /// </summary>
         public double Latitude { get => latitude; }
-
         /// <summary>
         /// Gets the longitude coordinate of the address.
         /// </summary>

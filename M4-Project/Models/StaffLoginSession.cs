@@ -13,23 +13,36 @@ namespace M4_Project.Models
         private byte[] staffImage;
         private string role;
 
+
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="StaffLoginSession"/> class.
+        /// </summary>
+        /// <param name="staffID">The staff ID.</param>
+        /// <param name="role">The staff role.</param>
         public StaffLoginSession(int staffID, string role)
         {
             this.staffID = staffID;
             this.role = role;
         }
-
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="StaffLoginSession"/> class.
+        /// </summary>
+        /// <param name="staffID">The staff ID.</param>
+        /// <param name="staffImage">The staff image.</param>
+        /// <param name="role">The staff role.</param>
         public StaffLoginSession(int staffID, byte[] staffImage, string role)
         {
             this.staffID = staffID;
             this.staffImage = staffImage;
             this.role = role;
         }
-        ///
         /// <summary>
-        ///     Initializes and Returns a instance of the M4_System.Models.StaffLoginSession class
-        ///     if the username is found on the database and the passwords match with the one in the database, otherwise it returns null.
+        ///     Initializes and returns an instance of the <see cref="StaffLoginSession"/> class
+        /// if the username is found in the database and the passwords match with the one in the database; otherwise, it returns null.
         /// </summary>
+        /// <param name="username">The username (email address).</param>
+        /// <returns>A <see cref="StaffLoginSession"/> object if successful, otherwise null.</returns>
         public static StaffLoginSession GetSession(string username)
         {
             StaffLoginSession loginSession = null;
@@ -66,6 +79,10 @@ namespace M4_Project.Models
 
             return loginSession;
         }
+        /// <summary>
+        ///     Sets the session for the staff member.
+        /// </summary>
+        /// <returns>The staff login session.</returns>
         public static StaffLoginSession SetSession()
         {
             StaffLoginSession loginStaff = HttpContext.Current.Session["LoginStaff"] as Models.StaffLoginSession;
@@ -79,6 +96,11 @@ namespace M4_Project.Models
             }
             return loginStaff;
         }
+        /// <summary>
+        ///     Checks if the staff account exists.
+        /// </summary>
+        /// <param name="email">The email address of the staff member.</param>
+        /// <returns>True if the account exists, otherwise false.</returns>
         public static bool AccountExist(string email)
         {
             string query = "SELECT COUNT(*) FROM [Staff] WHERE email_address = @Email AND [password] = @Password";
@@ -98,7 +120,11 @@ namespace M4_Project.Models
                 return count > 0;
             }
         }
-        public static readonly string passToken = "M4-System";
+        /// <summary>
+        ///     Updates the password for the staff member.
+        /// </summary>
+        /// <param name="email">The email address of the staff member.</param>
+        /// <param name="newPassword">The new password.</param>
         public static void UpdatePassword(string email, string newPassword)
         {
 
@@ -121,15 +147,27 @@ namespace M4_Project.Models
             RoleActions roleActions = new RoleActions();
             roleActions.AddUsertoRole("Admin", email, newPassword);
         }
+        /// <summary>
+        ///     Checks if the staff member is a manager or supervisor.
+        /// </summary>
+        /// <returns>True if the staff member is a manager or supervisor, otherwise false.</returns>
         public bool IsManagerOrSupervisor()
         {
             return StaffRole.IsManager(role) || StaffRole.IsSupervisor(role);
         }
+        /// <summary>
+        ///     Checks if the staff member is a driver.
+        /// </summary>
+        /// <returns>True if the staff member is a driver, otherwise false.</returns>
         public bool IsDriver()
         {
             return StaffRole.IsDriver(role);
         }
 
+
+
+
+        public static readonly string passToken = "M4-System";
         public int StaffID { get => staffID; set => staffID = value; }
         public byte[] StaffImage { get => staffImage; set => staffImage = value; }
         public string Role { get => role; set => role = value; }

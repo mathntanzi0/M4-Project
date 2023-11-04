@@ -137,6 +137,11 @@ namespace M4_Project.Models
             }
             return null;
         }
+        /// <summary>
+        ///     Retrieves a short version of staff member information.
+        /// </summary>
+        /// <param name="staffID">The ID of the staff member.</param>
+        /// <returns>A <see cref="StaffMember"/> object with limited information.</returns>
         public static StaffMember GetStaffMember_Short(int staffID)
         {
             StaffMember staffMember = null;
@@ -214,6 +219,11 @@ namespace M4_Project.Models
             }
             return null;
         }
+        /// <summary>
+        ///     Retrieves a list of staff members assigned to a booking.
+        /// </summary>
+        /// <param name="bookingID">The ID of the booking.</param>
+        /// <returns>A list of <see cref="StaffMember"/> objects assigned to the booking.</returns>
         public static List<StaffMember> GetBookingStaff(int bookingID)
         {
             List<StaffMember> staffMembers = new List<StaffMember>();
@@ -290,6 +300,9 @@ namespace M4_Project.Models
                 connection.Close();
             }
         }
+        /// <summary>
+        ///     Updates the information of a staff member.
+        /// </summary>
         public void UpdateStaffMember()
         {
             string query;
@@ -327,6 +340,10 @@ namespace M4_Project.Models
                 connection.Close();
             }
         }
+        /// <summary>
+        ///     Gets the number of event bookings associated with a staff member.
+        /// </summary>
+        /// <returns>The number of event bookings.</returns>
         public int GetNumberOfBookings()
         {
             string query = "SELECT COUNT(*) " +
@@ -346,6 +363,10 @@ namespace M4_Project.Models
                 }
             }
         }
+        /// <summary>
+        ///     Gets the number of orders associated with a staff member.
+        /// </summary>
+        /// <returns>The number of orders.</returns>
         public int GetNumberOfOrders()
         {
             string query = "SELECT COUNT(*) " +
@@ -365,6 +386,10 @@ namespace M4_Project.Models
                 }
             }
         }
+        /// <summary>
+        ///     Retrieves a list of distinct roles for staff members.
+        /// </summary>
+        /// <returns>A list of distinct roles.</returns>
         public static List<string> GetRoles()
         {
             List<string> roles = new List<string>();
@@ -386,6 +411,11 @@ namespace M4_Project.Models
             }
             return roles;
         }
+        /// <summary>
+        ///     Updates the status of a staff member.
+        /// </summary>
+        /// <param name="staffID">The ID of the staff member.</param>
+        /// <param name="status">The new status of the staff member.</param>
         public static void UpdateStaffStatus(int staffID, string status)
         {
             string query = "UPDATE [Staff] SET [status] = @status WHERE [staff_id] = @staffID";
@@ -423,6 +453,9 @@ namespace M4_Project.Models
             }
             return rowsAffected > 0;
         }
+        /// <summary>
+        ///     Sets the staff member responsible for an order.
+        /// </summary>
         public static void SetOrderStaff(int orderID, int staffID)
         {
             string query = "UPDATE [Order] SET staff_id = @StaffID WHERE order_id = @OrderID";
@@ -438,6 +471,10 @@ namespace M4_Project.Models
                 connection.Close();
             }
         }
+        /// <summary>
+        ///     Sends a verification email to the staff member.
+        /// </summary>
+        /// <returns>True if the email is sent successfully, otherwise false.</returns>
         public bool SendEmail()
         {
             string emailBody = GetEmailBody();
@@ -459,6 +496,10 @@ namespace M4_Project.Models
                 return false;
             }
         }
+        /// <summary>
+        ///     Retrieves the email body for the verification email.
+        /// </summary>
+        /// <returns>The email body as a string.</returns>
         public string GetEmailBody()
         {
             StringBuilder emailBodyBuilder = new StringBuilder();

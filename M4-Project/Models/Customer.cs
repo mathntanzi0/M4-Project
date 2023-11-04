@@ -78,6 +78,11 @@ namespace M4_Project.Models
             this.physicalAddress = physicalAddress;
             this.emailAddress = emailAddress;
         }
+        
+        
+        
+        
+        
         ///<summary>
         /// Add Customer to the database.
         /// </summary>
@@ -101,6 +106,9 @@ namespace M4_Project.Models
                 command.ExecuteNonQuery();
             }
         }
+        /// <summary>
+        /// Updates customer information in the database.
+        /// </summary>
         public void UpdateCustomer()
         {
             string query = "UPDATE Customer " +
@@ -395,6 +403,10 @@ namespace M4_Project.Models
             }
             return null;
         }
+        /// <summary>
+        /// Retrieves the number of event bookings for the customer.
+        /// </summary>
+        /// <returns>The number of event bookings.</returns>
         public int GetNumberOfBooking()
         {
             int numberOfBookings = 0;
@@ -415,6 +427,10 @@ namespace M4_Project.Models
             }
             return numberOfBookings;
         }
+        /// <summary>
+        /// Retrieves the number of orders for the customer.
+        /// </summary>
+        /// <returns>The number of orders.</returns>
         public int GetNumberOfOrders()
         {
             int numberOfOrders = 0;
@@ -433,6 +449,10 @@ namespace M4_Project.Models
             }
             return numberOfOrders;
         }
+        /// <summary>
+        /// Sets the customer information in the current session.
+        /// </summary>
+        /// <returns>The Customer object if found; otherwise, null.</returns>
         public static Customer SetSession()
         {
             Customer currentCustomer = Models.Customer.GetCustomer(HttpContext.Current.User.Identity.Name);
@@ -449,6 +469,11 @@ namespace M4_Project.Models
 
             return currentCustomer;
         }
+        /// <summary>
+        /// Sets the customer information in the current session with a specified ReturnUrl.
+        /// </summary>
+        /// <param name="ReturnUrl">The ReturnUrl to redirect to.</param>
+        /// <returns>The Customer object if found; otherwise, null.</returns>
         public static Customer SetSession(string ReturnUrl)
         {
             Customer currentCustomer = Models.Customer.GetCustomer(HttpContext.Current.User.Identity.Name);
@@ -459,6 +484,11 @@ namespace M4_Project.Models
 
             return currentCustomer;
         }
+        /// <summary>
+        /// Deletes a customer by updating certain fields to indicate deletion.
+        /// </summary>
+        /// <param name="customerId">The ID of the customer to be deleted.</param>
+        /// <returns>True if the deletion is successful; otherwise, false.</returns>
         public static bool DeleteCustomer(int customerId)
         {
             try
@@ -499,6 +529,14 @@ namespace M4_Project.Models
                 return false;
             }
         }
+        /// <summary>
+        /// Updates customer details in the database.
+        /// </summary>
+        /// <param name="firstName">The updated first name.</param>
+        /// <param name="lastName">The updated last name.</param>
+        /// <param name="phoneNumber">The updated phone number.</param>
+        /// <param name="physicalAddress">The updated physical address.</param>
+        /// <param name="customerId">The ID of the customer to be updated.</param>
         public static void UpdateDetails(string firstName, string lastName, string phoneNumber, string physicalAddress, int customerId)
         {
             string updateQuery = "UPDATE [Customer] " +
@@ -552,6 +590,12 @@ namespace M4_Project.Models
         private SqlCommand Command { get; set; }
         public List<Customer> Customers { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomerSearch"/> class with the specified parameters.
+        /// </summary>
+        /// <param name="pageString">The string representation of the current page.</param>
+        /// <param name="searchText">The search text used to filter customer names.</param>
+        /// <param name="maxPerPage">The maximum number of results per page.</param>
         public CustomerSearch(string pageString, string searchText, int MaxPerPage)
         {
             this.MaxPerPage = MaxPerPage;
@@ -598,6 +642,9 @@ namespace M4_Project.Models
             Command.CommandText = Query;
             GetCustomers();
         }
+        /// <summary>
+        /// Retrieves customers based on the constructed SQL query.
+        /// </summary>
         private void GetCustomers()
         {
             List<Customer> customers = new List<Customer>();
@@ -630,6 +677,11 @@ namespace M4_Project.Models
             }
             this.Customers = customers;
         }
+        /// <summary>
+        /// Calculates the number of rows based on the search criteria.
+        /// </summary>
+        /// <param name="whereClause">The WHERE clause of the SQL query.</param>
+        /// <returns>The number of rows based on the search criteria.</returns>
         private int RowCount(StringBuilder whereClause)
         {
             int rowCount = 0;
@@ -654,6 +706,12 @@ namespace M4_Project.Models
                 MaxPage = (int)Math.Ceiling((decimal)rowCount / (decimal)MaxPerPage);
             return rowCount;
         }
+        /// <summary>
+        /// Constructs the WHERE clause of the SQL query based on the search text.
+        /// </summary>
+        /// <param name="searchText">The search text used to filter customer names.</param>
+        /// <param name="whereAdded">A flag indicating whether the WHERE clause has been added.</param>
+        /// <returns>The constructed WHERE clause of the SQL query.</returns>
         private StringBuilder WhereClause(string searchText, ref bool whereAdded)
         {
             StringBuilder whereClause = new StringBuilder();
