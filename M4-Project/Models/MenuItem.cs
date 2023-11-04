@@ -306,11 +306,35 @@ namespace M4_Project.Models
                 }
             }
         }
+        /// <summary>
+        ///     Changes the availability state of a menu item in the database.
+        /// </summary>
+        /// <param name="itemID">The unique identifier of the menu item.</param>
+        /// <param name="state">The new availability state to be set.</param>
+        public static void ChangeState(int itemID, string state)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+                {
+                    connection.Open();
 
+                    string updateQuery = "UPDATE [Menu Item] SET [availability] = @State WHERE item_id = @ItemID";
 
+                    using (SqlCommand command = new SqlCommand(updateQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@State", state);
+                        command.Parameters.AddWithValue("@ItemID", itemID);
 
-
-
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Models.SystemUtilities.LogError(ex);
+            }
+        }
 
 
         public int ItemID { get => itemID; set => itemID = value; }
@@ -332,12 +356,15 @@ namespace M4_Project.Models
         private string itemName;
         private string itemType;
 
-        public MenuSearch(string itemName, string itemType)
+        public MenuSearch(string itemName, string itemType, bool hideUnavailable)
         {
             page = 1;
             if (!string.IsNullOrEmpty(itemName))
             {
                 searchString = "WHERE item_name LIKE '%' + @searchValue + '%' ";
+                if (hideUnavailable)
+                    searchString += $"AND [availability] = '{MenuItemStatus.Available}' ";
+                
                 itemNameIsSet = true;
                 if (!string.IsNullOrEmpty(itemType))
                 {
@@ -348,7 +375,13 @@ namespace M4_Project.Models
             else if (!string.IsNullOrEmpty(itemType))
             {
                 searchString += "WHERE item_type = @itemType ";
+                if (hideUnavailable)
+                    searchString += $"AND [availability] = '{MenuItemStatus.Available}' ";
                 itemTypeIsSet = true;
+            } else
+            {
+                if (hideUnavailable)
+                    searchString += $"WHERE [availability] = '{MenuItemStatus.Available}' ";
             }
             this.itemName = itemName;
             this.itemType = itemType;
@@ -386,5 +419,10 @@ namespace M4_Project.Models
     {
         public readonly static string Available = "Available";
         public readonly static string Unavailable = "Unavailable";
+
+        public static bool IsValidState(string state)
+        {
+            return Available == state || Unavailable == state;
+        }
     }
 }

@@ -137,9 +137,9 @@
     cursor: pointer;
 }
 
-    .page_box:active {
-        color: teal;
-    }
+.page_box:active {
+    color: teal;
+}
 
 .page_index_box {
     color: white;

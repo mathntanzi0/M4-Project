@@ -23,7 +23,7 @@
 			</div>
 
 		</div>
-		<asp:DropDownList ID="category_list" runat="server">
+		<asp:DropDownList ID="category_list" runat="server" AutoPostBack="true" OnSelectedIndexChanged="category_list_SelectedIndexChanged">
 			<asp:ListItem Text="Available" Value="Available" />
 			<asp:ListItem Text="Unavailable" Value="Unavailable" />
 		</asp:DropDownList>

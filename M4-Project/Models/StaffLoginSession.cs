@@ -47,7 +47,14 @@ namespace M4_Project.Models
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     if (reader.Read())
-                    {  
+                    {
+                        if (reader["status"].ToString() != "Active")
+                        {
+                            HttpContext.Current.GetOwinContext().Authentication.SignOut(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ApplicationCookie);
+                            HttpContext.Current.Session["LoginStaff"] = null;
+                            HttpContext.Current.Response.Redirect("/SystemAccess");
+                            return null;
+                        }
                         loginSession = new StaffLoginSession(
                             (int)reader["staff_id"],
                             (reader.IsDBNull(reader.GetOrdinal("staff_image"))) ? StaffSearch.GetDefaultImage() : (byte[])reader["staff_image"],

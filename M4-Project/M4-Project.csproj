@@ -230,6 +230,7 @@
     <Content Include="Admin\Booking.aspx" />
     <Content Include="Admin\Bookings.aspx" />
     <Content Include="Admin\Content\deliver_orders_style.css" />
+    <Content Include="Admin\Content\message_view_style.css" />
     <Content Include="Admin\Content\staff_deactivate_style.css" />
     <Content Include="Admin\Deactivate.aspx" />
     <Content Include="Admin\Delivery\Deliver.aspx" />
@@ -259,10 +260,13 @@
     <Content Include="Admin\POS\MakeBooking.aspx" />
     <Content Include="Admin\POS\Menu.aspx" />
     <Content Include="Admin\POS\MenuItem.aspx" />
+    <Content Include="Admin\Reports\CustomerQueries.aspx" />
+    <Content Include="Admin\Reports\ErrorLog.aspx" />
     <Content Include="Admin\Staff.aspx" />
     <Content Include="Admin\StaffMember.aspx" />
     <Content Include="Admin\UpdateDarkModeSession.aspx" />
     <Content Include="Assets\account_circle.png" />
+    <Content Include="Assets\account_circle_white.png" />
     <Content Include="Assets\chef1.png" />
     <Content Include="Assets\chef2.png" />
     <Content Include="Assets\chef3.jpg" />
@@ -324,6 +328,7 @@
     <Content Include="Customer\Profile.aspx" />
     <Content Include="Customer\Update.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="Error.aspx" />
     <Content Include="FAQ.aspx" />
     <Content Include="Content\FAQStyle.css" />
     <Content Include="favicon.ico" />
@@ -348,6 +353,7 @@
     <Content Include="MakeBooking.aspx" />
     <Content Include="Menu.aspx" />
     <Content Include="MenuItem.aspx" />
+    <Content Include="NotFound.aspx" />
     <Content Include="OrderPending.aspx" />
     <Content Include="Processing.aspx" />
     <Content Include="Scripts\bootstrap.js" />
@@ -381,6 +387,7 @@
     <Content Include="SelectAddress.aspx" />
     <Content Include="Site.Master" />
     <Content Include="Spinner V2.html" />
+    <Content Include="SystemAccess.aspx" />
     <Content Include="Terms and conditions.aspx" />
     <Content Include="Scripts\terms_Script.js" />
     <Content Include="Content\terms_style.css" />
@@ -678,6 +685,20 @@
     <Compile Include="Admin\POS\MenuItem.aspx.designer.cs">
       <DependentUpon>MenuItem.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Admin\Reports\CustomerQueries.aspx.cs">
+      <DependentUpon>CustomerQueries.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Reports\CustomerQueries.aspx.designer.cs">
+      <DependentUpon>CustomerQueries.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\Reports\ErrorLog.aspx.cs">
+      <DependentUpon>ErrorLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\Reports\ErrorLog.aspx.designer.cs">
+      <DependentUpon>ErrorLog.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Admin\Staff.aspx.cs">
       <DependentUpon>Staff.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -808,6 +829,13 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FAQ.aspx.cs">
       <DependentUpon>FAQ.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -866,6 +894,13 @@
     <Compile Include="Models\StaffLoginSession.cs" />
     <Compile Include="Models\StaffMember.cs" />
     <Compile Include="Models\SystemUtilities.cs" />
+    <Compile Include="NotFound.aspx.cs">
+      <DependentUpon>NotFound.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NotFound.aspx.designer.cs">
+      <DependentUpon>NotFound.aspx</DependentUpon>
+    </Compile>
     <Compile Include="OrderPending.aspx.cs">
       <DependentUpon>OrderPending.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -896,6 +931,13 @@
       <DependentUpon>Site.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="SystemAccess.aspx.cs">
+      <DependentUpon>SystemAccess.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SystemAccess.aspx.designer.cs">
+      <DependentUpon>SystemAccess.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Terms and conditions.aspx.cs">
       <DependentUpon>Terms and conditions.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

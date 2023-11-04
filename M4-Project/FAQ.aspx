@@ -38,19 +38,6 @@
             </div>
         </div>
 
-        <div class="faq">
-            <div class="accordion">
-                Will I get a refund?
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="pannel">
-                <p>
-                    Its is what and what even
-                    that comes in the middle of that.
-                </p>
-            </div>
-        </div>
-
         <div class="name">
             Order
         </div>
@@ -71,19 +58,6 @@
         <div class="faq">
             <div class="accordion">
                 How to cancel an order?
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="pannel">
-                <p>
-                    Its is what and what even
-                    that comes in the middle of that.
-                </p>
-            </div>
-        </div>
-
-        <div class="faq">
-            <div class="accordion">
-                Will I get a refund?
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="pannel">

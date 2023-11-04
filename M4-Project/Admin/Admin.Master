@@ -86,6 +86,7 @@
 								<li><a href="/Admin/POS/Cart">Cart</a></li>
 								<li><a href="/Admin/POS/Customers">Customers</a></li>
 								<li><a href="/Admin/POS/Customer">Add Customer</a></li>
+								<li><a href="/Admin/Reports/CustomerQueries">Customer Queries</a></li>
 							</ul>
 						</li>
 						<% if (loginStaff.IsManagerOrSupervisor())

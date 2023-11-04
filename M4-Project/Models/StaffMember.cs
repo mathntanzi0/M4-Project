@@ -327,22 +327,6 @@ namespace M4_Project.Models
                 connection.Close();
             }
         }
-        ///
-        /// <summary>
-        ///     Delete a staff member using a specific staff identification number.
-        /// </summary>
-        public static void Delete(int staffID)
-        {
-            string query = "DELETE [Staff] WHERE [staff_id] = @staff_id";
-
-            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@staff_id", staffID);
-                command.ExecuteNonQuery();
-                connection.Close();
-            }
-        }
         public int GetNumberOfBookings()
         {
             string query = "SELECT COUNT(*) " +
@@ -416,9 +400,17 @@ namespace M4_Project.Models
                 command.ExecuteNonQuery();
             }
         }
+        ///
+        /// <summary>
+        ///     Delete a staff member using a specific staff identification number.
+        /// </summary>
         public bool DeleteStaff()
         {
-            string query = "DELETE FROM [Staff] WHERE [staff_id] = @staffID";
+            string query = "DELETE FROM [Event Staff] WHERE staff_id = @staffID; " +
+                "DELETE FROM [Order] WHERE staff_id = @staffID; " +
+                "DELETE FROM [Staff] WHERE [staff_id] = @staffID";
+
+
             int rowsAffected;
 
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
@@ -446,7 +438,6 @@ namespace M4_Project.Models
                 connection.Close();
             }
         }
-
         public bool SendEmail()
         {
             string emailBody = GetEmailBody();
@@ -636,7 +627,12 @@ namespace M4_Project.Models
         }
         public static byte[] GetDefaultImage()
         {
-            string defaultImagePath = HttpContext.Current.Server.MapPath("~/Assets/account_circle.png");
+            string defaultImagePath;
+            if (Convert.ToBoolean(HttpContext.Current.Session["DarkModeEnabled"]))
+                defaultImagePath = HttpContext.Current.Server.MapPath("~/Assets/account_circle_white.png");
+            else
+                defaultImagePath = HttpContext.Current.Server.MapPath("~/Assets/account_circle.png");
+
             try
             {
                 using (FileStream fs = new FileStream(defaultImagePath, FileMode.Open, FileAccess.Read))
