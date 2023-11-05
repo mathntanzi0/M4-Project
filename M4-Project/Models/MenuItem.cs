@@ -342,14 +342,18 @@ namespace M4_Project.Models
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
 
-                using (SqlDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        string itemType = reader["item_type"].ToString();
-                        menuCategories.Add(itemType);
+                        while (reader.Read())
+                        {
+                            string itemType = reader["item_type"].ToString();
+                            menuCategories.Add(itemType);
+                        }
                     }
                 }
+            }
+            catch (Exception ex) {
+                SystemUtilities.LogError(ex);
             }
         }
         /// <summary>
