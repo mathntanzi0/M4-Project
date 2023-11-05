@@ -86,7 +86,17 @@ namespace M4_Project.Admin
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
                     return;
                 }
+
+                int fileSizeLimitMB = 10;
+                int fileSizeLimitBytes = fileSizeLimitMB * 1024 * 1024;
+                if (fileUploadControl.FileContent.Length > fileSizeLimitBytes)
+                {
+                    string script = $"alert('File size should not exceed {fileSizeLimitMB}MB.');";
+                    ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                    return;
+                }
             }
+
             if (ddlStaffRole.SelectedValue == "newOption")
             {
                 staffRole = Utilities.TextManager.CapitalizeString(txtNewStaffRole.Text);
@@ -161,8 +171,11 @@ namespace M4_Project.Admin
                 if (member.EmailAddress == HttpContext.Current.User.Identity.Name)
                     Response.Redirect("/Admin/StaffMember");
             }
-            else 
+            else
+            {
                 member.AddStaffMember();
+                member.SendEmail();
+            }
 
             Response.Redirect("/Admin/StaffMember?Member="+member.StaffID);
         }

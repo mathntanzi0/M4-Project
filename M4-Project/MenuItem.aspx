@@ -8,7 +8,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 	<div class="item_details_wrapper">
 		<div class="item_image_wrapper">
-			<asp:Image ID="Image1" runat="server"/>
+			<asp:Image ID="Image1" runat="server" EnableViewState="false"/>
 		</div>
 		<div class="item_details">
 			<h1><%: menuItem.ItemName %></h1>

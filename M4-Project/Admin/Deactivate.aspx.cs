@@ -47,7 +47,7 @@ namespace M4_Project.Admin
 
             if (!staffMember.DeleteStaff())
             {
-                string script = "alert('Failed to delete customer.');";
+                string script = "alert('Failed to delete staff member.');";
                 ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
                 return;
             }

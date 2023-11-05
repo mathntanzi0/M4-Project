@@ -33,8 +33,12 @@ namespace M4_Project.Admin
             string imageUrl = "data:image/jpeg;base64," + base64String;
             Image1.ImageUrl = imageUrl;
 
-            EditButton.CommandArgument = menuItem.ItemID.ToString();
-            DeleteButton.CommandArgument = menuItem.ItemID.ToString();
+            if (!IsPostBack)
+            {
+                EditButton.CommandArgument = menuItem.ItemID.ToString();
+                DeleteButton.CommandArgument = menuItem.ItemID.ToString();
+                category_list.SelectedValue = menuItem.Status;
+            }
         }
         protected void EditButton_Click(object sender, EventArgs e)
         {
@@ -42,6 +46,26 @@ namespace M4_Project.Admin
             string itemID = editButton.CommandArgument;
 
             Response.Redirect("/Admin/AddItem?Item="+itemID);
+        }
+        protected void category_list_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedValue = category_list.SelectedValue;
+
+            if (!Models.MenuItemStatus.IsValidState(selectedValue))
+                Response.Redirect("/");
+
+            string str_itemID = Request.QueryString["Item"];
+            if (string.IsNullOrEmpty(str_itemID))
+                Response.Redirect("Menu");
+
+            int itemID;
+            if (!int.TryParse(str_itemID, out itemID))
+                Response.Redirect("Menu");
+
+            Models.MenuItem.ChangeState(itemID, selectedValue);
+
+            Response.Redirect($"MenuItem?Item={itemID}");
+
         }
         protected void DeleteButton_Click(object sender, EventArgs e)
         {

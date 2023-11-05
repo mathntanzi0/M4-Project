@@ -25,7 +25,7 @@ namespace M4_Project.Customer
                 if (currentCustomer == null)
                     currentCustomer = Models.Customer.SetSession();
 
-                booking = Models.Sales.Booking.GetBooking(bookingID);
+                booking = Models.Sales.Booking.GetBooking(bookingID, true);
                 if (booking == null || booking.Customer.CustomerID != currentCustomer.CustomerID)
                     Response.Redirect("/");
 

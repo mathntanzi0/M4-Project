@@ -90,12 +90,10 @@
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="pannel">
-               <p>
-                    Yes.You are eligible for a refund under the following circumstances:
+                <p>
+                    Its is what and what even
+                    that comes in the middle of that.
                 </p>
-                <p>1. Damaged Product</p>
-                <p>2. Order Cancellation</p>
-                <b><p>Please note that cancellations are only possible within  3 hours of placing an order</p></b>
             </div>
         </div>
 

@@ -1,0 +1,112 @@
+﻿.query_wrapper {
+    width: 90%;
+    box-shadow: var(--card-box-shadow);
+    border-radius: 0.5rem;
+    margin: 2rem auto;
+    padding: 1.175rem 1rem;
+    overflow-wrap: break-word;
+}
+
+.query_wrapper .query_header h2, h1 {
+    font-size: 1rem;
+}
+
+.query_wrapper .query_header h1 {
+    font-weight: 200;
+}
+
+.query_wrapper .query_header h2 span {
+    color: gray;
+    font-weight: 200;
+}
+.delete_btn{
+    display:block;
+    margin:2rem 0;
+}
+
+.query_wrapper p {
+    padding: 1.5rem 0;
+}
+
+#empty_box {
+    text-align: left;
+}
+
+#empty_box {
+    margin: 4rem;
+    margin-top: 3rem;
+}
+
+#empty_box h3 {
+    font-size: 38px;
+    font-weight: 700;
+    font-family: "RobotoC";
+    text-transform: uppercase;
+    font-family: "AdihausDIN",sans-serif;
+}
+
+#empty_box p {
+    font-size: 18px;
+    line-height: 1.4;
+    margin-top: 60px;
+    margin-bottom: 82px;
+}
+
+#empty_box div {
+    border-radius: 0;
+    line-height: 50px;
+    min-height: 50px;
+    padding: 0 21px;
+    margin: 10px 0;
+    text-align: left;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: transform 0.2s;
+    white-space: nowrap;
+    min-width: 168px;
+    max-width: 500px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-family: "AdihausDIN",sans-serif;
+    color: var(--special-text-color);
+    background-color: var(--special-btn-color);
+}
+
+#empty_box div:hover {
+    color: var(--text-color);
+    background-color: var(--secondary-primary);
+}
+
+.page_nav_container {
+    margin: 4rem 0;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.page_box {
+    display: inline-block;
+    border: 1px #283217 solid;
+    border-radius: 1rem;
+    padding: 1rem 0;
+    width: 3rem;
+    text-align: center;
+    margin: 0 0.5rem;
+    background-color: #00000000;
+    cursor: pointer;
+}
+
+.page_box:active {
+    color: teal;
+}
+
+.page_index_box {
+    color: white;
+    background-color: #283217;
+}
+@media (max-width: 896px){
+    .delete_btn{
+        margin:2rem auto;
+    }
+}

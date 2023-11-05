@@ -26,7 +26,7 @@
                 <div class="deactivation_action">
                     <div class="action_description">
                         <h3>Permanent Deletion</h3>
-                        <p>Staff member's personal information will be deleted.</p>
+                        <p>Staff member's personal information will be deleted and associated information.</p>
                     </div>
                     <asp:Button ID="btnDelete" runat="server" CssClass="action_control" Text="Delete" OnClientClick="return confirmDelete();" OnClick="btnDelete_Click" />
                 </div>

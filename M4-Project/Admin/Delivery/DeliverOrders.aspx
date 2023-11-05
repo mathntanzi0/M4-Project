@@ -29,7 +29,6 @@
 		<div id="empty_box">
 			<h3>No Live Order Found</h3>
 			<p>There is currently no live delivery orders.</p>
-			<a href="/Admin/POS"><div>Point of Sale</div></a>
 		</div>
 		<% } %>
 </asp:Content>

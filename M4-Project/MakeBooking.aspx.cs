@@ -37,7 +37,7 @@ namespace M4_Project
                     datePicker.Value = date.ToString("yyyy-MM-dd");
                     ddlDuration.Value = duration.ToString(@"hh\:mm");
                     ddlTimeHour.Value = date.Hour.ToString();
-                    ddlTimeMin.Value = date.Minute.ToString();
+                    ddlTimeMin.Value = (date.Minute != 0) ? date.Minute.ToString() : "00";
                 }
             }
         }

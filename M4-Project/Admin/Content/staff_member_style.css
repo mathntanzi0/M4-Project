@@ -100,7 +100,15 @@
         width:100%;
         position: static;
         text-align: center;
-        padding:1rem;
+        padding:1rem 0;
         margin:0;
+    }
+    .activities_detail_wrapper{
+        display:block;
+        margin: 1rem auto;
+    }
+    .action_controls {
+        margin: 1.175rem auto;
+        text-align:center;
     }
 }

@@ -77,7 +77,7 @@
 				</h3>
 			</div>
 
-			<asp:Button ID="btnLogout" runat="server" Text="Logout" OnClick="btnLogout_Click" style="background-color:var(--secondary-primary);" />
+			<asp:Button ID="btnLogout" runat="server" Text="Logout" OnClick="btnLogout_Click" style="background-color:var(--faint-red);" />
 			<asp:Button ID="btnDeleteAccount" runat="server" Text="Delete Account" OnClick="btnDeleteAccount_Click" style="background-color:var(--red); color:white; font-weight:bold" OnClientClick="return ConfirmDelete()" />
 		</div>
 </asp:Content>

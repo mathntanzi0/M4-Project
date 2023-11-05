@@ -21,5 +21,14 @@ namespace M4_Project
             //RoleActions roleActions = new RoleActions();
             //roleActions.AddUsertoRole("Admin", "thivar@email.com", "Th1v4r321@");
         }
+        void Application_Error(object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError();
+            Models.SystemUtilities.LogError(ex);
+            if (ex is HttpException && ((HttpException)ex).GetHttpCode() == 404)
+                Response.Redirect("~/NotFound");
+            else
+                Response.Redirect("~/Error");
+        }
     }
 }

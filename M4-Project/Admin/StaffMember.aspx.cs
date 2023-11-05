@@ -89,6 +89,7 @@ namespace M4_Project.Admin
         protected void LogoutButton_Click(object sender, EventArgs e)
         {
             Context.GetOwinContext().Authentication.SignOut(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ApplicationCookie);
+            Session["LoginStaff"] = null;
             Response.Redirect("/Account/Login");
         }
     }

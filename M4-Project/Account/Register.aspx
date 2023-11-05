@@ -13,7 +13,6 @@
         <h2 style="text-transform:uppercase"><%: Title %>.</h2>
         <h4>Create a new account</h4>
         <hr />
-        <asp:ValidationSummary runat="server" CssClass="text-danger" />
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="Email" CssClass="col-md-2 control-label">Email</asp:Label>
             <div class="col-md-10">
@@ -38,6 +37,22 @@
                 <asp:CompareValidator runat="server" ControlToCompare="Password" ControlToValidate="ConfirmPassword" CssClass="text-danger" Display="Dynamic" ErrorMessage="The password and confirmation password do not match." />
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <asp:CheckBox runat="server" ID="TermsConditions" CssClass="AcceptedAgreement"/>
+                    <asp:Label runat="server" AssociatedControlID="TermsConditions">
+                        I agree to the <a href="/Terms and conditions" style="color: teal">Terms and Conditions</a>
+                    </asp:Label>
+                    <asp:CustomValidator runat="server" ID="CheckBoxRequired" EnableClientScript="true" ClientValidationFunction="CheckBoxRequired_ClientValidate"><br/><span style="color:var(--red)">You must agree to the Terms and Conditions to proceed.</span></asp:CustomValidator>
+                </div>
+                
+            </div>
+        </div>
+
+
+
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -45,4 +60,9 @@
             </div>
         </div>
     </div>
+    <script>
+        function CheckBoxRequired_ClientValidate(sender, e) {
+            e.IsValid = jQuery(".AcceptedAgreement input:checkbox").is(':checked');
+        }
+    </script>
 </asp:Content>

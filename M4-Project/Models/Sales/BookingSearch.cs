@@ -80,6 +80,7 @@ namespace M4_Project.Models.Sales
             queryBuilder.Append("[Event Booking].booking_id, ");
             queryBuilder.Append("[Event Booking].status, ");
             queryBuilder.Append("[Event Booking].event_date, ");
+            queryBuilder.Append("[Event Booking].event_duration, ");
             queryBuilder.Append("[Event Booking].payment_amount ");
             queryBuilder.Append(fromClause.ToString());
             queryBuilder.Append("WHERE [Event Booking].customer_id = [Customer].customer_id ");
@@ -169,8 +170,15 @@ namespace M4_Project.Models.Sales
                         int bookingID = Convert.ToInt32(reader["booking_id"]);
                         string bookingStatus = reader["status"].ToString();
                         DateTime eventDate = Convert.ToDateTime(reader["event_date"]);
+                        TimeSpan eventDuration = (TimeSpan) reader["event_duration"];
                         decimal paymentAmount = Convert.ToDecimal(reader["payment_amount"]);
 
+                        string newStatus = BookingState.GetCorrectState(bookingStatus, eventDate, eventDuration);
+                        if (newStatus != bookingStatus)
+                        {
+                            Booking.ChangeStatus(bookingID, newStatus);
+                            bookingStatus = newStatus;
+                        }
                         Customer customer = (firstName == "Null" && lastName == "Null") ? null : new Customer(firstName, lastName);
                         Booking booking = new Booking(bookingID, customer, eventDate, paymentAmount, bookingStatus);
                         bookings.Add(booking);

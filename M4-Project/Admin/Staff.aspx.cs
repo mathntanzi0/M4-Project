@@ -17,6 +17,8 @@ namespace M4_Project.Admin
         protected void Page_Load(object sender, EventArgs e)
         {
             Models.StaffLoginSession loginStaff = Session["LoginStaff"] as Models.StaffLoginSession;
+            if (loginStaff == null)
+                Response.Redirect("/Admin");
             if (!loginStaff.IsManagerOrSupervisor())
                 Response.Redirect("/Admin");
 

@@ -5,8 +5,10 @@
 </asp:Content>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
-    	<div class="secondary_header">
-			<h1>Order #<%=order.OrderID %> <br/> Status: <span style="color:<%= M4_Project.Models.Sales.OrderState.GetStatusColor(order.OrderStatus) %>"> <%= order.OrderStatus %> </span></h1>
+    	<div class="secondary_header" style="display:block">
+			<h1 style="padding: 0.5rem 0">Order #<%=order.OrderID %></h1>
+			
+			<h1 style="padding: 0.5rem 0">Status: <span style="color:<%= M4_Project.Models.Sales.OrderState.GetStatusColor(order.OrderStatus) %>"> <%= order.OrderStatus %></span></h1>
 		</div>
 		<div class="items_container">
 			<asp:Repeater ID="ItemRepeater" runat="server">

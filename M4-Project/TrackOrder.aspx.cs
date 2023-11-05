@@ -50,7 +50,13 @@ namespace M4_Project
             if (order == null)
                 return null;
             if (Models.Sales.OrderState.IsFinalState(order.OrderStatus))
+            {
                 HttpContext.Current.Session["liveOrder"] = null;
+                if (order.OrderStatus != Models.Sales.OrderState.Collected || order.OrderStatus != Models.Sales.OrderState.Delivered)
+                    return new bool[1];
+                
+            }
+
 
             bool[] activation = { false, false, false, false };
             int activationEnd;

@@ -18,6 +18,7 @@
   	</div>
 
     <asp:Button ID="btnDelivered" runat="server" Text="Delivered" OnClick="btnDelivered_Click" CssClass="mainBtn" />
+    <asp:Button ID="btnUnsuccessful" runat="server" Text="Unsuccessful" OnClick="btnUnsuccessful_Click" CssClass="mainBtn" style="background-color:var(--faint-red)"/>
 </asp:Content>
 
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentScripts" runat="server">
@@ -54,7 +55,7 @@
               dirver = new google.maps.Marker({
                   position: driverLocation,
                   map: map,
-                  title: 'Dirver',
+                  title: 'Driver',
                   icon: image,
               });
           }

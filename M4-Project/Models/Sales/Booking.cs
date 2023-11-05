@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using System.Web;
 
@@ -136,17 +139,55 @@ namespace M4_Project.Models.Sales
                 }
             }
         }
+
+        public static void Update(int bookingID, string address, DateTime date, TimeSpan duration, string decorDescription)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = "UPDATE [Event Booking] " +
+                                   "SET [event_address] = @Address, " +
+                                   "[event_date] = @EventDate, " +
+                                   "[event_duration] = @EventDuration, " +
+                                   "[event_setting] = @DecorDescription " +
+                                   "WHERE [booking_id] = @BookingID";
+
+                    using (SqlCommand cmdUpdateEvent = new SqlCommand(query, connection))
+                    {
+                        cmdUpdateEvent.Parameters.AddWithValue("@BookingID", bookingID);
+                        cmdUpdateEvent.Parameters.AddWithValue("@Address", address);
+                        cmdUpdateEvent.Parameters.AddWithValue("@EventDate", date);
+                        cmdUpdateEvent.Parameters.AddWithValue("@EventDuration", duration);
+                        cmdUpdateEvent.Parameters.AddWithValue("@DecorDescription", decorDescription);
+
+                        cmdUpdateEvent.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception, e.g., log or display an error message
+            }
+        }
+
+
         ///
         /// <summary>
         ///     Change the status of an event booking on the database.
         /// </summary>
         public bool ChangeStatus(string bookingStatus)
         {
-            if (BookingState.IsFinalState(bookingStatus))
+            if (this.BookingStatus == bookingStatus)
                 return false;
 
-            if (!BookingState.IsValidState(bookingStatus))
+            if (BookingState.IsFinalState(this.BookingStatus) && !BookingState.IsFinalState(bookingStatus))
                 return false;
+
+            if (this.BookingStatus == Models.Sales.BookingState.Pending)
+                SendEmail();
 
             this.BookingStatus = bookingStatus;
             ChangeStatus(BookingID, bookingStatus);
@@ -160,6 +201,7 @@ namespace M4_Project.Models.Sales
         {
             if (!BookingState.IsValidState(bookingStatus))
                 return;
+
 
             string query = "UPDATE [Event Booking] SET [status] = @status WHERE[booking_id] = @bookingID";
             using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
@@ -176,7 +218,7 @@ namespace M4_Project.Models.Sales
         /// <summary>
         ///     Returns a event booking for a specific booking identification.
         /// </summary>
-        public static Booking GetBooking(int bookingID)
+        public static Booking GetBooking(int bookingID, bool getEventLine)
         {
             string query = "SELECT * FROM [Event Booking] WHERE booking_id = @booking_id";
 
@@ -207,7 +249,9 @@ namespace M4_Project.Models.Sales
                     booking.PaymentAmount = reader.GetDecimal(reader.GetOrdinal("payment_amount"));
                     booking.PaymentMethod = reader.GetString(reader.GetOrdinal("payment_method"));
 
-                    booking.ItemLines = GetEventLines(bookingID);
+                    if (getEventLine)
+                        booking.ItemLines = GetEventLines(bookingID);
+
                     return booking;
                 }
             }
@@ -313,7 +357,6 @@ namespace M4_Project.Models.Sales
                 {
                     while (reader.Read())
                     {
-                        //Customer customer, DateTime eventDate, decimal paymentAmount, string bookingStatus
                         Booking booking = new Booking(
                             (int) reader["booking_id"],
                             new Customer(reader["first_name"].ToString(), reader["last_name"].ToString()),
@@ -601,6 +644,105 @@ namespace M4_Project.Models.Sales
                 }
             }
         }
+
+        public bool SendEmail()
+        {
+            string emailBody = GetEmailBody();
+
+            AlternateView htmlView = AlternateView.CreateAlternateViewFromString(emailBody, null, MediaTypeNames.Text.Html);
+
+            byte[] imageBytes = Utilities.Images.GetImage("~/Assets/logo.png");
+            LinkedResource itemImage = new LinkedResource(new MemoryStream(imageBytes), MediaTypeNames.Image.Jpeg);
+            itemImage.ContentId = "logo";
+            htmlView.LinkedResources.Add(itemImage);
+            AttachImages(ref htmlView);
+
+            try
+            {
+                Emails.SendMail("Booking Confirmation", emailBody, customer.EmailAddress, htmlView);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        private string GetEmailBody()
+        {
+            StringBuilder emailBodyBuilder = new StringBuilder();
+
+
+            emailBodyBuilder.AppendLine(@"
+            <html>
+            <head>
+                <meta charset='UTF-8'>
+                <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                <title>Booking Email</title>
+            </head>
+            <body style='font-family: Arial, sans-serif; background-color: #fff; margin: 0; padding: 0;'>
+                <div style='background-color: #dde7df; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align: center;'>
+                    <img src='cid:logo' alt='Logo' style='width: 100%; max-width: 124px; height: auto; margin-bottom: 15px;'>
+                    <h1 style='color: #fff; font-weight: 700;'>Friends & Family</h1>
+                </div>");
+
+
+            emailBodyBuilder.AppendLine($@"
+            <div style='background - color: #ffffff; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align: left;'>
+                <div>
+                    <h2> Hello {customer.FullName}!</h2>
+                    <p>Your event booking has been approved. Our team will contact you and provide updates on the preparation progress.</p>
+                </div>");
+
+            string hoursString = (eventDuration.Hours == 1) ? "hour" : "hours";
+            string durationString = $"{eventDuration.Hours} {hoursString} and {eventDuration.Minutes} minutes";
+            emailBodyBuilder.AppendLine($@"
+                <div>
+                    <h2>Booking Summary</h2>
+                    <p>Booking number: #{bookingID}</p>
+                    <p>Event date: {eventDate.ToString("dd MMMM yyyy HH:mm")}</p>
+                    <p>Duration: {durationString}</p>
+                    <p>Event Address: {eventAddress}</p>
+                    <p>Payment date: {PaymentDate.ToString("dd MMMM yyyy HH:mm")}</p>
+                    <p>Payment type: {PaymentMethod}</p>");
+            emailBodyBuilder.AppendLine(@"
+                </div> 
+            </div>
+            <div style='background-color: #ffffff; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align: left;'>");
+
+
+
+            foreach (Sales.ItemLine itemLine in ItemLines)
+            {
+                emailBodyBuilder.AppendLine($@"
+                <div>
+                    <img src='cid:item_line{itemLine.ItemID}' alt='{itemLine.ItemName}' style='max-width: 100%;'>
+                    <p style = 'margin:0; margin-top: 8px;' > {itemLine.ItemName} </p>
+                    <p style = 'margin:0;'>Price: R {itemLine.ItemCostN2}</p>
+                    <p style = 'margin:0;'>Qty: {itemLine.ItemQuantity}</p>
+                    <p style = 'margin:0; margin-bottom: 32px;'>Amount: R {itemLine.TotalSubCostN2}</p>
+                </div>");
+            }
+
+            emailBodyBuilder.AppendLine($@"</div>
+            <div style='background-color: #ffffff; border-radius: 8px; padding: 20px; margin: 20px auto; max-width: 600px; text-align:left;'>
+                <p>Sub Total: R {PaymentAmount - BusinessRules.Booking.BookingFee}</p>
+                <p>Booking Fee: R {BusinessRules.Booking.BookingFee.ToString("N2")}</p>
+                <p style='font-size: 26px; font-weight: bold;'>Total: R {(PaymentAmount).ToString("N2")}</p>
+            </div>");
+
+            emailBodyBuilder.AppendLine(@"
+            <div style='margin-top: 40px; color: #555555; background-color: #dde7df; padding: 10px; text-align: center;'>
+                <h2 style = 'margin-bottom: 16px; font-size: 16px; color: #fff;'> Have any queries? Please reply to this email </h2>
+                <p style = 'font-size: 12px; color: #fff;'> 2023 Friends & Family.All rights reserved. <br/> 10th floor, 323 Cornland, Foreshore, KwaZulu-Natal.</p>
+                <p style = 'font-size: 12px; color: #fff;'> Friends & Family(Pty) Ltd, Reg 2002 / 02020 / 08 <br/> VAT number: 4343 4834 438.</ p >   
+            </div> ");
+
+            emailBodyBuilder.AppendLine(@"</body>");
+            emailBodyBuilder.AppendLine(@"</html>");
+
+            return emailBodyBuilder.ToString();
+        }
+
         public int BookingID { get => bookingID; set => bookingID = value; }
         public string EventAddress { get => eventAddress; set => eventAddress = value; }
         public string EventDecorDescription { get => eventDecorDescription; set => eventDecorDescription = value; }
@@ -683,6 +825,22 @@ namespace M4_Project.Models.Sales
                 return "#D7263D";
             else
                 return "#000000";
+        }
+        public static string GetCorrectState(string status, DateTime eventDate, TimeSpan duration)
+        {
+            if (eventDate > DateTime.Now)
+                return status;
+
+            if (Pending == status)
+                return Rejected;
+            DateTime dateTime = eventDate;
+
+            if (UpComing == status && DateTime.Now < (dateTime.Add(duration)))
+                return InProgress;
+            else if (UpComing == status)
+                return Completed;
+            else
+                return status;
         }
     }
 }

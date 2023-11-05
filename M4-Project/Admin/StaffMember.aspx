@@ -7,7 +7,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="AdminMainContent" runat="server">
     <div class="staff_detail_wrpper">
 		<div class="staff_image_wrapper">
-			<asp:Image ID="Image1" runat="server"/>			
+			<asp:Image ID="Image1" runat="server" EnableViewState="false"/>			
 		</div>
 		<div class="staff_detail">
 			<div class="upper_details">
@@ -28,8 +28,10 @@
             {%>
 		<div class="right_top_button_wrapper">
 			<% if (staffMember.Status != M4_Project.Models.StaffMemberState.Deactivated)
-                { %>
-			<a href="/Admin/Deactivate?Member=<%= staffMember.StaffID %>" class="delete_button a_tag_btn">Deactivate</a>
+                { if (!M4_Project.Models.StaffRole.IsManager(staffMember.Role))
+                    {%>
+				<a href="/Admin/Deactivate?Member=<%= staffMember.StaffID %>" class="delete_button a_tag_btn">Deactivate</a>
+				<% } %>
 			<% }
                 else
                 { %>

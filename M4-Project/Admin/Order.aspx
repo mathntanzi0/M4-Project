@@ -75,9 +75,6 @@
 				<% } %>
 			</div>
 		</div>
-		<div style="padding-bottom: 1.175rem;" class="right_button_wrapper">
-			<button class="red_button">Delete</button>
-		</div>
 </asp:Content>
 
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentScripts" runat="server">

@@ -25,6 +25,8 @@ namespace M4_Project.Admin.POS
             } 
             else
                 Response.Redirect("/Admin/POS/Cart");
+            if (sale.SaleType == Models.Sales.SaleType.EventBooking)
+                TotalCost += Models.BusinessRules.Booking.BookingFee;
         }
         private decimal CalculateTotalCost(List<Models.Sales.ItemLine> itemLines)
         {

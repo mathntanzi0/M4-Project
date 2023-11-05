@@ -20,9 +20,9 @@ namespace M4_Project.Admin
             if (!IsPostBack)
             {
                 if (Request.QueryString["itemName"] != null || Request.QueryString["category"] != null)
-                    search = new MenuSearch(Request.QueryString["itemName"], Request.QueryString["category"]);
+                    search = new MenuSearch(Request.QueryString["itemName"], Request.QueryString["category"], false);
                 else
-                    search = new MenuSearch("", "");
+                    search = new MenuSearch("", "", false);
 
                 if (Request.QueryString["page"] != null)
                     if (int.TryParse(Request.QueryString["page"], out int requestedPage))
