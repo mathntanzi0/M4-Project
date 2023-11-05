@@ -38,22 +38,6 @@
             </div>
         </div>
 
-        <div class="faq">
-            <div class="accordion">
-                Will I get a refund?
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="pannel">
-                <p>
-                    Yes.You are eligible for a refund under the following circumstances:
-                </p>
-                <p>1. Damaged Product</p>
-                <p>2. Booking Cancellation</p>
-                <b><p>Please note that cancellations are only possible within 24 hours of placing a booking</p></b>
-  
-            </div>
-        </div>
-
         <div class="name">
             Order
         </div>
@@ -74,19 +58,6 @@
         <div class="faq">
             <div class="accordion">
                 How to cancel an order?
-                <i class="fa-solid fa-chevron-down"></i>
-            </div>
-            <div class="pannel">
-                <p>
-                    Its is what and what even
-                    that comes in the middle of that.
-                </p>
-            </div>
-        </div>
-
-        <div class="faq">
-            <div class="accordion">
-                Will I get a refund?
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="pannel">
