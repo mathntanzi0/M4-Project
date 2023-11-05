@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
+
 namespace M4_Project.Models
 {
     public class StaffLoginSession
@@ -85,16 +86,26 @@ namespace M4_Project.Models
         /// <returns>The staff login session.</returns>
         public static StaffLoginSession SetSession()
         {
-            StaffLoginSession loginStaff = HttpContext.Current.Session["LoginStaff"] as Models.StaffLoginSession;
-            if (loginStaff == null)
+            try
             {
-                loginStaff = Models.StaffLoginSession.GetSession(HttpContext.Current.User.Identity.Name);
+                StaffLoginSession loginStaff = HttpContext.Current.Session["LoginStaff"] as Models.StaffLoginSession;
                 if (loginStaff == null)
-                    HttpContext.Current.Response.Redirect("/Contact");
-                else
-                    HttpContext.Current.Session["LoginStaff"] = loginStaff;
+                {
+                    loginStaff = Models.StaffLoginSession.GetSession(HttpContext.Current.User.Identity.Name);
+                    if (loginStaff == null)
+                        HttpContext.Current.Response.Redirect("/Contact");
+                    else
+                        HttpContext.Current.Session["LoginStaff"] = loginStaff;
+                }
+                return loginStaff;
             }
-            return loginStaff;
+            catch (Exception ex)
+            {
+               
+                Console.WriteLine($"Error in SetSession: {ex.Message}");
+                SystemUtilities.LogError(ex);
+                return null; 
+            }
         }
         /// <summary>
         ///     Checks if the staff account exists.
@@ -103,21 +114,30 @@ namespace M4_Project.Models
         /// <returns>True if the account exists, otherwise false.</returns>
         public static bool AccountExist(string email)
         {
-            string query = "SELECT COUNT(*) FROM [Staff] WHERE email_address = @Email AND [password] = @Password";
-
-            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            try
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Email", email);
-                command.Parameters.AddWithValue("@Password", passToken);
+                string query = "SELECT COUNT(*) FROM [Staff] WHERE email_address = @Email AND [password] = @Password";
 
-                connection.Open();
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.Parameters.AddWithValue("@Password", passToken);
 
-                int count = (int)command.ExecuteScalar();
+                    connection.Open();
 
-                connection.Close();
+                    int count = (int)command.ExecuteScalar();
 
-                return count > 0;
+                    connection.Close();
+
+                    return count > 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                SystemUtilities.LogError(ex);
+                Console.WriteLine($"Error in AccountExist: {ex.Message}");
+                return false;
             }
         }
         /// <summary>
@@ -127,25 +147,33 @@ namespace M4_Project.Models
         /// <param name="newPassword">The new password.</param>
         public static void UpdatePassword(string email, string newPassword)
         {
-
-            if (!AccountExist(email))
-                return;
-
-
-            string query = "UPDATE [Staff] SET [password] = @NewPassword WHERE email_address = @Email;";
-
-            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            try
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Email", email);
-                command.Parameters.AddWithValue("@NewPassword", -1);
+                if (!AccountExist(email))
+                    return;
 
-                connection.Open();
-                command.ExecuteNonQuery();
-                connection.Close();
+                string query = "UPDATE [Staff] SET [password] = @NewPassword WHERE email_address = @Email;";
+
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@Email", email);
+                    command.Parameters.AddWithValue("@NewPassword", newPassword); // Fix: Use the actual new password value.
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+
+                RoleActions roleActions = new RoleActions();
+                roleActions.AddUsertoRole("Admin", email, newPassword);
             }
-            RoleActions roleActions = new RoleActions();
-            roleActions.AddUsertoRole("Admin", email, newPassword);
+            catch (Exception ex)
+            {
+                
+                Console.WriteLine($"Error in UpdatePassword: {ex.Message}");
+                SystemUtilities.LogError(ex);
+            }
         }
         /// <summary>
         ///     Checks if the staff member is a manager or supervisor.

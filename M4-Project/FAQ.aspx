@@ -38,6 +38,22 @@
             </div>
         </div>
 
+        <div class="faq">
+            <div class="accordion">
+                Will I get a refund?
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="pannel">
+                <p>
+                    Yes.You are eligible for a refund under the following circumstances:
+                </p>
+                <p>1. Damaged Product</p>
+                <p>2. Booking Cancellation</p>
+                <b><p>Please note that cancellations are only possible within 24 hours of placing a booking</p></b>
+  
+            </div>
+        </div>
+
         <div class="name">
             Order
         </div>
@@ -70,7 +86,7 @@
 
         <div class="faq">
             <div class="accordion">
-                I cant find my adress for delivery?
+                Will I get a refund?
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="pannel">
@@ -78,6 +94,19 @@
                     Its is what and what even
                     that comes in the middle of that.
                 </p>
+            </div>
+        </div>
+
+        <div class="faq">
+            <div class="accordion">
+                I cant find my adress for delivery?
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <div class="pannel">
+                <p>
+                    If you search for your place and can't find it.
+                </p>
+                <p>You must select the the adress manually from the provided map.</p>
             </div>
         </div>
 
@@ -92,9 +121,9 @@
             </div>
             <div class="pannel">
                 <p>
-                    Go to the top right corner of your screen and click on your surname
+                    Go to the top right corner of your screen and click on your name
                 </p>
-                <p>Then Navigate down to your account details and click "Delete Account"</p>
+                <p>Then Navigate down to your account details and click <b>"Delete Account"</b></p>
             </div>
         </div>
 
@@ -105,8 +134,7 @@
             </div>
             <div class="pannel">
                 <p>
-                    Its is what and what even
-                    that comes in the middle of that.
+                    Your personal information will be removed from the database when you <b>"delete"</b> your account.
                 </p>
             </div>
         </div>
@@ -118,9 +146,11 @@
             </div>
             <div class="pannel">
                 <p>
-                    Its is what and what even
-                    that comes in the middle of that.
+                    Yes you can update your details. To do so <b>follow the steps:</b>
                 </p>
+                <p>1. Click on your surname on the top rigth corner of the wesite.</p>
+                <p>2. Scroll down and you will see your details listed.</p>
+                <p>3. Click on the pen icon to update.</p>
             </div>
             <hr />
         </div>

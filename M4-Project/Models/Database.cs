@@ -30,10 +30,19 @@ namespace M4_Project.Models
         /// </summary>
         public Database(SqlCommand command)
         {
-            Connection = new SqlConnection(ConnectionString);
-            command.Connection = Connection;
-            Command = command;
-            Connection.Open();
+            try
+            {
+                Connection = new SqlConnection(ConnectionString);
+                command.Connection = Connection;
+                Command = command;
+                Connection.Open();
+            }
+            catch (Exception ex)
+            {
+                SystemUtilities.LogError(ex);
+                Console.WriteLine($"Error in Database constructor: {ex.Message}");
+
+            }
         }
 
         public SqlConnection Connection { get; set; }
@@ -52,10 +61,20 @@ namespace M4_Project.Models
         {
             if (disposing)
             {
-                Command?.Dispose();
-                Connection?.Close();
-                Connection?.Dispose();
+                try
+                {
+                    Command?.Dispose();
+                    Connection?.Close();
+                    Connection?.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    
+                    Console.WriteLine($"Error in Dispose method: {ex.Message}");
+                    SystemUtilities.LogError(ex);
+                }
             }
         }
     }
 }
+
