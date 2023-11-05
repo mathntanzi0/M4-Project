@@ -28,6 +28,7 @@
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="Password" CssClass="text-danger" ErrorMessage="The password field is required." />
             </div>
         </div>
+        <p>The password length must be greater than 6 and include a special character, digit, lowercase, and uppercase letter.</p>
 
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="ConfirmPassword" CssClass="col-md-2 control-label">Confirm password</asp:Label>

@@ -31,7 +31,7 @@ namespace M4_Project.Admin.Reports
             {
                 connection.Open();
 
-                string query = "SELECT customer_name, customer_email, customer_query, query_date FROM Queries ORDER BY query_date OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+                string query = "SELECT customer_name, customer_email, customer_query, query_date FROM Queries ORDER BY query_date DESC OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
                 int offset = (pageNumber - 1) * itemsPerPage;
 
                 using (SqlCommand command = new SqlCommand(query, connection))

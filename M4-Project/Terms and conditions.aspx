@@ -15,6 +15,7 @@
                     <li data-tc="tab_item_3">Prohibited activities</li>
                     <li data-tc="tab_item_4">Termination clause</li>
                     <li data-tc="tab_item_5">Governing law</li>
+                    <li data-tc="tab_item_6">Cookie Usage</li>
                 </ul>
             </div>
             <div class="tabs_content">
@@ -40,6 +41,10 @@
                         <h3>Governing law</h3>
                         <p>The website terms shall be governed by and construed in accordance with South African Law.</p>
                         <p>Disputes arising in connection with this website terms shall be subject to exclusive jurisdiction of the South African courts</p>
+                    </div>
+                    <div class="tab_item tab_item_6" style="display: none;">
+                        <h3>Cookie Usage</h3>
+                        <p>By using our website, you consent to the use of cookies in accordance with these terms. You can manage your cookie preferences through your browser settings. Please note that restricting cookies will impact the functionality of the website.</p>
                     </div>
                 </div>
             </div>

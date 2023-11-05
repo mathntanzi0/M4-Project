@@ -69,6 +69,8 @@ namespace M4_Project
                 Models.Sales.Sale sale = Session["sale"] as Models.Sales.Sale;
                 if (sale.SaleType == Models.Sales.SaleType.Order )
                 {
+                    if (!Models.Sales.Order.online_order_available)
+                        Response.Redirect("/OrderUnavailable");
                     Models.Sales.Order order = (Models.Sales.Order)sale;
                     if (select_category != null && select_category.Value == "D")
                         order.OrderType = Models.Sales.OrderType.Delivery;

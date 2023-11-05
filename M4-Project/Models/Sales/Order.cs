@@ -25,6 +25,7 @@ namespace M4_Project.Models.Sales
         private int staffID;
         private Delivery delivery;
 
+        public static bool online_order_available = false;
 
 
         ///

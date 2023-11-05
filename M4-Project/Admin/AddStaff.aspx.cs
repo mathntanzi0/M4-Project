@@ -33,6 +33,7 @@ namespace M4_Project.Admin
                             txtFirstName.Text = staffMember.FirstName;
                             txtLastName.Text = staffMember.LastName;
                             txtEmail.Text = staffMember.EmailAddress;
+                            txtEmail.Enabled = false;
                             txtPhoneNumber.Text = staffMember.PhoneNumber;
                             txtPayRate.Text = staffMember.PayRate.ToString();
                             ddlStaffRole.SelectedValue = staffMember.Role;

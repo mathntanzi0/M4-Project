@@ -9,7 +9,7 @@
 
     <div class="header_section">
 		<div class="image_holder">
-			<img src="assets/home_header_image.png">
+			<img src="assets/home_header_image.jpg">
 		</div>
 
 		<div class="section_content">

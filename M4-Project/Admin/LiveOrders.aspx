@@ -14,6 +14,14 @@
 				<asp:ListItem Text="Collection" Value="Collection" />
 			</asp:DropDownList>
 		</div>
+
+	<br />
+	<label style="display:block">Allow online orders</label>
+	<label class="switch">
+	  <asp:CheckBox ID="myCheckBox" runat="server" OnCheckedChanged="MyCheckBox_CheckedChanged" AutoPostBack="true" />
+	  <span class="slider round"></span>
+	</label>
+	<br />
 		
 		<div>
 			<% if (newOrders != null && newOrders.Count > 0)

@@ -21,6 +21,7 @@ namespace M4_Project.Admin
                 liveOrders = Models.Sales.Order.GetLiveOrders();
                 LiveOrderRepeater.DataSource = liveOrders;
                 LiveOrderRepeater.DataBind();
+                myCheckBox.Checked = Models.Sales.Order.online_order_available;
             }
         }
 
@@ -84,6 +85,10 @@ namespace M4_Project.Admin
             LiveOrderRepeater.DataBind();
         }
 
-
+        protected void MyCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            Models.Sales.Order.online_order_available = myCheckBox.Checked;
+            Response.Redirect("/Admin/LiveOrders");
+        }
     }
 }

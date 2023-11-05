@@ -59,6 +59,8 @@ namespace M4_Project
         }
         private void ProcessOrder(Models.Sales.Order order)
         {
+            if (!Models.Sales.Order.online_order_available)
+                Response.Redirect("/OrderUnavailable");
             if (!Context.User.Identity.IsAuthenticated)
                 Response.Redirect("/Account/Login?ReturnUrl=/Checkout");
             

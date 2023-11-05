@@ -276,6 +276,7 @@
     <Content Include="Assets\event_catering_1.jpg" />
     <Content Include="Assets\event_catering_2.jpg" />
     <Content Include="Assets\event_catering_3.jpg" />
+    <Content Include="Assets\home_header_image.jpg" />
     <Content Include="Assets\home_header_image.png" />
     <Content Include="Assets\imagesmode.svg" />
     <Content Include="Assets\login_cover.png" />
@@ -355,6 +356,7 @@
     <Content Include="MenuItem.aspx" />
     <Content Include="NotFound.aspx" />
     <Content Include="OrderPending.aspx" />
+    <Content Include="OrderUnavailable.aspx" />
     <Content Include="Processing.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -907,6 +909,13 @@
     </Compile>
     <Compile Include="OrderPending.aspx.designer.cs">
       <DependentUpon>OrderPending.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="OrderUnavailable.aspx.cs">
+      <DependentUpon>OrderUnavailable.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OrderUnavailable.aspx.designer.cs">
+      <DependentUpon>OrderUnavailable.aspx</DependentUpon>
     </Compile>
     <Compile Include="Processing.aspx.cs">
       <DependentUpon>Processing.aspx</DependentUpon>

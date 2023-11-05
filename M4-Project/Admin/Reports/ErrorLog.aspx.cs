@@ -68,7 +68,7 @@ namespace M4_Project.Admin.Reports
                 string query = $@"
                 SELECT [error_message], [stack_trace], [log_time]
                 FROM [ErrorLog]
-                ORDER BY log_time
+                ORDER BY log_time DESC
                 OFFSET {((pageNumber - 1) * itemsPerPage)} ROWS
                 FETCH NEXT {itemsPerPage} ROWS ONLY";
 

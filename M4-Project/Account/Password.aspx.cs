@@ -42,6 +42,7 @@ namespace M4_Project.Customer
                 return;
             }
             StaffLoginSession.UpdatePassword(email, PasswordText.Text);
+            Response.Redirect("/Admin");
         }
     }
 }
