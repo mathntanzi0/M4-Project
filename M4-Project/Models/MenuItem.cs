@@ -54,23 +54,31 @@ namespace M4_Project.Models
         /// </summary>
         public static MenuItem GetMenuItem(int itemID)
         {
-            string query = "SELECT item_id, item_name, item_description, item_price, item_type, item_image, [availability] " +
-                "FROM dbo.[Menu Item] " +
-                "WHERE item_id = @itemID;";
-
-            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+            try
             {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@itemID", itemID);
-                connection.Open();
+                string query = "SELECT item_id, item_name, item_description, item_price, item_type, item_image, [availability] " +
+                    "FROM dbo.[Menu Item] " +
+                    "WHERE item_id = @itemID;";
 
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                if (dt.Rows.Count < 1)
-                    return null;
-                DataRow row = dt.Rows[0];
-                return new MenuItem(itemID, (string)row["item_name"], (string)row["item_description"], (decimal)row["item_price"], (string)row["item_type"], (byte[])row["item_image"], (string)row["availability"]);
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@itemID", itemID);
+                    connection.Open();
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    if (dt.Rows.Count < 1)
+                        return null;
+                    DataRow row = dt.Rows[0];
+                    return new MenuItem(itemID, (string)row["item_name"], (string)row["item_description"], (decimal)row["item_price"], (string)row["item_type"], (byte[])row["item_image"], (string)row["availability"]);
+                }
+            }
+            catch (Exception ex) {
+                SystemUtilities.LogError(ex);
+                Console.WriteLine(ex.Message);
+                return null;
             }
         }
         ///
@@ -79,32 +87,39 @@ namespace M4_Project.Models
         /// </summary>
         public static List<MenuItem> GetMenuItems(int page, int maxListSize)
         {
-            if (page < 1)
-                page = 1;
+            try {
+                if (page < 1)
+                    page = 1;
 
-            menuItems = new List<MenuItem>();
-            string query = "SELECT item_id, item_name, item_description, item_price, item_type, item_image, [availability] " +
-                            "FROM dbo.[Menu Item] " +
-                            "ORDER BY item_id DESC " +
-                            "OFFSET @page ROWS " +
-                            "FETCH NEXT @itemCount ROWS ONLY; ";
+                menuItems = new List<MenuItem>();
+                string query = "SELECT item_id, item_name, item_description, item_price, item_type, item_image, [availability] " +
+                                "FROM dbo.[Menu Item] " +
+                                "ORDER BY item_id DESC " +
+                                "OFFSET @page ROWS " +
+                                "FETCH NEXT @itemCount ROWS ONLY; ";
 
-            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@page", (page - 1) * maxListSize);
-                command.Parameters.AddWithValue("@itemCount", maxListSize);
-                connection.Open();
-
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                foreach (DataRow row in dt.Rows)
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
                 {
-                    menuItems.Add(new MenuItem((int)row["item_id"], (string)row["item_name"], (string)row["item_description"], (decimal)row["item_price"], (string)row["item_type"], (byte[])row["item_image"], (string)row["availability"]));
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@page", (page - 1) * maxListSize);
+                    command.Parameters.AddWithValue("@itemCount", maxListSize);
+                    connection.Open();
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        menuItems.Add(new MenuItem((int)row["item_id"], (string)row["item_name"], (string)row["item_description"], (decimal)row["item_price"], (string)row["item_type"], (byte[])row["item_image"], (string)row["availability"]));
+                    }
+                    return menuItems;
                 }
-                return menuItems;
+            }
+            catch (Exception ex) {
+                SystemUtilities.LogError(ex);
+                Console.WriteLine(ex.Message);
+                return null;
             }
         }
         ///
@@ -117,31 +132,38 @@ namespace M4_Project.Models
         /// <returns>A list of menu items that have similar names</returns>
         public static List<MenuItem> GetMenuItems(int maxListSize, MenuSearch menuSearch)
         {
-            menuItems = new List<MenuItem>();
-            string query = "SELECT item_id, item_name, item_description, item_price, item_type, item_image, [availability] " +
-                            "FROM dbo.[Menu Item] " +
-                            menuSearch.SearchString +
-                            "ORDER BY item_id DESC " +
-                            "OFFSET @page ROWS " +
-                            "FETCH NEXT @itemCount ROWS ONLY; ";
+            try {
+                menuItems = new List<MenuItem>();
+                string query = "SELECT item_id, item_name, item_description, item_price, item_type, item_image, [availability] " +
+                                "FROM dbo.[Menu Item] " +
+                                menuSearch.SearchString +
+                                "ORDER BY item_id DESC " +
+                                "OFFSET @page ROWS " +
+                                "FETCH NEXT @itemCount ROWS ONLY; ";
 
-            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@page", (menuSearch.Page - 1) * maxListSize);
-                command.Parameters.AddWithValue("@itemCount", maxListSize);
-                menuSearch.SetParameters(ref command);
-                connection.Open();
-
-                SqlDataAdapter adapter = new SqlDataAdapter(command);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                foreach (DataRow row in dt.Rows)
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
                 {
-                    menuItems.Add(new MenuItem((int)row["item_id"], (string)row["item_name"], (string)row["item_description"], (decimal)row["item_price"], (string)row["item_type"], (byte[])row["item_image"], (string)row["availability"]));
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@page", (menuSearch.Page - 1) * maxListSize);
+                    command.Parameters.AddWithValue("@itemCount", maxListSize);
+                    menuSearch.SetParameters(ref command);
+                    connection.Open();
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(command);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    foreach (DataRow row in dt.Rows)
+                    {
+                        menuItems.Add(new MenuItem((int)row["item_id"], (string)row["item_name"], (string)row["item_description"], (decimal)row["item_price"], (string)row["item_type"], (byte[])row["item_image"], (string)row["availability"]));
+                    }
+                    return menuItems;
                 }
-                return menuItems;
+            }
+            catch (Exception ex) {
+                SystemUtilities.LogError(ex);
+                Console.WriteLine(ex.Message);
+                return null;
             }
         }
         ///
@@ -150,22 +172,27 @@ namespace M4_Project.Models
         /// </summary>
         public void AddMenuItem()
         {
-            string query = "INSERT INTO [Menu Item] ([item_name], [item_description], [item_price], [item_type], [item_image], [availability]) VALUES (@item_name, @item_description, @item_price, @item_type, @item_image, @availability); ";
+            try {
+                string query = "INSERT INTO [Menu Item] ([item_name], [item_description], [item_price], [item_type], [item_image], [availability]) VALUES (@item_name, @item_description, @item_price, @item_type, @item_image, @availability); ";
 
-            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@item_name", itemName);
-                command.Parameters.AddWithValue("@item_description", itemDescription);
-                command.Parameters.AddWithValue("@item_price", itemPrice);
-                command.Parameters.AddWithValue("@item_type", itemCategory);
-                command.Parameters.AddWithValue("@item_image", itemImage);
-                command.Parameters.AddWithValue("@availability", status);
-                connection.Open();
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@item_name", itemName);
+                    command.Parameters.AddWithValue("@item_description", itemDescription);
+                    command.Parameters.AddWithValue("@item_price", itemPrice);
+                    command.Parameters.AddWithValue("@item_type", itemCategory);
+                    command.Parameters.AddWithValue("@item_image", itemImage);
+                    command.Parameters.AddWithValue("@availability", status);
+                    connection.Open();
 
-                command.ExecuteNonQuery();
-                
-                connection.Close();
+                    command.ExecuteNonQuery();
+
+                    connection.Close();
+                }
+            }
+            catch (Exception ex) {
+                SystemUtilities.LogError(ex);
             }
         }
         ///
@@ -174,17 +201,22 @@ namespace M4_Project.Models
         /// </summary>
         public static void DeleteMenuItem(int itemID)
         {
-            string query = "DELETE [Order Line] WHERE [Order Line].item_id = @itemID; " +
-                "DELETE [Event Line] WHERE [Event Line].item_id = @itemID; " +
-                "DELETE [Menu Item] WHERE [Menu Item].item_id = @itemID;";
+            try {
+                string query = "DELETE [Order Line] WHERE [Order Line].item_id = @itemID; " +
+                    "DELETE [Event Line] WHERE [Event Line].item_id = @itemID; " +
+                    "DELETE [Menu Item] WHERE [Menu Item].item_id = @itemID;";
 
-            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@itemID", itemID);
-                connection.Open();
-                command.ExecuteNonQuery();
-                connection.Close();
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@itemID", itemID);
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            }
+            catch (Exception ex) {
+                SystemUtilities.LogError(ex);
             }
         }
         /// <summary>
@@ -193,46 +225,53 @@ namespace M4_Project.Models
         /// <returns>A list of random menu items.</returns>
         public static List<MenuItem> GetRandomItems(int max)
         {
-            List<MenuItem> menuItems = new List<MenuItem>();
-            using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
-            {
-                string query = "SELECT TOP(@max) [item_id], [item_name], [item_description], [item_image], [item_price], [item_type] " +
-                               "FROM [GroupPmb6].[dbo].[Menu Item] " +
-                               "WHERE [availability] = @availability ORDER BY CHECKSUM(NEWID());";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
+            try {
+                List<MenuItem> menuItems = new List<MenuItem>();
+                using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
                 {
-                    command.Parameters.AddWithValue("@max", max);
-                    command.Parameters.AddWithValue("@availability", Models.MenuItemStatus.Available.ToString());
+                    string query = "SELECT TOP(@max) [item_id], [item_name], [item_description], [item_image], [item_price], [item_type] " +
+                                   "FROM [GroupPmb6].[dbo].[Menu Item] " +
+                                   "WHERE [availability] = @availability ORDER BY CHECKSUM(NEWID());";
 
-                    connection.Open();
-
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
-                        while (reader.Read())
+                        command.Parameters.AddWithValue("@max", max);
+                        command.Parameters.AddWithValue("@availability", Models.MenuItemStatus.Available.ToString());
+
+                        connection.Open();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            MenuItem menuItem = new MenuItem
+                            while (reader.Read())
                             {
-                                ItemID = (int) reader["item_id"],
-                                ItemName = reader["item_name"].ToString(),
-                                ItemPrice = (decimal)reader["item_price"],
-                                ItemCategory = reader["item_type"].ToString()
-                            };
-                            menuItem.ItemDescription = (reader.IsDBNull(reader.GetOrdinal("item_description"))) ? "none" : reader["item_description"].ToString();
-                            menuItem.ItemImage = (byte[])reader["item_image"];
-                            menuItems.Add(menuItem);
+                                MenuItem menuItem = new MenuItem
+                                {
+                                    ItemID = (int)reader["item_id"],
+                                    ItemName = reader["item_name"].ToString(),
+                                    ItemPrice = (decimal)reader["item_price"],
+                                    ItemCategory = reader["item_type"].ToString()
+                                };
+                                menuItem.ItemDescription = (reader.IsDBNull(reader.GetOrdinal("item_description"))) ? "none" : reader["item_description"].ToString();
+                                menuItem.ItemImage = (byte[])reader["item_image"];
+                                menuItems.Add(menuItem);
+                            }
                         }
                     }
                 }
+                return menuItems;
             }
-            return menuItems;
+            catch (Exception ex) {
+                SystemUtilities.LogError(ex);
+                return null;
+            }
         }
         /// <summary>
         /// Updates a menu item with an image.
         /// </summary>
         public void UpdateMenuItemWithImage()
         {
-            string query = @"
+            try {
+                string query = @"
             UPDATE [Menu Item]
             SET [item_name] = @item_name,
                 [item_description] = @item_description,
@@ -241,27 +280,31 @@ namespace M4_Project.Models
                 [item_image] = @item_image
             WHERE [item_id] = @item_id;";
 
-            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@item_id", itemID);
-                command.Parameters.AddWithValue("@item_name", itemName);
-                command.Parameters.AddWithValue("@item_description", itemDescription);
-                command.Parameters.AddWithValue("@item_price", itemPrice);
-                command.Parameters.AddWithValue("@item_type", itemCategory);
-                command.Parameters.AddWithValue("@item_image", itemImage);
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@item_id", itemID);
+                    command.Parameters.AddWithValue("@item_name", itemName);
+                    command.Parameters.AddWithValue("@item_description", itemDescription);
+                    command.Parameters.AddWithValue("@item_price", itemPrice);
+                    command.Parameters.AddWithValue("@item_type", itemCategory);
+                    command.Parameters.AddWithValue("@item_image", itemImage);
 
-                connection.Open();
-                command.ExecuteNonQuery();
-                connection.Close();
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
             }
-        }
+            catch (Exception ex) {
+                SystemUtilities.LogError(ex);
+            } }
         /// <summary>
         ///     Updates a menu item without an image.
         /// </summary>
         public void UpdateMenuItem()
         {
-            string query = @"
+            try {
+                string query = @"
             UPDATE [Menu Item]
             SET [item_name] = @item_name,
                 [item_description] = @item_description,
@@ -269,43 +312,49 @@ namespace M4_Project.Models
                 [item_type] = @item_type
             WHERE [item_id] = @item_id;";
 
-            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@item_id", itemID);
-                command.Parameters.AddWithValue("@item_name", itemName);
-                command.Parameters.AddWithValue("@item_description", itemDescription);
-                command.Parameters.AddWithValue("@item_price", itemPrice);
-                command.Parameters.AddWithValue("@item_type", itemCategory);
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@item_id", itemID);
+                    command.Parameters.AddWithValue("@item_name", itemName);
+                    command.Parameters.AddWithValue("@item_description", itemDescription);
+                    command.Parameters.AddWithValue("@item_price", itemPrice);
+                    command.Parameters.AddWithValue("@item_type", itemCategory);
 
-                connection.Open();
-                command.ExecuteNonQuery();
-                connection.Close();
-            }
-        }
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+            } catch (Exception ex) {
+                SystemUtilities.LogError(ex);
+            } }
         /// <summary>
         ///     Sets the available menu categories.
         /// </summary>
         public static void SetMenuCategories()
         {
-            string query = "SELECT DISTINCT item_type FROM [Menu Item]";
-            menuCategories = new List<string>();
+            try {
+                string query = "SELECT DISTINCT item_type FROM [Menu Item]";
+                menuCategories = new List<string>();
 
-            using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                connection.Open();
-
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlConnection connection = new SqlConnection(Models.Database.ConnectionString))
                 {
-                    while (reader.Read())
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        string itemType = reader["item_type"].ToString();
-                        menuCategories.Add(itemType);
+                        while (reader.Read())
+                        {
+                            string itemType = reader["item_type"].ToString();
+                            menuCategories.Add(itemType);
+                        }
                     }
                 }
             }
-        }
+            catch (Exception ex) {
+                SystemUtilities.LogError(ex);
+            } }
 
 
 

@@ -22,7 +22,7 @@ namespace M4_Project.Models
                     using (SqlCommand cmdLogError = new SqlCommand(query, connection))
                     {
                         cmdLogError.Parameters.AddWithValue("@ErrorMessage", ex.Message);
-                        cmdLogError.Parameters.AddWithValue("@StackTrace", ex.StackTrace);
+                        cmdLogError.Parameters.AddWithValue("@StackTrace", ex.StackTrace.ToString());
                         cmdLogError.Parameters.AddWithValue("@LogTime", DateTime.Now);
 
                         cmdLogError.ExecuteNonQuery();
