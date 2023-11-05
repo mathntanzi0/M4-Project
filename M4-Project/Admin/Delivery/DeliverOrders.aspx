@@ -37,7 +37,10 @@
 	<script>
         setInterval(function () {
             location.reload();
-        }, 7000);
-
+        }, 10000);
+        function playDefaultNotificationSound() {
+            var sound = new Audio('/Assets/mixkit-magic-marimba-2820.wav');
+            sound.play();
+        }
     </script>
 </asp:Content>

@@ -63,6 +63,9 @@
 		
 		<% if (liveOrders != null && liveOrders.Count > 0)
             { %>
+			<script>
+                playDefaultNotificationSound();
+            </script>
 		<div class="secondary_table">
 			<% if (newOrders != null && newOrders.Count > 0)
                 { %>
@@ -105,5 +108,13 @@
 </asp:Content>
 
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentScripts" runat="server">
-	
+	<script>
+        setInterval(function () {
+            location.reload();
+		}, 10000);
+        function playDefaultNotificationSound() {
+            var sound = new Audio('/Assets/mixkit-magic-marimba-2820.wav');
+            sound.play();
+		}
+    </script>
 </asp:Content>
