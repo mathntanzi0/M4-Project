@@ -837,7 +837,7 @@ namespace M4_Project.Models.Sales
 
             if (UpComing == status && DateTime.Now < (dateTime.Add(duration)))
                 return InProgress;
-            else if (UpComing == status)
+            else if (UpComing == status || InProgress == status)
                 return Completed;
             else
                 return status;
