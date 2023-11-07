@@ -318,7 +318,7 @@ namespace M4_Project.Models.Sales
                             reader.GetInt32(reader.GetOrdinal("item_id")),
                             reader.GetInt32(reader.GetOrdinal("item_quantity")),
                             reader.GetDecimal(reader.GetOrdinal("item_price")),
-                            reader.IsDBNull(reader.GetOrdinal("instructions")) ? null : reader.GetString(reader.GetOrdinal("instructions")),
+                            reader.IsDBNull(reader.GetOrdinal("instructions")) ? "" : reader.GetString(reader.GetOrdinal("instructions")),
                             reader.GetString(reader.GetOrdinal("item_name")),
                             (byte[])reader["item_image"],
                             ""

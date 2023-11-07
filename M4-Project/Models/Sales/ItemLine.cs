@@ -48,7 +48,7 @@ namespace M4_Project.Models.Sales
         public string ItemCostN2 { get => itemCost.ToString("N2");}
         public decimal TotalSubCost { get => totalSubCost; set => totalSubCost = value; }
         public string TotalSubCostN2 { get => totalSubCost.ToString("N2"); }
-        public string Instructions { get => instructions; set => instructions = value; }
+        public string Instructions { get => (instructions != null) ? instructions : ""; set => instructions = value; }
         public string ItemName { get => itemName; set => itemName = value; }
         public byte[] Image { get => image; set => image = value; }
         public string ItemCategory { get => itemCategory; set => itemCategory = value; }
