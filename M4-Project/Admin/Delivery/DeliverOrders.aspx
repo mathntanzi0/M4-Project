@@ -41,6 +41,10 @@
         function playDefaultNotificationSound() {
             var sound = new Audio('/Assets/mixkit-magic-marimba-2820.wav');
             sound.play();
-        }
+		}
+		<% if (liveOrders != null && liveOrders.Count > 0)
+            { %>
+				playDefaultNotificationSound();
+		<% } %>
     </script>
 </asp:Content>

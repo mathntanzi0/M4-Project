@@ -24,11 +24,13 @@ namespace M4_Project
         void Application_Error(object sender, EventArgs e)
         {
             Exception ex = Server.GetLastError();
-            Models.SystemUtilities.LogError(ex);
             if (ex is HttpException && ((HttpException)ex).GetHttpCode() == 404)
                 Response.Redirect("~/NotFound");
             else
+            {
+                Models.SystemUtilities.LogError(ex);
                 Response.Redirect("~/Error");
+            }
         }
     }
 }
