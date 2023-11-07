@@ -46,39 +46,45 @@ namespace M4_Project.Models
         /// <returns>A <see cref="StaffLoginSession"/> object if successful, otherwise null.</returns>
         public static StaffLoginSession GetSession(string username)
         {
-            StaffLoginSession loginSession = null;
+            try {
+                StaffLoginSession loginSession = null;
 
-            string query = "SELECT TOP (1) [staff_id], [role], [staff_image], [status] " +
-                           "FROM [dbo].[Staff] " +
-                           "WHERE [email_address] = @username";
+                string query = "SELECT TOP (1) [staff_id], [role], [staff_image], [status] " +
+                               "FROM [dbo].[Staff] " +
+                               "WHERE [email_address] = @username";
 
-            using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
-            {
-                SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@username", username);
-                connection.Open();
-
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlConnection connection = new SqlConnection(Database.ConnectionString))
                 {
-                    if (reader.Read())
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@username", username);
+                    connection.Open();
+
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        if (reader["status"].ToString() != "Active")
+                        if (reader.Read())
                         {
-                            HttpContext.Current.GetOwinContext().Authentication.SignOut(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ApplicationCookie);
-                            HttpContext.Current.Session["LoginStaff"] = null;
-                            HttpContext.Current.Response.Redirect("/SystemAccess");
-                            return null;
+                            if (reader["status"].ToString() != "Active")
+                            {
+                                HttpContext.Current.GetOwinContext().Authentication.SignOut(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ApplicationCookie);
+                                HttpContext.Current.Session["LoginStaff"] = null;
+                                HttpContext.Current.Response.Redirect("/SystemAccess");
+                                return null;
+                            }
+                            loginSession = new StaffLoginSession(
+                                (int)reader["staff_id"],
+                                (reader.IsDBNull(reader.GetOrdinal("staff_image"))) ? StaffSearch.GetDefaultImage() : (byte[])reader["staff_image"],
+                                (string)reader["role"]
+                            );
                         }
-                        loginSession = new StaffLoginSession(
-                            (int)reader["staff_id"],
-                            (reader.IsDBNull(reader.GetOrdinal("staff_image"))) ? StaffSearch.GetDefaultImage() : (byte[])reader["staff_image"],
-                            (string)reader["role"]
-                        );
                     }
                 }
-            }
 
-            return loginSession;
+                return loginSession;
+            }
+            catch (Exception ex) {
+                SystemUtilities.LogError(ex);
+                return null;
+;            }
         }
         /// <summary>
         ///     Sets the session for the staff member.
