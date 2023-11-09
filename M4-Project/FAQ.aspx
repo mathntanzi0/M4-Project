@@ -19,22 +19,22 @@
             </div>
             <div class="pannel">
                 <p>
-                    Its is what and what even
-                    that comes in the middle of that.
+                    You can chage your booking details on your event line click on <b>"Update booking details".</b>
                 </p>
+                <p><b>Please Note:</b> You can not change your details once you have paid.</p>
             </div>
         </div>
 
         <div class="faq">
             <div class="accordion">
-                How to cancel event booking?
+                Where can I see the event booking details?
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="pannel">
                 <p>
-                    Its is what and what even
-                    that comes in the middle of that.
+                    Navigate to the top right corner and click your surname,then click <b>"Number of bookings"</b>, then click the booking you want to view.
                 </p>
+                <p>The details of your booking will be presented to you.</p>
             </div>
         </div>
 
