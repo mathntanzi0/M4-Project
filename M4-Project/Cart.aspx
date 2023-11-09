@@ -18,8 +18,14 @@
 		</div>
 
 		<div class="sale_type_btns">
-			<button ID="btnOrderCart" runat="server" OnServerClick="btnOrderCart_Click">Switch to Order</button>
-			<button ID="btnBookingCart" runat="server" OnServerClick="btnBookingCart_Click">Switch to Booking</button>
+			<% if (sale == null || sale.SaleType == M4_Project.Models.Sales.SaleType.EventBooking)
+                { %>
+			<button ID="btnOrderCart" runat="server" OnServerClick="btnOrderCart_Click">Switch to Order Cart</button>
+			<% }
+                else
+                { %>
+			<button ID="btnBookingCart" runat="server" OnServerClick="btnBookingCart_Click">Switch to Booking Cart</button>
+			<% } %>
 		</div>
 		<% if (TotalCost == 0) { %>
 		<div id="empty_box">

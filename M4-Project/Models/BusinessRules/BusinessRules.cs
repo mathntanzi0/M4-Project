@@ -73,7 +73,7 @@ namespace M4_Project.Models.BusinessRules
         /// <summary>
         ///     Set the maximum quantity of each items that an event line can have.
         /// </summary>
-        public static readonly int MixItemQuantity = 25;
+        public static readonly int MixItemQuantity = 30;
 
         public static readonly decimal BookingFee = 50;
     }

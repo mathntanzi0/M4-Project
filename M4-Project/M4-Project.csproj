@@ -345,7 +345,9 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Account\Web.config" />
-    <Content Include="Admin\Admin.Master" />
+    <Content Include="Admin\Admin.Master">
+      <BrowseToURL>AdminMaster</BrowseToURL>
+    </Content>
     <Content Include="Admin\Web.config" />
     <Content Include="Customer\Web.config" />
     <Content Include="Gmail\client_secret.json" />
