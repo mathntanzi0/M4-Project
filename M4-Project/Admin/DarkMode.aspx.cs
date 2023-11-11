@@ -1,20 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
-using System.Web.Services;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace M4_Project.Admin
 {
-    public partial class UpdateDarkModeSession : System.Web.UI.Page
+    public partial class DarkMode : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             bool isDarkMode = Convert.ToBoolean(Request.QueryString["isDarkMode"]);
             Session["DarkModeEnabled"] = isDarkMode;
-        }
-        [WebMethod]
-        public static void UpdateDarkMode(bool isDarkMode)
-        {
-            HttpContext.Current.Session["DarkModeEnabled"] = isDarkMode;
         }
     }
 }

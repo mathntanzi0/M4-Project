@@ -436,9 +436,19 @@ namespace M4_Project.Models
         /// </summary>
         public bool DeleteStaff()
         {
-            string query = "DELETE FROM [Event Staff] WHERE staff_id = @staffID; " +
-                "DELETE FROM [Order] WHERE staff_id = @staffID; " +
-                "DELETE FROM [Staff] WHERE [staff_id] = @staffID";
+            string query = @"
+                DECLARE @id NVARCHAR(130);
+
+                SELECT @id = [AspNetUsers].Id
+                FROM [AspNetUsers]
+                WHERE [AspNetUsers].Email = @staffEmail;
+
+                DELETE FROM AspNetUserRoles WHERE AspNetUserRoles.UserId = @id;
+                DELETE FROM [AspNetUsers] WHERE [AspNetUsers].Id = @id;
+                DELETE FROM [Event Staff] WHERE staff_id = @staffID;
+                DELETE FROM [Order] WHERE staff_id = @staffID;
+                DELETE FROM [Staff] WHERE [staff_id] = @staffID;";
+
 
 
             int rowsAffected;
@@ -447,6 +457,7 @@ namespace M4_Project.Models
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 command.Parameters.AddWithValue("@staffID", staffID);
+                command.Parameters.AddWithValue("@staffEmail", emailAddress);
 
                 connection.Open();
                 rowsAffected = command.ExecuteNonQuery();

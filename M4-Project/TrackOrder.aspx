@@ -132,7 +132,7 @@
                 dataType: "json",
                 success: function (response) {
 					activation = response.d;
-					if (activation.length == 1)
+					if (activation.length === 1)
                         window.location.replace("Customer/Order?Order=<%= order.OrderID%>");
                     setCards();
                 },

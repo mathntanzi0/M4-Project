@@ -9,6 +9,7 @@
 			<h1>Customer Queries</h1>
 			<div>
 				<a class="a_tag_btn" href="/Admin/Reports/ErrorLog">Error Log</a>
+				<a class="a_tag_btn" href="https://app.powerbi.com/links/zqxX64CQtz?ctid=226827d6-a9d0-470d-8c15-b146b0192d51&pbi_source=linkShare">Reports</a>
 			</div>
 			<asp:Button OnClientClick="return DeleteConfirmation();" runat="server" ID="btnDelete" Text="Clear All" style="background-color:var(--faint-red)" OnClick="btnDelete_Click" CssClass="delete_btn"/>
 		</div>

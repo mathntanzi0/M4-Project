@@ -19,8 +19,7 @@
             </div>
             <div class="pannel">
                 <p>
-                    Its is what and what even
-                    that comes in the middle of that.
+                    To change event booking details, please contact our business directly. You can reach out to our customer support or the designated contact person to assist you with the necessary changes to your event booking. They will provide you with guidance on the process and ensure that any modifications are made according to your preferences. If you have any specific questions or requirements, feel free to let them know, and they'll be happy to help.
                 </p>
             </div>
         </div>
@@ -32,8 +31,11 @@
             </div>
             <div class="pannel">
                 <p>
-                    Its is what and what even
-                    that comes in the middle of that.
+                    Contact Us: Reach out to our customer support or the designated contact person for event cancellations. You can find our contact information on our website or in the confirmation email you received when you made the booking.
+
+                    Provide Booking Details: When contacting us, be ready to provide details about your event booking, such as the booking ID, your name, and the event details. This information will help us locate your booking in our system.
+
+                    Confirmation of Cancellation: Once you've contacted us and the cancellation process is complete, you should receive a confirmation of the cancellation. This may be sent to you via email or another communication method.
                 </p>
             </div>
         </div>
@@ -49,8 +51,7 @@
             </div>
             <div class="pannel">
                 <p>
-                    Its is what and what even
-                    that comes in the middle of that.
+                   Once an order is placed, it cannot be altered or canceled. We strive to process orders efficiently to ensure timely delivery and service. If you have any concerns or specific issues with your order, please reach out to our customer support team for assistance. They will be happy to help resolve any issues within their capabilities. Thank you for your understanding.
                 </p>
             </div>
         </div>
@@ -62,8 +63,7 @@
             </div>
             <div class="pannel">
                 <p>
-                    Its is what and what even
-                    that comes in the middle of that.
+                    Certainly! If you're having trouble canceling your order or need further assistance, please reach out to our customer support team. Keep in mind that while we'll do our best to accommodate your request, a refund is not guaranteed and will be subject to our cancellation policy. Our dedicated support staff will guide you through the process and provide any necessary information. Thank you for your understanding.
                 </p>
             </div>
         </div>
@@ -149,4 +149,3 @@
         }
     </script>
 </asp:Content>
-

@@ -30,15 +30,16 @@ namespace M4_Project.Admin
             ItemRepeater.DataSource = booking.ItemLines;
             ItemRepeater.DataBind();
 
-            txtAddress.Value = booking.EventAddress;
-            txtDecorDescription.Value = booking.EventDecorDescription;
-            datePicker.Value = booking.EventDate.ToString("yyyy-MM-dd");
-            ddlDuration.Value = booking.EventDuration.ToString(@"hh\:mm");
-            ddlTimeHour.Value = booking.EventDate.Hour.ToString();
-            ddlTimeMin.Value = (booking.EventDate.Minute != 0) ? booking.EventDate.Minute.ToString() : "00";
+           
 
             if (!IsPostBack)
             {
+                txtAddress.Value = booking.EventAddress;
+                txtDecorDescription.Value = booking.EventDecorDescription;
+                datePicker.Value = booking.EventDate.ToString("yyyy-MM-dd");
+                ddlDuration.Value = booking.EventDuration.ToString(@"hh\:mm");
+                ddlTimeHour.Value = booking.EventDate.Hour.ToString();
+                ddlTimeMin.Value = (booking.EventDate.Minute != 0) ? booking.EventDate.Minute.ToString() : "00";
                 if (Models.Sales.BookingState.IsFinalState(booking.BookingStatus))
                 {
                     ListItem item = new ListItem(booking.BookingStatus);

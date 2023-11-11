@@ -22,11 +22,14 @@ namespace M4_Project
                 Response.Redirect("/");
 
             order = Models.Sales.Order.GetOrder(orderID);
-            if (order == null || order.OrderStatus == Models.Sales.OrderState.Pending)
+            if (order == null)
             {
                 Session["liveOrder"] = null;
                 Response.Redirect("/");
             }
+            if (order.OrderStatus == Models.Sales.OrderState.Pending)
+                Response.Redirect("/Processing");
+            
 
             if (Models.Sales.OrderState.IsFinalState(order.OrderStatus))
                 Session["liveOrder"] = null;
@@ -53,7 +56,7 @@ namespace M4_Project
             {
                 HttpContext.Current.Session["liveOrder"] = null;
                 if (order.OrderStatus != Models.Sales.OrderState.Collected || order.OrderStatus != Models.Sales.OrderState.Delivered)
-                    return new bool[1];
+                    return new bool[] {false};
                 
             }
 

@@ -232,6 +232,7 @@
     <Content Include="Admin\Content\deliver_orders_style.css" />
     <Content Include="Admin\Content\message_view_style.css" />
     <Content Include="Admin\Content\staff_deactivate_style.css" />
+    <Content Include="Admin\DarkMode.aspx" />
     <Content Include="Admin\Deactivate.aspx" />
     <Content Include="Admin\Delivery\Deliver.aspx" />
     <Content Include="Admin\Delivery\DeliverOrders.aspx" />
@@ -549,6 +550,13 @@
     </Compile>
     <Compile Include="Admin\Bookings.aspx.designer.cs">
       <DependentUpon>Bookings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Admin\DarkMode.aspx.cs">
+      <DependentUpon>DarkMode.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Admin\DarkMode.aspx.designer.cs">
+      <DependentUpon>DarkMode.aspx</DependentUpon>
     </Compile>
     <Compile Include="Admin\Deactivate.aspx.cs">
       <DependentUpon>Deactivate.aspx</DependentUpon>
