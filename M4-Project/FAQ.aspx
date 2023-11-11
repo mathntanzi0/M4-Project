@@ -21,12 +21,13 @@
                 <p>
                     To change event booking details, please contact our business directly. You can reach out to our customer support or the designated contact person to assist you with the necessary changes to your event booking. They will provide you with guidance on the process and ensure that any modifications are made according to your preferences. If you have any specific questions or requirements, feel free to let them know, and they'll be happy to help.
                 </p>
+                <p><b>Please Note:</b> You can not change your details once you have paid.</p>
             </div>
         </div>
 
         <div class="faq">
             <div class="accordion">
-                How to cancel event booking?
+                Where can I see the event booking details?
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <div class="pannel">
@@ -37,6 +38,7 @@
 
                     Confirmation of Cancellation: Once you've contacted us and the cancellation process is complete, you should receive a confirmation of the cancellation. This may be sent to you via email or another communication method.
                 </p>
+                <p>The details of your booking will be presented to you.</p>
             </div>
         </div>
 
