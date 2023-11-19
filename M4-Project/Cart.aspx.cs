@@ -10,6 +10,7 @@ namespace M4_Project
     public partial class Cart : System.Web.UI.Page
     {
         protected decimal TotalCost = 0;
+        protected Models.Customer currentCustomer;
         protected Models.Sales.Sale sale;
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -30,6 +31,16 @@ namespace M4_Project
                 menuItems = Models.MenuItem.GetRandomItems(6);
                 PromoRepeater.DataSource = menuItems;
                 PromoRepeater.DataBind();
+                currentCustomer = Session["Customer"] as Models.Customer;
+                if (currentCustomer != null)
+                {
+                    int costPoints = (int)(TotalCost / Models.BusinessRules.Sale.LoyaltyPointsCostRatio);
+                    int maxPoints = Math.Min(costPoints, currentCustomer.LoyaltyPoints);
+                    rvPoints.ErrorMessage = $"Please enter a value between 0 and {maxPoints}";
+                    rvPoints.MaximumValue = maxPoints.ToString();
+                    rvPoints1.ErrorMessage = rvPoints.ErrorMessage;
+                    rvPoints1.MaximumValue = maxPoints.ToString();
+                }
             }
         }
 
@@ -76,7 +87,14 @@ namespace M4_Project
                         order.OrderType = Models.Sales.OrderType.Delivery;
                     else
                         order.OrderType = Models.Sales.OrderType.Collection;
-                } 
+                    sale = order;
+                }
+                string txt_points = (!string.IsNullOrEmpty(txtPoints.Text.Trim())) ? txtPoints.Text.Trim() : txtPoints1.Text.Trim();
+                if (int.TryParse(txt_points, out int points))
+                    sale.LoyaltyPoints = points;
+                else
+                    sale.LoyaltyPoints = 0;
+                Session["sale"] = sale;
                 Response.Redirect("/Checkout");
             }
             else

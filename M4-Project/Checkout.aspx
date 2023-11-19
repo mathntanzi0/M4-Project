@@ -90,7 +90,17 @@
 					<label><a href="/MakeBooking?ReturnUrl=/Checkout" style="color:teal">Update booking details</a></label>
 				</div>
 			<% } %>
+			<% if (sale.LoyaltyPoints != 0)
+                { %>
+			<div class="summary_line_wrapper">
+				<label>Points to be used: <%= sale.LoyaltyPoints%></label>
+			</div>
+			<div class="summary_line_wrapper">
+				<label>Saving: <span style="color:var(--red); text-decoration:line-through">R <%= sale.LoyaltyPoints*M4_Project.Models.BusinessRules.Sale.LoyaltyPointsCostRatio%></span></label>
+			</div>
+			<% } %>
 			<br>
+
 			<div class="summary_footer_wrapper">
 				<h1>Total Cost: R <span id="cost_holder"><%= TotalCost %></span></h1>
 			</div>

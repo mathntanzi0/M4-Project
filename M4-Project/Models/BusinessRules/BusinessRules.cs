@@ -42,6 +42,7 @@ namespace M4_Project.Models.BusinessRules
     public static class Sale
     {
         public static decimal LoyaltyPointsRatio = 0.1M;
+        public static decimal LoyaltyPointsCostRatio = 0.08M;
     }
     ///
     /// <summary>

@@ -28,7 +28,7 @@ namespace M4_Project
                 Response.Redirect("~/NotFound");
             else
             {
-                Models.SystemUtilities.LogError(ex);
+                Models.SystemUtilities.LogError(ex.InnerException);
                 Response.Redirect("~/Error");
             }
         }

@@ -33,7 +33,8 @@ namespace M4_Project
                     TotalCost += Models.BusinessRules.Delivery.DeliveryFee;
                 else if (sale.SaleType == Models.Sales.SaleType.EventBooking)
                     TotalCost += Models.BusinessRules.Booking.BookingFee;
-                
+                if (sale.LoyaltyPoints != 0)
+                    TotalCost -= sale.LoyaltyPoints * Models.BusinessRules.Sale.LoyaltyPointsCostRatio;
             } 
             else
                 Response.Redirect("/Cart");
@@ -68,6 +69,13 @@ namespace M4_Project
             if (currentCustomer == null)
                 currentCustomer = Models.Customer.SetSession("/Checkout");
 
+            if (order.LoyaltyPoints > currentCustomer.LoyaltyPoints || order.LoyaltyPoints < 0)
+            {
+                string script = "alert('Invalid number of points');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                return;
+            }
+
             order.Customer = currentCustomer;
             order.PaymentDate = DateTime.Now;
             order.PaymentMethod = "Card";
@@ -85,7 +93,10 @@ namespace M4_Project
                 order.Delivery.OrderID = order.OrderID;
                 order.Delivery.SaveDelivery();
             }
-            currentCustomer.UpdateLoyaltyPoints((int) Math.Floor(order.PaymentAmount * Models.BusinessRules.Sale.LoyaltyPointsRatio));
+            if (order.LoyaltyPoints > 0)
+                currentCustomer.UpdateLoyaltyPoints(-order.LoyaltyPoints);
+            else
+                currentCustomer.UpdateLoyaltyPoints((int) Math.Floor(order.PaymentAmount * Models.BusinessRules.Sale.LoyaltyPointsRatio));
             HttpContext.Current.Session["sale"] = null;
             HttpContext.Current.Session["liveOrder"] = order.OrderID;
             HttpCookie cartCookie = new HttpCookie(Models.Sales.CartItem.OrderCart);
@@ -118,13 +129,23 @@ namespace M4_Project
                 return;
             }
 
+            if (booking.LoyaltyPoints > currentCustomer.LoyaltyPoints || booking.LoyaltyPoints < 0)
+            {
+                string script = "alert('Invalid number of points');";
+                ClientScript.RegisterStartupScript(this.GetType(), "alert", script, true);
+                return;
+            }
+
             booking.Customer = currentCustomer;
             booking.PaymentDate = DateTime.Now;
             booking.PaymentMethod = "Card";
             booking.PaymentAmount = TotalCost;
 
             booking.RecordSell();
-            currentCustomer.UpdateLoyaltyPoints((int)Math.Floor(booking.PaymentAmount * Models.BusinessRules.Sale.LoyaltyPointsRatio));
+            if (booking.LoyaltyPoints > 0)
+                currentCustomer.UpdateLoyaltyPoints(-booking.LoyaltyPoints);
+            else
+                currentCustomer.UpdateLoyaltyPoints((int)Math.Floor(booking.PaymentAmount * Models.BusinessRules.Sale.LoyaltyPointsRatio));
             HttpContext.Current.Session["sale"] = null;
             HttpCookie cartCookie = new HttpCookie(Models.Sales.CartItem.BookingCart);
             cartCookie.Expires = DateTime.Now.AddDays(-1);

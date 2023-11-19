@@ -42,6 +42,42 @@ namespace M4_Project
         protected global::System.Web.UI.WebControls.Repeater RepeaterItemLine;
 
         /// <summary>
+        /// txtPoints1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPoints1;
+
+        /// <summary>
+        /// rvPoints1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RangeValidator rvPoints1;
+
+        /// <summary>
+        /// txtPoints control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPoints;
+
+        /// <summary>
+        /// rvPoints control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RangeValidator rvPoints;
+
+        /// <summary>
         /// select_category control.
         /// </summary>
         /// <remarks>

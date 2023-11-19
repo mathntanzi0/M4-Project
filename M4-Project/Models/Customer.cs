@@ -262,6 +262,7 @@ namespace M4_Project.Models
 
                 connection.Open();
                 command.ExecuteNonQuery();
+                loyaltyPoints += newPoints;
             }
         }
         /// <summary>

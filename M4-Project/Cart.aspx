@@ -73,6 +73,15 @@
 					<br>
 					<p>Booking Fee</p>
 					<p class="right_text">R <%= M4_Project.Models.BusinessRules.Booking.BookingFee.ToString("N2") %></p>
+					<% if (currentCustomer != null)
+                        { %>
+					<div>
+						<h2>Your points: <span><%= currentCustomer.LoyaltyPoints %></span> </h2>
+						<asp:TextBox ValidationGroup="PointsValidation1" ID="txtPoints1" runat="server" placeholder="Enter points to use" type="number"
+							style="margin-bottom:8px; padding:4px; display:block; font-size: 1rem; border: 1px solid #ddd; border-radius: 6px;"></asp:TextBox>
+						<asp:RangeValidator ID="rvPoints1" runat="server" ControlToValidate="txtPoints1" Type="Integer" MinimumValue="0" MaximumValue="99" ErrorMessage="Please enter a value between 0 and 99." ForeColor="Red" Display="Dynamic" ValidationGroup="PointsValidation1"></asp:RangeValidator>
+					</div>
+					<% } %>
 					<br>
 					<br>
 					<h2>Event Total Cost</h2>
@@ -87,6 +96,16 @@
 					<br>
 					<p id="deliveryFeeLabel">Delivery Fee</p>
 					<p id="deliveryFee" class="right_text">R <%= M4_Project.Models.BusinessRules.Delivery.DeliveryFee.ToString("N2") %></p>
+					<% if (currentCustomer != null)
+                        { %>
+					<div>
+						<h2>Your points: <span><%= currentCustomer.LoyaltyPoints %></span> </h2>
+						<asp:TextBox ValidationGroup="PointsValidation" ID="txtPoints" runat="server" placeholder="Enter points to use" type="number"
+							style="margin-bottom:8px; padding:4px; display:block; font-size: 1rem; border: 1px solid #ddd; border-radius: 6px;"></asp:TextBox>
+						<asp:RangeValidator ID="rvPoints" runat="server" ControlToValidate="txtPoints" Type="Integer" MinimumValue="0" MaximumValue="99" ErrorMessage="Please enter a value between 0 and 99." ForeColor="Red" Display="Dynamic" ValidationGroup="PointsValidation"></asp:RangeValidator>
+					</div>
+					<% } %>
+
 					<select runat="server" style="display:block; font-size: 1rem; text-transform: uppercase; border: 1px solid #ddd;" id="select_category">
 						<option value="D">Delivery</option>
 						<option value="C">Collection</option>
@@ -97,7 +116,7 @@
 					<h2 id="totalCostHolder" class="right_text">R <%= (TotalCost + M4_Project.Models.BusinessRules.Delivery.DeliveryFee) %></h2>
 				</div>
 			<% } %>
-			<button id="checkoutBtn" runat="server" OnServerClick="btnCheckout_Click">CHECKOUT</button>
+			<button id="checkoutBtn" runat="server" OnServerClick="btnCheckout_Click" ValidationGroup="PointsValidation">CHECKOUT</button>
 		</div>
 
 		<div class="promo_items_wrapper">
@@ -130,11 +149,9 @@
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data) {
-                    //alert("Item added to cart successfully.");
                     location.reload();
                 },
                 error: function (error) {
-                    //alert("An error occurred: " + error.responseText);
                 }
             });
 		}
@@ -154,11 +171,8 @@
 				deliveryFeeLabel.style.display = 'none';
                 totalCost -= 50;
 			}
-            // Assuming 'totalCost' is a numeric value representing the total cost
             var formattedTotalCost = 'R ' + totalCost.toFixed(2);
-
             document.getElementById('totalCostHolder').innerHTML = formattedTotalCost;
-
 		});
     </script>
 </asp:Content>

@@ -186,7 +186,7 @@ namespace M4_Project.Models.Sales
             if (BookingState.IsFinalState(this.BookingStatus) && !BookingState.IsFinalState(bookingStatus))
                 return false;
 
-            if (this.BookingStatus == Models.Sales.BookingState.Pending)
+            if (this.BookingStatus == Models.Sales.BookingState.Pending && !BookingState.IsFinalState(bookingStatus))
                 SendEmail();
 
             this.BookingStatus = bookingStatus;
