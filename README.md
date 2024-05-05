@@ -18,5 +18,8 @@ Order Tracking System: Real-time tracking of order status allows customers to mo
 Menu Management: Restaurant staff can efficiently update menus and prices, keeping customers informed about available options.
 Customer Feedback: Built-in feedback forms allow customers to share their experiences, enabling the restaurant to continuously improve its services.
 Admin Dashboard: Comprehensive dashboard for restaurant administrators to monitor operations, manage staff, and analyze performance metrics.
+Email Notifications: Customers receive email notifications upon placing an order, providing order confirmation.
+Menu Management: Restaurant staff can efficiently update menus and prices, keeping customers informed about available options.
+FAQ (Frequently Asked Questions): A dedicated section with answers to common queries, providing customers with quick access to information about the restaurant's policies, services, and offerings.
 
 
