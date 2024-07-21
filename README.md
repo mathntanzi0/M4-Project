@@ -10,7 +10,7 @@ The Friends and Family Restaurant Information System is a web-based application 
 
 - **Frontend:** HTML, CSS, JavaScript
 - **Backend:** ASP.NET
-- **Database:** SQL Server
+- **Database:** Microsoft SQL Server
 - **Cloud Platform:** Microsoft Azure
 
 ## Features
