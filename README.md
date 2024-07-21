@@ -25,4 +25,4 @@ The Friends and Family Restaurant Information System is a web-based application 
 
 ## Design
 
-For a detailed look at the design, visit our [Figma link](https://www.figma.com).
+For a detailed look at the design, visit our [Figma link](https://www.figma.com/design/ErNgp3QBWDjsvfHWY5Vlma/M4-System-UI-Design?node-id=876-2&t=m4HKWjxaMDF5hhB6-1).
